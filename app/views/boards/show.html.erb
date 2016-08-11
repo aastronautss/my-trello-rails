@@ -1,0 +1,10 @@
+<h4><%= @board.name %></h4>
+
+<h5>Lists:</h5>
+
+<ul>
+  <% @board.lists.each do |list| %>
+    <li><%= render 'lists/list', list: list %></li>
+  <% end %>
+  <li><%= link_to 'Add a list...', new_list_path(board_id: @board.to_param) %></li>
+</ul>

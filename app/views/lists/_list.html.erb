@@ -1,0 +1,8 @@
+<h4><%= list.title %></h4>
+
+<ul>
+  <% list.cards.each do |card| %>
+    <li><%= link_to card.title, card_path(card) %></li>
+  <% end %>
+  <li><%= link_to 'Add a card...', new_card_path(list_id: list.to_param) %></li>
+</ul>

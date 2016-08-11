@@ -1,1 +1,8 @@
-<div>Hello world!</div>
+<h4>Boards</h4>
+
+<ul>
+  <li><%= link_to 'New board', new_board_path %></li>
+  <% Board.all.each do |board| %>
+    <li><%= link_to board.name, board_path(board) %></li>
+  <% end %>
+</ul>
