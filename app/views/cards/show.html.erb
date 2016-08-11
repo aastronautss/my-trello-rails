@@ -1,1 +1,17 @@
 <h5><%= @card.title %></h5>
+
+<div>
+  <%= link_to 'Back to the board', board_path(@card.list.board) %>
+</div>
+
+<div>
+  <%= @card.description %>
+</div>
+
+<h6>Comments</h6>
+
+<%= render 'comments/form' %>
+
+<% @card.comments.each do |comment| %>
+  <%= render 'comments/comment', comment: comment %>
+<% end %>

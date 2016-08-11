@@ -1,7 +1,8 @@
 class CardsController < ApplicationController
-  before_action :set_card, except: [:index, :new, :create]
+  before_action :set_card, except: [:new, :create]
 
   def show
+    @comment = Comment.new
   end
 
   def new
