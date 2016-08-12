@@ -1,16 +1,22 @@
 class CardsController < ApplicationController
   before_action :set_card, except: [:new, :create]
+  before_action :require_user
+  before_action -> { require_logged_in_as @card.list.board.members },
+                  only: [:show]
 
   def show
     @comment = Comment.new
   end
 
   def new
-    @card = Card.new list_id: params[:list_id]
+    list = List.find params[:list_id]
+    @card = Card.new list: list
+    require_logged_in_as list.board.members
   end
 
   def create
     @card = Card.new card_params
+    require_logged_in_as @card.list.board.members
 
     if @card.save
       flash[:success] = 'Your card was created.'

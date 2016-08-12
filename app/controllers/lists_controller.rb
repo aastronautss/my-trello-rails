@@ -1,12 +1,16 @@
 class ListsController < ApplicationController
   before_action :set_list, except: [:new, :create]
+  before_action :require_user
 
   def new
-    @list = List.new board_id: params[:board_id]
+    board = Board.find params[:board_id]
+    @list = List.new board: board
+    require_logged_in_as(board.members)
   end
 
   def create
     @list = List.new list_params
+    require_logged_in_as @list.board.members
 
     if @list.save
       flash[:success] = 'Your list was created.'

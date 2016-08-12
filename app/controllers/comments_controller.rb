@@ -1,8 +1,10 @@
 class CommentsController < ApplicationController
   before_action :set_card, only: [:create]
+  before_action :require_user
 
   def create
     @comment = @card.comments.build comment_params
+    require_logged_in_as @card.list.board.members
 
     if @comment.save
       flash[:success] = 'Your comment has been created.'
