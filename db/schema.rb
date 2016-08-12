@@ -11,7 +11,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160811181955) do
+ActiveRecord::Schema.define(version: 20160812014938) do
+
+  create_table "board_memberships", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "board_id"
+    t.boolean "admin",    default: false
+  end
 
   create_table "boards", force: :cascade do |t|
     t.string   "name"
@@ -39,6 +45,11 @@ ActiveRecord::Schema.define(version: 20160811181955) do
     t.integer  "board_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string "username"
+    t.string "password_digest"
   end
 
 end
