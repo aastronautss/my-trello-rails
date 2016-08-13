@@ -1,8 +1,20 @@
-<h4><%= list.title %></h4>
+<h3><%= list.title %></h3>
 
-<ul>
+<ul class='cards'>
   <% list.cards.each do |card| %>
     <li><%= link_to card.title, card_path(card) %></li>
   <% end %>
-  <li><%= link_to 'Add a card...', new_card_path(list_id: list.to_param) %></li>
 </ul>
+
+<div class='new-card-form'>
+  <%= form_for list.cards.build do |f| %>
+    <%= f.hidden_field :list_id %>
+    <%= f.text_field :title %>
+    <%= f.submit 'Add' %>
+    <%= link_to 'Cancel', '#', class: 'cancel-new-card' %>
+  <% end %>
+</div>
+
+<div class="new-card">
+  Add a card
+</div>
