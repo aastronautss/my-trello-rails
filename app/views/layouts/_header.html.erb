@@ -1,0 +1,37 @@
+<header>
+  <% if logged_in? %>
+    <div>
+        <%= form_tag 'boards', method: :get do %>
+          <%= select_tag :id,
+                options_for_select(current_user.boards.map{ |b| [b.name, b.id] }),
+                prompt: 'Go to board...' %>
+          <%= submit_tag 'Go' %>
+        <% end %>
+    </div>
+  <% end %>
+
+  <% if logged_in? %>
+    <div class='new-board-link'>
+      <%= link_to 'New board', new_board_path %>
+    </div>
+
+    <div class='logout-link'>
+      <%= link_to 'Log out', logout_path %>
+    </div>
+  <% else %>
+    <div>
+      <%= link_to 'Register', register_path %>
+    </div>
+
+    <div>
+      <%= link_to 'Log in', login_path %>
+    </div>
+  <% end %>
+
+  <div class='app-name'>
+    <%= link_to root_path do %>
+      <h1>My Trello</h1>
+    <% end %>
+  </div>
+</header>
+

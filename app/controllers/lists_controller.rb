@@ -10,6 +10,7 @@ class ListsController < ApplicationController
 
   def create
     @list = List.new list_params
+    binding.pry
     require_logged_in_as @list.board.members
 
     if @list.save

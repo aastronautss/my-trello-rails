@@ -15,5 +15,6 @@
 //= require turbolinks
 //= require underscore/underscore
 //= require backbone/backbone
-//= require handlebars/handlebars
+//= require handlebars.runtime
+//= require_tree ./templates
 //= require_tree .

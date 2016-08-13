@@ -1,20 +1,40 @@
-<h4><%= @board.name %></h4>
+<h2><%= @board.name %></h2>
 
-<div>
-  <%= link_to 'All Boards', root_path %>
-</div>
+<aside id='menu'>
+  <section>
+    <h4>Members</h4>
 
-<% if current_user.admin_of? @board %>
-  <div>
-    <%= render 'add_member' %>
-  </div>
-<% end %>
+    <ul class='member-list'>
+      <% @board.members.each do |member| %>
+        <li>
+          <%= link_to member.username, '#' %>
+        </li>
+      <% end %>
+    </ul>
 
-<h5>Lists:</h5>
+    <% if current_user.admin_of? @board %>
+      <div>
+        <%= render 'add_member' %>
+      </div>
+    <% end %>
+  </section>
+</aside>
 
-<ul>
+<ul id='lists'>
   <% @board.lists.each do |list| %>
     <li><%= render 'lists/list', list: list %></li>
   <% end %>
-  <li><%= link_to 'Add a list...', new_list_path(board_id: @board.to_param) %></li>
 </ul>
+
+<div class="list new-list idle">
+  Add a list...
+  <%= form_for @board.lists.build, id: 'new-list-form' do |f| %>
+    <%= f.hidden_field :board_id %>
+    <%= f.text_field :title %>
+
+    <div>
+      <%= f.submit 'Add' %>
+      <%= link_to 'Cancel', '#', class: 'cancel-new-list' %>
+    </div>
+  <% end %>
+</div>

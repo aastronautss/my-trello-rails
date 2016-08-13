@@ -1,18 +1,4 @@
 <% if logged_in? %>
-  <div>
-    <%= link_to 'Log out', logout_path %>
-  </div>
-<% else %>
-  <div>
-    <%= link_to 'Register', register_path %>
-  </div>
-
-  <div>
-    <%= link_to 'Log in', login_path %>
-  </div>
-<% end %>
-
-<% if logged_in? %>
   <h4>Boards</h4>
 
   <ul>

@@ -12,6 +12,6 @@ class Board < ActiveRecord::Base
   end
 
   def admins
-    board_memberships.where(admin: true).map { |bm| bm.user }
+    @admins ||= board_memberships.where(admin: true).map { |bm| bm.user }
   end
 end
