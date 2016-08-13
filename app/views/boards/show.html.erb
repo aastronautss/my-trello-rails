@@ -4,6 +4,12 @@
   <%= link_to 'All Boards', root_path %>
 </div>
 
+<% if current_user.admin_of? @board %>
+  <div>
+    <%= render 'add_member' %>
+  </div>
+<% end %>
+
 <h5>Lists:</h5>
 
 <ul>

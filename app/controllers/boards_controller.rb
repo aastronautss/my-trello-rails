@@ -14,11 +14,7 @@ class BoardsController < ApplicationController
     @board = Board.new board_params
 
     if @board.save
-      board_membership = BoardMembership.new user_id: current_user.id,
-                                           board_id: @board.id,
-                                           admin: true,
-                                           owner: true
-      board_membership.save
+      @board.add_member current_user, true, true
 
       flash[:success] = 'Your board was created.'
       redirect_to board_path(@board)

@@ -11,12 +11,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160812014938) do
+ActiveRecord::Schema.define(version: 20160812143341) do
 
   create_table "board_memberships", force: :cascade do |t|
     t.integer "user_id"
     t.integer "board_id"
     t.boolean "admin",    default: false
+    t.boolean "owner",    default: false
   end
 
   create_table "boards", force: :cascade do |t|

@@ -13,4 +13,6 @@ Rails.application.routes.draw do
   resources :cards, except: [:index] do
     resources :comments
   end
+
+  resources :board_memberships, only: [:new, :create]
 end
