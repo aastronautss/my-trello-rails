@@ -38,6 +38,19 @@ class ListsController < ApplicationController
     end
   end
 
+  def destroy
+    require_logged_in_as @list.board.members
+
+    respond_to do |format|
+      if @list.destroy
+        format.json { head :no_content }
+      else
+        format.json { render json: @list.errors.full_messages,
+                        status: :unprocessable_entity }
+      end
+    end
+  end
+
   private
 
   def list_params

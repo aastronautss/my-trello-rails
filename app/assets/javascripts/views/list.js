@@ -3,7 +3,14 @@ App.ListView = Backbone.View.extend({
   className: 'list',
   template: App.templates.list,
   events: {
+    'click .delete': 'delete'
+  },
 
+  delete: function(e) {
+    e.preventDefault();
+    var self = this;
+
+    self.model.destroy({ success: self.clearCards.bind(self) });
   },
 
   // showNewCardForm: function(e) {
@@ -12,11 +19,20 @@ App.ListView = Backbone.View.extend({
   //   $e.hide().prev('.new-card-form').show();
   // }
 
+  clearCards: function() {
+    var cards = this.model.cards();
+    _(cards).invoke('delete');
+  },
+
   showCards: function() {
     var cards = this.model.cards();
+    var $cards_el = this.$el.find('.cards');
+
+    $cards_el.html('');
+
     _(cards).each(function(card) {
-      (new App.CardView({ model: card })).$el.appendTo(this.$el.find('.cards'));
-    }, this);
+      (new App.CardView({ model: card })).$el.appendTo($cards_el);
+    });
   },
 
   render: function() {
