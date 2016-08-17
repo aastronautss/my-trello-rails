@@ -10,7 +10,7 @@ Rails.application.routes.draw do
 
   resources :boards
   resources :lists, except: [:show]
-  resources :cards, except: [:index] do
+  resources :cards do
     resources :comments
   end
 

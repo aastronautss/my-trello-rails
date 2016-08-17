@@ -1,8 +1,18 @@
 class CardsController < ApplicationController
-  before_action :set_card, except: [:new, :create]
+  before_action :set_card, except: [:new, :create, :index]
   before_action :require_user
   before_action -> { require_logged_in_as @card.list.board.members },
                   only: [:show]
+
+  def index
+    board = Board.find params[:board_id]
+    @cards = Card.joins(list: :board).where(lists: { board_id: board.id })
+    require_logged_in_as board.members
+
+    respond_to do |format|
+      format.json { render json: @cards }
+    end
+  end
 
   def show
     @comment = Comment.new

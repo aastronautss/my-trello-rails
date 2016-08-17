@@ -12,10 +12,17 @@ App.ListView = Backbone.View.extend({
   //   $e.hide().prev('.new-card-form').show();
   // }
 
+  showCards: function() {
+    var cards = this.model.cards();
+    _(cards).each(function(card) {
+      (new App.CardView({ model: card })).$el.appendTo(this.$el.find('.cards'));
+    }, this);
+  },
+
   render: function() {
     this.$el.html(this.template(this.model.toJSON()));
     this.$el.appendTo('ul#lists');
-    // this.showCards();
+    this.showCards();
   },
 
   initialize: function() {
