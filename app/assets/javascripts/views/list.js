@@ -3,7 +3,10 @@ App.ListView = Backbone.View.extend({
   className: 'list',
   template: App.templates.list,
   events: {
-    'click .delete': 'delete'
+    'click .new-card': 'showNewCardForm',
+    'click .cancel-new-card': 'hideNewCardForm',
+    'click .delete': 'delete',
+    'submit .new-card-form form': 'createCard'
   },
 
   delete: function(e) {
@@ -13,11 +16,34 @@ App.ListView = Backbone.View.extend({
     self.model.destroy({ success: self.clearCards.bind(self) });
   },
 
-  // showNewCardForm: function(e) {
-  //   e.preventDefault();
-  //   var $e = $(e.target);
-  //   $e.hide().prev('.new-card-form').show();
-  // }
+  createCard: function(e) {
+    e.preventDefault();
+    var $e = $(e.target);
+    var title = $e.find('[name=title]').val();
+    var new_card;
+
+    if (title) {
+      new_card = App.data.cards.create({
+        title: title,
+        list_id: this.model.get('id')
+      }, {
+        success: this.showCard.bind(this)
+      });
+    }
+
+    this.hideNewCardForm();
+  },
+
+  showNewCardForm: function(e) {
+    e.preventDefault();
+    var $e = $(e.target);
+    $e.hide().prev('.new-card-form').show();
+  },
+
+  hideNewCardForm: function(e) {
+    if (e) { e.preventDefault() };
+    this.$el.find('.new-card-form').hide().next('.new-card').show();
+  },
 
   clearCards: function() {
     var cards = this.model.cards();
@@ -26,13 +52,14 @@ App.ListView = Backbone.View.extend({
 
   showCards: function() {
     var cards = this.model.cards();
-    var $cards_el = this.$el.find('.cards');
+    this.$el.find('.cards').html('');
 
-    $cards_el.html('');
+    _(cards).each(this.showCard, this);
+  },
 
-    _(cards).each(function(card) {
-      (new App.CardView({ model: card })).$el.appendTo($cards_el);
-    });
+  showCard: function(card) {
+    var view = new App.CardView({ model: card });
+    this.$el.find('.cards').append(view.$el);
   },
 
   render: function() {

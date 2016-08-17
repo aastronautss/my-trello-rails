@@ -3,5 +3,5 @@ App.Board = Backbone.Model.extend({
   urlRoot: '/boards',
   defaults: {
     title: ''
-  },
+  }
 });

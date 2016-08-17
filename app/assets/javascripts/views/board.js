@@ -2,7 +2,22 @@ App.BoardView = Backbone.View.extend({
   el: '#board',
   template: App.templates.board,
   events: {
-    'submit #new-list-form': 'createList'
+    'submit #new-list-form': 'createList',
+    'click .idle': 'showNewListForm',
+    'click .cancel-new-list': 'hideNewListForm'
+  },
+
+  showNewListForm: function(e) {
+    e.preventDefault();
+    var $e = $(e.currentTarget);
+
+    $e.removeClass('idle');
+    $e.find('[type="text"]').focus().select();
+  },
+
+  hideNewListForm: function(e) {
+    if (e) { e.preventDefault(); }
+    $('.new-list').addClass('idle');
   },
 
   createList: function(e) {
@@ -16,7 +31,7 @@ App.BoardView = Backbone.View.extend({
       success: this.showList
     });
 
-    // this.hideNewListForm();
+    this.hideNewListForm();
   },
 
   showLists: function() {
@@ -32,8 +47,6 @@ App.BoardView = Backbone.View.extend({
     var view = new App.ListView({ model: model });
     $('ul#lists').append(view.$el);
   },
-
-  toJSON: function() { return { list: _.clone(this.attributes) }; },
 
   render: function() {
     this.$el.html(this.template(this.model.toJSON()));
