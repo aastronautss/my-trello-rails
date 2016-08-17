@@ -18,11 +18,18 @@ class CardsController < ApplicationController
     @card = Card.new card_params
     require_logged_in_as @card.list.board.members
 
-    if @card.save
-      flash[:success] = 'Your card was created.'
-      redirect_to board_path(@card.list.board)
-    else
-      render :new
+    respond_to do |format|
+      if @card.save
+        format.html do
+          flash[:success] = 'Your card was created.'
+          redirect_to board_path(@card.list.board)
+        end
+        format.json { render json: @card, status: :created, location: @card}
+      else
+        format.html { render :new }
+        format.json { render json: @card.errors.full_messages,
+                        status: :unprocessable_entity }
+      end
     end
   end
 

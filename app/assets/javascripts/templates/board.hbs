@@ -1,0 +1,32 @@
+<h2>{{name}}</h2>
+
+<ul id='lists'>
+</ul>
+
+<div class="list new-list idle">
+  Add a list...
+  <form action="/lists" method="post" id="new-list-form">
+    <input type="hidden" name="list[board_id]" value="{{id}}">
+    <input type="text" name="list[title]" value="New List">
+    <div>
+      <input type="submit" value="Add">
+      <a href="#" class="cancel-new-list">Cancel</a>
+    </div>
+  </form>
+</div>
+
+<!-- <div class="list new-list idle">
+  Add a list...
+  <%= form_for @board.lists.build,
+        id: 'new-list-form',
+        remote: true,
+        format: :json do |f| %>
+    <%= f.hidden_field :board_id %>
+    <%= f.text_field :title %>
+
+    <div>
+      <%= f.submit 'Add' %>
+      <%= link_to 'Cancel', '#', class: 'cancel-new-list' %>
+    </div>
+  <% end %>
+</div> -->

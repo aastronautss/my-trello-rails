@@ -17,4 +17,5 @@
 //= require backbone/backbone
 //= require handlebars.runtime
 //= require_tree ./templates
+//= require main
 //= require_tree .

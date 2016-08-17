@@ -1,23 +1,40 @@
 class ListsController < ApplicationController
-  before_action :set_list, except: [:new, :create]
+  before_action :set_list, except: [:new, :create, :index]
   before_action :require_user
+
+  def index
+    board = Board.find params[:board_id]
+    @lists = List.where board: board
+    require_logged_in_as board.members
+
+    respond_to do |format|
+      format.json { render json: @lists }
+    end
+  end
 
   def new
     board = Board.find params[:board_id]
     @list = List.new board: board
-    require_logged_in_as(board.members)
+    require_logged_in_as board.members
   end
 
   def create
     @list = List.new list_params
-    binding.pry
     require_logged_in_as @list.board.members
 
-    if @list.save
-      flash[:success] = 'Your list was created.'
-      redirect_to board_path(@list.board)
-    else
-      render :new
+    respond_to do |format|
+      if @list.save
+        format.html do
+          flash[:success] = 'Your list was created.'
+          redirect_to board_path(@list.board)
+        end
+
+        format.json { render json: @list, status: :created, location: @list }
+      else
+        format.html { render :new }
+        format.json { render json: @list.errors.full_messages,
+                        status: :unprocessable_entity }
+      end
     end
   end
 

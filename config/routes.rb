@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   resources :users, only: [:create]
 
   resources :boards
-  resources :lists, except: [:index, :show]
+  resources :lists, except: [:show]
   resources :cards, except: [:index] do
     resources :comments
   end

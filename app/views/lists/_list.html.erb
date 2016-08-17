@@ -7,7 +7,7 @@
 </ul>
 
 <div class='new-card-form'>
-  <%= form_for list.cards.build do |f| %>
+  <%= form_for list.cards.build, remote: true, format: :json do |f| %>
     <%= f.hidden_field :list_id %>
     <%= f.text_field :title %>
     <%= f.submit 'Add' %>

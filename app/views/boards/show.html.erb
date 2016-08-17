@@ -1,5 +1,3 @@
-<h2><%= @board.name %></h2>
-
 <aside id='menu'>
   <section>
     <h4>Members</h4>
@@ -20,21 +18,8 @@
   </section>
 </aside>
 
-<ul id='lists'>
-  <% @board.lists.each do |list| %>
-    <li><%= render 'lists/list', list: list %></li>
-  <% end %>
-</ul>
+<div id='board'></div>
 
-<div class="list new-list idle">
-  Add a list...
-  <%= form_for @board.lists.build, id: 'new-list-form' do |f| %>
-    <%= f.hidden_field :board_id %>
-    <%= f.text_field :title %>
-
-    <div>
-      <%= f.submit 'Add' %>
-      <%= link_to 'Cancel', '#', class: 'cancel-new-list' %>
-    </div>
-  <% end %>
-</div>
+<script type="text/javascript">
+  App.board_id = <%= @board.id %>
+</script>
