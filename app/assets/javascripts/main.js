@@ -3,15 +3,16 @@ var App = {
 
   fetchCollections: function(board_id) {
     for (var collection in this.data) {
-      this.data[collection].fetch({ data: $.param({ board_id: board_id }) });
+      this.data[collection].fetch({ data: { board_id: board_id } });
     }
   },
 
-  showBoard: function(id) {
+  getBoard: function(id) {
     this.current_board = new this.Board({ id: id });
     this.current_board.fetch({
       success: function(model) {
         new App.BoardView({ model: model });
+        App.fetchCollections(App.board_id);
       },
 
       error: function(model, response) {
@@ -21,8 +22,7 @@ var App = {
   },
 
   initialize: function() {
-    this.showBoard(1);
-    this.fetchCollections(1);
+    this.getBoard(this.board_id);
   }
 }
 

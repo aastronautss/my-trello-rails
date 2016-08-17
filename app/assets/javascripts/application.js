@@ -18,4 +18,7 @@
 //= require handlebars.runtime
 //= require_tree ./templates
 //= require main
+//= require_tree ./models
+//= require_tree ./collections
+//= require_tree ./views
 //= require_tree .
