@@ -82,7 +82,7 @@ App.ListView = Backbone.View.extend({
 
   initialize: function() {
     this.listenTo(this.model, 'destroy', this.remove);
-    this.listenTo(this.model, 'save', this.render);
+    this.listenTo(this.model, 'sync', this.render);
 
     this.$el.attr('data-id', this.model.get('id'));
 

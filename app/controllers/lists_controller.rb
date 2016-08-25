@@ -12,29 +12,14 @@ class ListsController < ApplicationController
     end
   end
 
-  # def new
-  #   board = Board.find params[:board_id]
-  #   @list = List.new board: board
-  #   require_logged_in_as board.members
-  # end
-
   def create
     @list = List.new list_params
     require_logged_in_as @list.board.members
 
-    respond_to do |format|
-      if @list.save
-        format.html do
-          flash[:success] = 'Your list was created.'
-          redirect_to board_path(@list.board)
-        end
-
-        format.json { render json: @list, status: :created, location: @list }
-      else
-        format.html { render :new }
-        format.json { render json: @list.errors.full_messages,
-                        status: :unprocessable_entity }
-      end
+    if @list.save
+      render json: @list, status: :created, location: @list
+    else
+      render json: @list.errors.full_messages, status: :unprocessable_entity
     end
   end
 
@@ -51,13 +36,10 @@ class ListsController < ApplicationController
   def destroy
     require_logged_in_as @list.board.members
 
-    respond_to do |format|
-      if @list.destroy
-        format.json { head :no_content }
-      else
-        format.json { render json: @list.errors.full_messages,
-                        status: :unprocessable_entity }
-      end
+    if @list.destroy
+      head :no_content
+    else
+      render json: @list.errors.full_messages, status: :unprocessable_entity
     end
   end
 
