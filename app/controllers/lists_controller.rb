@@ -12,11 +12,11 @@ class ListsController < ApplicationController
     end
   end
 
-  def new
-    board = Board.find params[:board_id]
-    @list = List.new board: board
-    require_logged_in_as board.members
-  end
+  # def new
+  #   board = Board.find params[:board_id]
+  #   @list = List.new board: board
+  #   require_logged_in_as board.members
+  # end
 
   def create
     @list = List.new list_params
@@ -35,6 +35,16 @@ class ListsController < ApplicationController
         format.json { render json: @list.errors.full_messages,
                         status: :unprocessable_entity }
       end
+    end
+  end
+
+  def update
+    require_logged_in_as @list.board.members
+
+    if @list.update list_params
+      render json: @list, status: :ok, location: @list
+    else
+      render json: @list.errors.full_messages, status: :unprocessable_entity
     end
   end
 

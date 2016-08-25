@@ -4,7 +4,8 @@ App.BoardView = Backbone.View.extend({
   events: {
     'submit #new-list-form': 'createList',
     'click .idle': 'showNewListForm',
-    'click .cancel-new-list': 'hideNewListForm'
+    'click .cancel-new-list': 'hideNewListForm',
+    'click .menu-show': 'showMenu'
   },
 
   showNewListForm: function(e) {
@@ -18,6 +19,28 @@ App.BoardView = Backbone.View.extend({
   hideNewListForm: function(e) {
     if (e) { e.preventDefault(); }
     $('.new-list').addClass('idle');
+  },
+
+  showMenu: function(e) {
+    e.preventDefault();
+    var $menu = $('#menu');
+    var $menu_show = $('.menu-show');
+
+    $menu.fadeIn();
+    $menu_show.fadeOut();
+
+    $menu.find('.menu-close').on('click', function(e) {
+      e.preventDefault();
+      $menu.fadeOut();
+      $menu_show.fadeIn();
+      $menu.find('.menu-close').off('click');
+    });
+  },
+
+  hideMenu: function(e) {
+    e.preventDefault();
+    $('#menu').fadeOut();
+    $('.menu-show').show();
   },
 
   createList: function(e) {

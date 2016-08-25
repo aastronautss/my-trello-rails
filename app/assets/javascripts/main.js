@@ -27,6 +27,14 @@ var App = {
 };
 
 $(function() {
+  $.ajaxSetup({
+    beforeSend: function(xhr) {
+      return xhr.setRequestHeader('Accept', 'application/json');
+    },
+
+    cache: false
+  });
+
   Backbone._sync = Backbone.sync;
   Backbone.sync = function(method, model, options) {
     if (!options.noCSRF) {
@@ -42,5 +50,7 @@ $(function() {
     return Backbone._sync(method, model, options);
   };
 
-  App.initialize();
+  if (!_(App.board_id).isUndefined()){
+    App.initialize();
+  }
 });

@@ -6,7 +6,7 @@ class BoardsController < ApplicationController
   def show
     respond_to do |format|
       format.html
-      format.json { render json: @board }
+      format.js { render json: @board }
     end
   end
 

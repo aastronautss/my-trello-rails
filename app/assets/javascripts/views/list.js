@@ -6,7 +6,19 @@ App.ListView = Backbone.View.extend({
     'click .new-card': 'showNewCardForm',
     'click .cancel-new-card': 'hideNewCardForm',
     'click .delete': 'delete',
-    'submit .new-card-form form': 'createCard'
+    'submit .new-card-form form': 'createCard',
+    'blur textarea': 'update'
+  },
+
+  update: function(e) {
+    e.preventDefault();
+    var title = $(e.currentTarget).val();
+    if (title) {
+      this.model.save({ title: title });
+    }
+    else {
+      this.render();
+    }
   },
 
   delete: function(e) {

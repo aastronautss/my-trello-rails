@@ -18,6 +18,12 @@ App.CardView = Backbone.View.extend({
   //   }
   // },
 
+  clearComments: function() {
+    var comments = this.model.comments();
+    _(comments).invoke('delete');
+  },
+
+
   render: function() {
     this.$el.html(this.template(this.model.toJSON()));
     return this;

@@ -1,22 +1,22 @@
 <header>
   <% if logged_in? %>
-    <div>
+    <div class='new-board-link'>
+      <%= link_to 'New board', new_board_path %>
+    </div>
+
+    <div class='logout-link'>
+      <div class='inline'>
         <%= form_tag 'boards', method: :get do %>
           <%= select_tag :id,
                 options_for_select(current_user.boards.map{ |b| [b.name, b.id] }),
                 prompt: 'Go to board...' %>
           <%= submit_tag 'Go' %>
         <% end %>
-    </div>
-  <% end %>
+      </div>
 
-  <% if logged_in? %>
-    <div class='new-board-link'>
-      <%= link_to 'New board', new_board_path %>
-    </div>
-
-    <div class='logout-link'>
-      <%= link_to 'Log out', logout_path %>
+      <div class='inline'>
+        <%= link_to 'Log out', logout_path %>
+      </div>
     </div>
   <% else %>
     <div>

@@ -9,10 +9,9 @@ Rails.application.routes.draw do
   resources :users, only: [:create]
 
   resources :boards
-  resources :lists, except: [:show]
-  resources :cards do
-    resources :comments
-  end
+  resources :lists, except: [:show, :new]
+  resources :cards
+  resources :comments, except: [:show, :new]
 
   resources :board_memberships, only: [:new, :create]
 end

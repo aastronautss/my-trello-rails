@@ -2,6 +2,18 @@ class CommentsController < ApplicationController
   before_action :set_card, only: [:create]
   before_action :require_user
 
+  def index
+    board = Board.find params[:board_id]
+    require_logged_in_as board.members
+
+    @comments = Comment.joins(card: [list: :board]).
+                        where(lists: { board_id: board.id })
+
+    respond_to do |format|
+      format.js { render json: @comments }
+    end
+  end
+
   def create
     @comment = @card.comments.build comment_params
     require_logged_in_as @card.list.board.members
