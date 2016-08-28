@@ -1,0 +1,40 @@
+<div class="overlay"></div>
+<div class="card-modal">
+  <h2>{{title}}</h2>
+
+  <aside class="actions">
+    <h3>Actions</h3>
+    <ul>
+      <li><a href="#" class="delete-card">Delete</a></li>
+    </ul>
+  </aside>
+
+  <div class="main-col">
+    <section>
+      <h3>Description</h3>
+      <a href="#" class="edit-description-link">Edit</a>
+      <p class="description">{{description}}<p>
+
+      <form action="" method="post" class="edit-description">
+        <fieldset>
+          <textarea>
+
+          </textarea>
+          <input type="submit" value="Save">
+          <a href="#" class="cancel-edit">Cancel</a>
+        </fieldset>
+      </form>
+    </section>
+
+    <section class="comments">
+      <h2>Comments</h2>
+      <ul class="comment-list"></ul>
+      <form action="" method="post" class="new-comment">
+        <fieldset>
+          <textarea name="comment-body" placeholder="Add a comment..."></textarea>
+          <input type="submit" value="Send">
+        </fieldset>
+      </form>
+    </section>
+  </div>
+</div>
