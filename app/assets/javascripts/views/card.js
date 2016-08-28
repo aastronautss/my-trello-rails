@@ -2,21 +2,21 @@ App.CardView = Backbone.View.extend({
   tagName: 'li',
   className: 'card',
   template: App.templates.card,
-  // events: {
-  //   'click': 'showModal',
-  // },
+  events: {
+    'click': 'showModal',
+  },
 
-  // showModal: function(e) {
-  //   e.preventDefault();
+  showModal: function(e) {
+    e.preventDefault();
 
-  //   if (this.$el.hasClass('noclick')) {
-  //     this.$el.removeClass('noclick');
-  //   }
-  //   else {
-  //     var modal_view = new App.CardModalView({ model: this.model });
-  //     modal_view.$el.appendTo('#my-trello');
-  //   }
-  // },
+    if (this.$el.hasClass('noclick')) {
+      this.$el.removeClass('noclick');
+    }
+    else {
+      var modal_view = new App.CardModalView({ model: this.model });
+      modal_view.$el.appendTo('body');
+    }
+  },
 
   clearComments: function() {
     var comments = this.model.comments();
