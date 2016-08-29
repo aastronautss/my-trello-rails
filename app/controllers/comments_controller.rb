@@ -1,5 +1,4 @@
 class CommentsController < ApplicationController
-  before_action :set_card, only: [:create]
   before_action :require_user
 
   def index
@@ -9,31 +8,25 @@ class CommentsController < ApplicationController
     @comments = Comment.joins(card: [list: :board]).
                         where(lists: { board_id: board.id })
 
-    respond_to do |format|
-      format.js { render json: @comments }
-    end
+    render json: @comments
   end
 
   def create
-    @comment = @card.comments.build comment_params
-    require_logged_in_as @card.list.board.members
+    @comment = Comment.new comment_params
+    @comment.author = current_user
+    require_logged_in_as @comment.card.list.board.members
 
     if @comment.save
-      flash[:success] = 'Your comment has been created.'
-      redirect_to card_path(@comment.card)
+      render json: @card, status: :created, location: @card
     else
-      render 'cards/show'
+      render json: @card.errors.full_messages, status: :unprocessable_entity
     end
   end
 
   private
 
   def comment_params
-    params.require(:comment).permit :body
-  end
-
-  def set_card
-    @card = Card.find params[:card_id]
+    params.require(:comment).permit :body, :card_id
   end
 
   def set_comment
