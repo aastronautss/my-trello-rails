@@ -13,7 +13,6 @@ App.CardModalView = Backbone.View.extend({
 
   deleteCard: function(e) {
     e.preventDefault();
-    // this.model.clear();
     this.model.destroy();
   },
 
@@ -49,24 +48,26 @@ App.CardModalView = Backbone.View.extend({
     this.hideDescriptionEdit();
   },
 
-  // addComment: function(e) {
-  //   e.preventDefault();
-  //   var body = $(e.currentTarget).find('[name=comment-body]').val();
-  //   var new_comment;
+  addComment: function(e) {
+    e.preventDefault();
+    var body = $(e.currentTarget).find('[name=comment-body]').val();
+    var comment;
 
-  //   if (body) {
-  //     new_comment = App.data.comments.create({ body: body });
-  //     this.model.save({ comments: this.model.get('comments').concat([new_comment.id]) })
-  //     this.showComment(new_comment);
-  //   }
-  //   e.currentTarget.reset();
-  // },
+    if (body) {
+      comment = App.data.comments.create({
+        body: body,
+        card_id: this.model.get('id')
+      }, {
+        success: this.showComment.bind(this)
+      });
+    }
+    e.currentTarget.reset();
+  },
 
   showComments: function() {
-    var commentIDs = this.model.get('comments');
+    var comments = this.model.comments();
 
-    _(commentIDs).each(function(id) {
-      var comment = App.data.comments.get(id);
+    _(comments).each(function(comment) {
       this.showComment(comment);
     }, this);
   },
