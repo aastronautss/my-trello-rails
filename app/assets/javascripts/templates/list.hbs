@@ -1,12 +1,14 @@
-<a href="#" class="delete">x</a>
-<textarea>{{title}}</textarea>
+<button class="close delete"><span>&times;</span></button>
+<textarea rows="1">{{title}}</textarea>
 
 <ul class="cards"></ul>
 
 <div class="new-card-form">
   <form action="" method="post">
-    <input type="text" name="title">
-    <input type="submit" value="Add">
+    <div class="form-group">
+      <input type="text" name="title" class="form-control">
+    </div>
+    <input type="submit" value="Add" class="btn btn-primary btn-sm">
     <a href="#" class="cancel-new-card">Cancel</a>
   </form>
 </div>

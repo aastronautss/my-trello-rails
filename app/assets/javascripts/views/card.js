@@ -14,7 +14,7 @@ App.CardView = Backbone.View.extend({
     }
     else {
       var modal_view = new App.CardModalView({ model: this.model });
-      modal_view.$el.appendTo('body');
+      modal_view.$el.prependTo('body').fadeIn();
     }
   },
 

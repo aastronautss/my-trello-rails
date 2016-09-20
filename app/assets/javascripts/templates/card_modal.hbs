@@ -17,11 +17,16 @@
 
       <form action="" method="post" class="edit-description">
         <fieldset>
-          <textarea>
+          <div class="form-group">
+            <textarea class="form-control">
 
-          </textarea>
-          <input type="submit" value="Save">
-          <a href="#" class="cancel-edit">Cancel</a>
+            </textarea>
+          </div>
+
+          <div>
+            <input type="submit" value="Save" class="btn btn-primary btn-sm">
+            <a href="#" class="cancel-edit">Cancel</a>
+          </div>
         </fieldset>
       </form>
     </section>
@@ -31,8 +36,13 @@
       <ul class="comment-list"></ul>
       <form action="" method="post" class="new-comment">
         <fieldset>
-          <textarea name="comment-body" placeholder="Add a comment..."></textarea>
-          <input type="submit" value="Send">
+          <div>
+            <textarea name="comment-body" placeholder="Add a comment..."></textarea>
+          </div>
+
+          <div>
+            <input type="submit" value="Send" class="btn btn-primary btn-sm">
+          </div>
         </fieldset>
       </form>
     </section>

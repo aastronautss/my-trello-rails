@@ -62,7 +62,6 @@ $font_2: sans-serif;
 //.list >.delete, .new-list form >.delete
 %extend_3 {
   display: inline-block;
-  width: 10px;
   overflow: hidden;
   vertical-align: middle;
   float: right;
@@ -84,15 +83,15 @@ $font_2: sans-serif;
 //original selectors
 //.modal .card-modal, .modal form.new-board
 %extend_5 {
-  background: $color_alto_approx;
+  background: #eee;
   position: relative;
-  margin: 0 auto;
+  margin: 100px auto 0 auto;
   padding: 15px;
   //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
   border-radius: 3px;
   //Instead of the line below you could use @include box-sizing($bs)
   box-sizing: border-box;
-  z-index: 3;
+  z-index: 99;
 }
 
 //original selectors
@@ -119,20 +118,6 @@ $font_2: sans-serif;
   font: inherit;
   color: $color_storm_dust_approx;
 }
-
-// html {
-//   height: 100%;
-//   background: $color_lochmara_approx;
-// }
-// body {
-//   height: 100%;
-//   background: $color_lochmara_approx;
-//   font: normal 16px $font_0, $font_1, $font_2;
-//   top: 0;
-//   bottom: 0;
-//   height: 100%;
-//   min-width: 100%;
-// }
 h1 {
   text-align: center;
   width: 100%;
@@ -143,6 +128,7 @@ h1 {
 main {
   position: absolute;
   height: 100%;
+  width: 100%;
   padding: 65px 10px 15px;
   //Instead of the line below you could use @include box-sizing($bs)
   box-sizing: border-box;
@@ -156,12 +142,14 @@ main {
     top: 0;
     right: 0;
     bottom: 0;
+    width: 300px;
     margin: 50px 0 0 0;
     border-left: 1px;
     border-color: #e7e7e7;
     padding: 25px;
-    width: 300px;
+    box-shadow: 3px 0px 112px -28px rgba(0,0,0,1);
     box-sizing: border-box;
+    z-index: 1029;
 
     h4 {
       margin-top: 0;
@@ -208,10 +196,13 @@ a {
   }
 }
 .board-header {
+  padding: 0 0 15px 0;
+
   h2 {
     font-weight: bold;
-    font-size: 1.2em;
-    color: $white_90;
+    font-size: 2em;
+    color: #555;
+    margin: 0;
     padding: 0 0 15px 0;
     float: left;
   }
@@ -263,7 +254,7 @@ a {
   margin-left: 10px;
   position: relative;
   display: inline-block;
-  color: $white_70;
+  color: #666;
   form {
     @extend %extend_1;
     top: 0;
@@ -332,12 +323,14 @@ a {
   background: $white;
   //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
   border-radius: 3px;
-  padding: 5px;
+  padding: 10px;
+  cursor: pointer;
+
   h3 {
+    margin: 0;
     color: $color_mine_shaft_approx;
     font-weight: bold;
     font-size: 0.9em;
-    cursor: pointer;
   }
   + .card {
     margin-top: 5px;
@@ -366,11 +359,15 @@ a {
       @extend %extend_6;
     }
     h2 {
+      margin: 0;
       padding: 0 0 5px 0;
+      font-size: 1.7em;
       color: $color_emperor_approx;
     }
     h3 {
       display: inline-block;
+      margin: 0;
+      font-size: 1.4em;
       font-weight: bold;
       color: $color_tapa_approx;
     }
@@ -396,14 +393,20 @@ a {
       li {
         width: 100%;
         a {
-          background: $color_gallery_approx;
+          background: #fafafa;
           width: 100%;
+          color: #777;
           padding: 5px;
           //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
           border-radius: 3px;
           border: 1px solid $color_celeste_approx;
           border-top: none;
           display: block;
+
+          &:hover {
+            text-decoration: none;
+            background: #f1f1f1;
+          }
         }
       }
     }
@@ -418,7 +421,7 @@ a {
         margin-bottom: 10px;
       }
       .comment-body {
-        background: $color_gallery_approx;
+        background: #fefefe;
         margin-bottom: 3px;
         padding: 5px;
         border: 1px solid $color_celeste_approx;
