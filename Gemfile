@@ -14,7 +14,7 @@ gem 'coffee-rails', '~> 4.1.0'
 # Front-End Libraries
 gem 'jquery-rails'
 gem 'bootstrap-sass'
-gem 'bootstrap-form'
+gem 'bootstrap_form', '~> 2.5'
 gem 'bower-rails'
 gem 'handlebars_assets'
 gem 'autoprefixer-rails'

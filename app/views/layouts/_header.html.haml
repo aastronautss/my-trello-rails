@@ -1,0 +1,23 @@
+%nav.navbar.navbar-default.navbar-fixed-top
+  .container
+    .navbar-header= link_to 'My Trello', root_path, class: 'navbar-brand'
+    - if logged_in?
+      %ul.nav.navbar-nav
+        %li
+          .btn-nav.dropdown
+            %button.dropdown-toggle.btn.btn-default.navbar-btn{ 'data-toggle' => 'dropdown' }
+              Boards
+              %span.caret
+            %ul.dropdown-menu
+              - current_user.boards.each do |board|
+                %li= link_to board.name, board_path(board)
+      %ul.nav.navbar-nav.navbar-right
+        %li
+          = link_to 'Logout', logout_path
+        %li
+          .btn-nav= link_to 'New Board', new_board_path, class: 'btn btn-default navbar-btn'
+    - else
+      %ul.navbar.navbar-nav.navbar-right
+        %li= link_to 'Login', login_path
+        %li
+          .btn-nav= link_to 'Register', register_path, class: 'btn btn-primary navbar-btn'
