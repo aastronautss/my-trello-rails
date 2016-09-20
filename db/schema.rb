@@ -13,6 +13,9 @@
 
 ActiveRecord::Schema.define(version: 20160818132046) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "board_memberships", force: :cascade do |t|
     t.integer "user_id"
     t.integer "board_id"
