@@ -150,21 +150,28 @@ main {
   white-space: nowrap;
 
   #menu {
-    background: #edeff0;
+    background: #f8f8f8;
     display: none;
     position: fixed;
     top: 0;
     right: 0;
     bottom: 0;
     margin: 50px 0 0 0;
-    padding: 10px;
-    width: 225px;
+    border-left: 1px;
+    border-color: #e7e7e7;
+    padding: 25px;
+    width: 300px;
     box-sizing: border-box;
 
     h4 {
+      margin-top: 0;
       padding: 0 0 5px 0;
       font-weight: bold;
       color: #666;
+    }
+
+    h5 {
+      color: #666
     }
 
     .member-list {
@@ -189,6 +196,17 @@ a {
     padding-top: 15px;
   }
 }
+#alerts {
+  position: fixed;
+  width: 400px;
+  right: 32px;
+  bottom: 10px;
+
+  .alert > div {
+    padding-right: 25px;
+    white-space: normal;
+  }
+}
 .board-header {
   h2 {
     font-weight: bold;
@@ -200,15 +218,7 @@ a {
 
   .menu-show {
     position: fixed;
-    right: 10px;
-    padding: 5px 7px;
-    color: #fff;
-    cursor: pointer;
-    border-radius: 3px;
-
-    &:hover {
-      background: rgba(0, 0, 0, .12);
-    }
+    right: 32px;
   }
 }
 #lists {
