@@ -1,0 +1,9 @@
+- if logged_in?
+  .container
+    .col-md-4.col-md-offset-4
+      %h2 Boards
+      %ul.board-list
+        - current_user.boards.each do |board|
+          %li
+            = link_to board.name, board_path(board), class: 'btn btn-default btn-block'
+        %li= link_to 'New Board', new_board_path, class: 'btn btn-primary btn-block'

@@ -1,0 +1,14 @@
+%aside#menu
+  %section
+    %button.menu-close.close
+      %span &times;
+    %h4 Members
+    %ul.member-list
+      - @board.members.each do |member|
+        %li= link_to member.username, '#'
+    - if current_user.admin_of? @board
+      %div= render 'add_member'
+#board
+
+:javascript
+  App.board_id = #{@board.id}

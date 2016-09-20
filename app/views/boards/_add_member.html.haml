@@ -1,0 +1,5 @@
+%h5 Add a Member
+
+= bootstrap_form_tag url: add_member_board_path(@board), layout: :inline do |f|
+  = f.text_field :username, hide_label: true, placeholder: 'Username'
+  = f.submit 'Add'
