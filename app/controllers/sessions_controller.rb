@@ -1,4 +1,7 @@
 class SessionsController < ApplicationController
+  before_action :require_logged_out, only: [:new, :create]
+  before_action :require_user, only: [:destroy]
+
   def new
   end
 
@@ -10,7 +13,7 @@ class SessionsController < ApplicationController
       flash[:success] = 'You have successfully logged in.'
       redirect_to root_path
     else
-      flash[:error] = "There's something wrong with your username or password."
+      flash[:danger] = "There's something wrong with your username or password."
       redirect_to login_path
     end
   end

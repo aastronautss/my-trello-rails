@@ -10,7 +10,14 @@ class User < ActiveRecord::Base
 
   has_secure_password
 
+  def member_of?(board)
+    board.members.include? self
+  end
+
   def admin_of?(board)
     board.admins.include? self
+  end
+
+  def owner_of?(board) # TODO
   end
 end

@@ -4,4 +4,5 @@ class Comment < ActiveRecord::Base
 
   validates :card_id, presence: true
   validates :user_id, presence: true
+  validates_presence_of :body
 end

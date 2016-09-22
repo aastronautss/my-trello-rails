@@ -4,10 +4,6 @@ class BoardsController < ApplicationController
   before_action -> { require_logged_in_as @board.members }, only: [:show]
 
   def show
-    respond_to do |format|
-      format.html
-      format.js { render json: @board }
-    end
   end
 
   def new
