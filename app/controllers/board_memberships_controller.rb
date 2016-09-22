@@ -16,7 +16,8 @@ class BoardMembershipsController < ApplicationController
   end
 
   def destroy
-    @board.remove_member @user
+    user = User.find_by username: params[:username]
+    @board.remove_member user
     redirect_to @board
   end
 

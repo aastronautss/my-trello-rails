@@ -10,8 +10,8 @@ Rails.application.routes.draw do
 
   resources :boards do
     member do
-      get 'add_member', to: 'board_memberships#new'
       post 'add_member', to: 'board_memberships#create'
+      delete 'remove_member', to: 'board_memberships#destroy'
     end
   end
   resources :lists, except: [:show, :new]

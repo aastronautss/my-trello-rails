@@ -2,8 +2,8 @@
 # Controller and Model Specs
 # ====------------------------====
 
-def set_user
-  user = Fabricate :user
+def set_user(user = nil)
+  user ||= Fabricate :user
   session[:user_id] = user.id
 end
 
