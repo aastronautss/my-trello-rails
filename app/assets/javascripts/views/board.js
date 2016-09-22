@@ -45,7 +45,8 @@ App.BoardView = Backbone.View.extend({
 
   createList: function(e) {
     e.preventDefault();
-    var title = $(e.target).find('[name="title"]').val();
+    var $title = $(e.target).find('[name="title"]');
+    var title = $title.val();
 
     App.data.lists.create({
       title: title,
@@ -54,6 +55,7 @@ App.BoardView = Backbone.View.extend({
       success: this.showList
     });
 
+    $title.val('');
     this.hideNewListForm();
   },
 

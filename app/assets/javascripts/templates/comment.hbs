@@ -1,2 +1,5 @@
-<p class="comment-body">{{body}}</p>
-<p class="byline">By {{author}}</p>
+<div class="comment-body">{{{body}}}</div>
+<p class="byline">
+  By <a href="{{author.path}}">{{author.username}}</a>
+  <small>at {{created_at}}</small>
+</p>

@@ -7,8 +7,6 @@ class CommentsController < ApplicationController
 
     @comments = Comment.joins(card: [list: :board]).
                         where(lists: { board_id: board.id })
-
-    render json: @comments
   end
 
   def create
@@ -17,7 +15,8 @@ class CommentsController < ApplicationController
     require_logged_in_as @comment.card.list.board.members
 
     if @comment.save
-      render json: @card, status: :created, location: @card
+      # render json: @card, status: :created, location: @card
+      render :show
     else
       render json: @card.errors.full_messages, status: :unprocessable_entity
     end

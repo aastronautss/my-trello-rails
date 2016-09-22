@@ -1,6 +1,11 @@
 App.CardView = Backbone.View.extend({
   tagName: 'li',
   className: 'card',
+  attributes: {
+    'data-toggle': 'modal',
+    'data-target': '#card-modal'
+  },
+
   template: App.templates.card,
   events: {
     'click': 'showModal',
@@ -14,7 +19,7 @@ App.CardView = Backbone.View.extend({
     }
     else {
       var modal_view = new App.CardModalView({ model: this.model });
-      modal_view.$el.prependTo('body').fadeIn();
+      modal_view.$el.prependTo('body');
     }
   },
 

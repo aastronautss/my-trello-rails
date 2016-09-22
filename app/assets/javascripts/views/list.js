@@ -31,7 +31,8 @@ App.ListView = Backbone.View.extend({
   createCard: function(e) {
     e.preventDefault();
     var $e = $(e.target);
-    var title = $e.find('[name=title]').val();
+    var $title = $e.find('[name=title]');
+    var title = $title.val();
     var new_card;
 
     if (title) {
@@ -43,13 +44,14 @@ App.ListView = Backbone.View.extend({
       });
     }
 
-    this.hideNewCardForm();
+    $title.val('');
+    // this.hideNewCardForm();
   },
 
   showNewCardForm: function(e) {
     e.preventDefault();
     var $e = $(e.target);
-    $e.hide().prev('.new-card-form').show();
+    $e.hide().prev('.new-card-form').show().find('[type="text"]').focus().select();
   },
 
   hideNewCardForm: function(e) {

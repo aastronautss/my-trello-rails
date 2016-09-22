@@ -337,39 +337,26 @@ a {
   }
 }
 .modal {
-  position: relative;
-  top: 20%;
-  width: 100%;
-  text-align: center;
-  .overlay {
-    background: $black_40;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 2;
-    position: fixed;
-  }
-  .card-modal {
-    @extend %extend_5;
-    width: 600px;
-    color: $color_storm_dust_approx;
+  &#card-modal {
+    // @extend %extend_5;
+    // width: 600px;
+    // color: $color_storm_dust_approx;
     text-align: left;
-    &:after {
-      @extend %extend_6;
-    }
-    h2 {
-      margin: 0;
-      padding: 0 0 5px 0;
-      font-size: 1.7em;
-      color: $color_emperor_approx;
-    }
+    // &:after {
+    //   @extend %extend_6;
+    // }
+    // h2 {
+    //   margin: 0;
+    //   padding: 0 0 5px 0;
+    //   font-size: 1.7em;
+    //   color: $color_emperor_approx;
+    // }
     h3 {
       display: inline-block;
-      margin: 0;
-      font-size: 1.4em;
-      font-weight: bold;
-      color: $color_tapa_approx;
+      // margin: 0;
+      // font-size: 1.4em;
+      // font-weight: bold;
+      // color: $color_tapa_approx;
     }
     .edit-description-link {
       margin-left: 5px;
@@ -393,26 +380,26 @@ a {
       li {
         width: 100%;
         a {
-          background: #fafafa;
-          width: 100%;
-          color: #777;
-          padding: 5px;
+          // background: #fafafa;
+          // width: 100%;
+          // color: #777;
+          // padding: 5px;
           //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
-          border-radius: 3px;
-          border: 1px solid $color_celeste_approx;
-          border-top: none;
-          display: block;
+          // border-radius: 3px;
+          // border: 1px solid $color_celeste_approx;
+          // border-top: none;
+          // display: block;
 
           &:hover {
-            text-decoration: none;
-            background: #f1f1f1;
+            // text-decoration: none;
+            // background: #f1f1f1;
           }
         }
       }
     }
     .main-col {
       float: left;
-      width: 420px;
+      width: 410px;
       //Instead of the line below you could use @include box-sizing($bs)
       box-sizing: border-box;
     }
@@ -421,18 +408,26 @@ a {
         margin-bottom: 10px;
       }
       .comment-body {
-        background: #fefefe;
+        background: #eee;
         margin-bottom: 3px;
         padding: 5px;
-        border: 1px solid $color_celeste_approx;
+        border: 1px solid #ddd;
         border-top: none;
+        border-left: none;
         //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
         border-radius: 3px;
-        color: $color_tapa_approx;
+        color: #666;
+
+        p {
+          margin-bottom: 5px;
+        }
+        p:last-child {
+          margin: 0;
+        }
       }
       .byline {
         color: $color_mountain_mist_approx;
-        font-size: 0.7em;
+        font-size: .9em;
       }
       .comment + .comment {
         padding-top: 7px;
