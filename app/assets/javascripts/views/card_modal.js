@@ -1,9 +1,13 @@
 App.CardModalView = Backbone.View.extend({
   tagName: 'div',
-  className: 'modal',
+  className: 'modal fade clearfix',
+  id: 'card-modal',
+  attributes: {
+    'tabindex': '-1'
+  },
+
   template: App.templates.card_modal,
   events: {
-    'click .overlay': 'remove',
     'click .edit-description-link': 'showDescriptionEdit',
     'click .cancel-edit': 'hideDescriptionEdit',
     'click .delete-card': 'deleteCard',
@@ -14,6 +18,10 @@ App.CardModalView = Backbone.View.extend({
   deleteCard: function(e) {
     e.preventDefault();
     this.model.destroy();
+  },
+
+  closeModal: function() {
+    this.remove();
   },
 
   showDescriptionEdit: function(e) {
@@ -80,6 +88,7 @@ App.CardModalView = Backbone.View.extend({
   render: function() {
     this.$el.html(this.template(this.model.toJSON()));
     this.showComments();
+    this.$el.on('hidden.bs.modal', this.closeModal);
   },
 
   initialize: function() {

@@ -16,7 +16,6 @@ var App = {
       },
 
       error: function(model, response) {
-
       }
     });
   },
@@ -50,7 +49,7 @@ $(function() {
     return Backbone._sync(method, model, options);
   };
 
-  if (!_(App.board_id).isUndefined()){
+  if (!_(App.board_id).isUndefined()) {
     App.initialize();
   }
 });

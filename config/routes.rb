@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   post 'login', to: 'sessions#create'
   get 'logout', to: 'sessions#destroy'
 
-  resources :users, only: [:create]
+  resources :users, only: [:create, :show]
 
   resources :boards do
     member do
@@ -14,6 +14,7 @@ Rails.application.routes.draw do
       delete 'remove_member', to: 'board_memberships#destroy'
     end
   end
+
   resources :lists, except: [:show, :new]
   resources :cards
   resources :comments, except: [:show, :new]
