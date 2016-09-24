@@ -31,7 +31,7 @@ shared_examples 'a logged in action' do
 end
 
 shared_examples 'a member action' do
-  let(:board) { Fabricate :board }
+  # let(:board) { Fabricate :board }
   before do
     set_user
     action
