@@ -1,4 +1,4 @@
-json.id comment.id
+json.id comment.to_param
 json.card_id comment.card_id
 json.body format_body(comment.body)
 json.created_at comment.created_at

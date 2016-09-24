@@ -6,10 +6,6 @@ class ListsController < ApplicationController
     board = Board.find params[:board_id]
     @lists = List.where board: board
     require_logged_in_as board.members
-
-    respond_to do |format|
-      format.json { render json: @lists }
-    end
   end
 
   def create
@@ -17,7 +13,7 @@ class ListsController < ApplicationController
     require_logged_in_as @list.board.members
 
     if @list.save
-      render json: @list, status: :created, location: @list
+      render template: :show, status: :created, location: @list
     else
       render json: @list.errors.full_messages, status: :unprocessable_entity
     end
@@ -27,7 +23,7 @@ class ListsController < ApplicationController
     require_logged_in_as @list.board.members
 
     if @list.update list_params
-      render json: @list, status: :ok, location: @list
+      render template: :show, status: :ok, location: @list
     else
       render json: @list.errors.full_messages, status: :unprocessable_entity
     end
