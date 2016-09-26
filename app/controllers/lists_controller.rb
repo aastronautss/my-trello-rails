@@ -1,6 +1,6 @@
 class ListsController < ApplicationController
+  before_action -> { require_user remote: true }
   before_action :set_list, except: [:new, :create, :index]
-  before_action :require_user
 
   def index
     board = Board.find params[:board_id]
@@ -8,9 +8,13 @@ class ListsController < ApplicationController
     require_logged_in_as board.members
   end
 
+  def show
+    require_logged_in_as @list.board.members, remote: true
+  end
+
   def create
     @list = List.new list_params
-    require_logged_in_as @list.board.members
+    require_logged_in_as @list.board.members, remote: true
 
     if @list.save
       render template: :show, status: :created, location: @list
@@ -20,7 +24,7 @@ class ListsController < ApplicationController
   end
 
   def update
-    require_logged_in_as @list.board.members
+    require_logged_in_as @list.board.members, remote: true
 
     if @list.update list_params
       render template: :show, status: :ok, location: @list
@@ -30,7 +34,7 @@ class ListsController < ApplicationController
   end
 
   def destroy
-    require_logged_in_as @list.board.members
+    require_logged_in_as @list.board.members, remote: true
 
     if @list.destroy
       head :no_content

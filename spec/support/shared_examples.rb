@@ -30,8 +30,20 @@ shared_examples 'a logged in action' do
   end
 end
 
+shared_examples 'a logged in remote action' do
+  before do
+    clear_current_user
+    action
+  end
+
+  context 'when not logged in' do
+    it 'returns a 403' do
+      expect(response).to have_http_status(:forbidden)
+    end
+  end
+end
+
 shared_examples 'a member action' do
-  # let(:board) { Fabricate :board }
   before do
     set_user
     action
@@ -44,6 +56,19 @@ shared_examples 'a member action' do
 
     it 'redirects to root' do
       expect(response).to redirect_to(root_path)
+    end
+  end
+end
+
+shared_examples 'a member remote action' do
+  before do
+    set_user
+    action
+  end
+
+  context 'when logged in as a non-member' do
+    it 'returns a 403' do
+      expect(response).to have_http_status(:forbidden)
     end
   end
 end

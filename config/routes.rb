@@ -15,7 +15,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :lists, except: [:show, :new]
+  resources :lists, except: [:new, :edit]
   resources :cards
-  resources :comments, except: [:show, :new]
+  resources :comments, except: [:new, :edit]
 end
