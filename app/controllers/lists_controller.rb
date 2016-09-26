@@ -5,36 +5,37 @@ class ListsController < ApplicationController
   def index
     board = Board.find params[:board_id]
     @lists = List.where board: board
-    require_logged_in_as board.members
+    # TODO: Find a more elegent way to halt the action.
+    return unless require_logged_in_as board.members, remote: true
   end
 
   def show
-    require_logged_in_as @list.board.members, remote: true
+    return unless require_logged_in_as @list.board.members, remote: true
   end
 
   def create
     @list = List.new list_params
-    require_logged_in_as @list.board.members, remote: true
+    return unless require_logged_in_as @list.board.members, remote: true
 
     if @list.save
-      render template: :show, status: :created, location: @list
+      render template: 'lists/show', status: :created, location: @list
     else
       render json: @list.errors.full_messages, status: :unprocessable_entity
     end
   end
 
   def update
-    require_logged_in_as @list.board.members, remote: true
+    return unless require_logged_in_as @list.board.members, remote: true
 
     if @list.update list_params
-      render template: :show, status: :ok, location: @list
+      render template: 'lists/show', status: :ok, location: @list
     else
       render json: @list.errors.full_messages, status: :unprocessable_entity
     end
   end
 
   def destroy
-    require_logged_in_as @list.board.members, remote: true
+    return unless require_logged_in_as @list.board.members, remote: true
 
     if @list.destroy
       head :no_content

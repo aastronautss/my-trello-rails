@@ -54,11 +54,12 @@ describe ListsController do
     end
   end
 
-  describe 'PATCH update' do
+  describe 'PUT update' do
     let(:list) { Fabricate :list, board_id: board.id }
     let(:action) do
-      patch :update,
-        list: { id: list.id, board_id: list.board_id, title: 'changed!' },
+      put :update,
+        id: list.id,
+        list: { board_id: list.board_id, title: 'changed!' },
         format: :json
     end
 
