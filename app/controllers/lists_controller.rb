@@ -4,7 +4,7 @@ class ListsController < ApplicationController
 
   def index
     board = Board.find params[:board_id]
-    @lists = List.where board: board
+    @lists = board.lists
     # TODO: Find a more elegent way to halt the action.
     return unless require_logged_in_as board.members, remote: true
   end

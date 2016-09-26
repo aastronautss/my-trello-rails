@@ -3,33 +3,60 @@ require 'spec_helper'
 describe ListsController do
   render_views
 
-  let(:board) { Fabricate :board }
+  let!(:board) { Fabricate :board }
 
   describe 'GET index' do
-    let(:lists) { Fabricate.times 2, :list, board_id: board.id }
-    let(:list_not_in_board) { Fabricate :list }
+    let!(:lists) { Fabricate.times 2, :list, board: board }
+    let(:other_board) { Fabricate :board }
+    let!(:list_not_in_board) { Fabricate :list, board: other_board }
     let(:action) { get :index, board_id: board.id, format: :json }
 
     it_behaves_like 'a logged in remote action'
     it_behaves_like 'a member remote action'
 
-    it 'sets @lists'
+    context 'when logged in as a member' do
+      before do
+        set_user
+        board.add_member current_user
+        action
+      end
 
-    it 'does not include lists not on the board'
+      it 'sets @lists' do
+        expect(assigns(:lists)).to match_array(lists)
+      end
 
-    it 'renders :index'
+      it 'does not include lists not on the board' do
+        expect(assigns(:lists)).to_not include(list_not_in_board)
+      end
+
+      it 'renders :index' do
+        expect(response).to render_template(:index)
+      end
+    end
   end
 
   describe 'GET show' do
-    let(:list) { Fabricate :list, board_id: board.id }
+    let(:list) { Fabricate :list, board: board }
     let(:action) { get :show, id: list.id, format: :json }
 
     it_behaves_like 'a logged in remote action'
     it_behaves_like 'a member remote action'
 
-    it 'sets @list'
 
-    it 'renders :show'
+    context 'when logged in as a member' do
+      before do
+        set_user
+        board.add_member current_user
+        action
+      end
+      it 'sets @list' do
+        expect(assigns(:list)).to eq(list)
+      end
+
+      it 'renders :show' do
+        expect(response).to render_template(:show)
+      end
+    end
   end
 
   describe 'POST create' do
@@ -39,18 +66,36 @@ describe ListsController do
     it_behaves_like 'a logged in remote action'
     it_behaves_like 'a member remote action'
 
-    context 'with valid parameters' do
-      it 'creates a new List record'
-      it 'renders :show'
-    end
+    context 'when logged in as a member' do
+      before do
+        set_user
+        board.add_member current_user
+      end
 
-    context 'with invalid parameters' do
-      let(:action) { post :create, board_id: board.id,
-        list: Fabricate.attributes_for(:list, title: ''), format: :json }
+      context 'with valid parameters' do
+        it 'creates a new List record' do
+          expect{ action }.to change(List, :count).by(1)
+        end
 
-      it 'does not create a new list member'
+        it 'renders :show' do
+          action
+          expect(response).to render_template(:show)
+        end
+      end
 
-      it 'renders errors'
+      context 'with invalid parameters' do
+        let(:action) { post :create, board_id: board.id,
+          list: Fabricate.attributes_for(:list, title: ''), format: :json }
+
+        it 'does not create a new list member' do
+          expect{ action }.to change(List, :count).by(0)
+        end
+
+        it 'renders errors' do
+          action
+          expect(response).to have_http_status(:unprocessable_entity)
+        end
+      end
     end
   end
 
@@ -66,30 +111,53 @@ describe ListsController do
     it_behaves_like 'a logged in remote action'
     it_behaves_like 'a member remote action'
 
-    context 'with valid parameters' do
-      it 'modifies the existing record'
-      it 'renders :show'
-    end
-
-    context 'with invalid parameters' do
-      let(:action) do
-        post :create,
-          list: Fabricate.attributes_for(:list, title: ''),
-          format: :json
+    context 'when logged in as a member' do
+      before do
+        set_user
+        board.add_member current_user
       end
 
-      it 'does not modify the existing record'
-      it 'renders errors'
+      context 'with valid parameters' do
+        it 'modifies the existing record' do
+          expect{ action }.to change{ list.reload.title }
+        end
+
+        it 'renders :show' do
+          action
+          expect(response).to render_template(:show)
+        end
+      end
+
+      context 'with invalid parameters' do
+        let(:action) do
+          post :create,
+            list: { board_id: list.board_id, title: '' },
+            format: :json
+        end
+
+        it 'does not modify the existing record' do
+          expect { action }.to_not change{ list.reload.title }
+        end
+
+        it 'renders errors' do
+          action
+          expect(response).to have_http_status(:unprocessable_entity)
+        end
+      end
     end
   end
 
   describe 'DELETE destroy' do
-    let(:list) { Fabricate :list, board_id: board.id }
+    let!(:list) { Fabricate :list, board_id: board.id }
     let(:action) { delete :destroy, id: list.id, format: :json }
 
     it_behaves_like 'a logged in remote action'
     it_behaves_like 'a member remote action'
 
-    it 'removes the list record'
+    it 'removes the list record' do
+      set_user
+      board.add_member current_user
+      expect{ action }.to change(List, :count).by(-1)
+    end
   end
 end
