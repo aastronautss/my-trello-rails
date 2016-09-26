@@ -28,6 +28,8 @@ class ApplicationController < ActionController::Base
       authorized_users = [authorized_users]
     end
 
+    # binding.pry
+
     unless authorized_users.include? current_user
       access_denied remote: remote
     end

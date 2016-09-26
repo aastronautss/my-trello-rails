@@ -33,7 +33,7 @@ describe ListsController do
   end
 
   describe 'POST create' do
-    let(:action) { post :create, board_id: board.id,
+    let(:action) { post :create, # board_id: board.id,
       list: Fabricate.attributes_for(:list), format: :json }
 
     it_behaves_like 'a logged in remote action'
@@ -55,9 +55,10 @@ describe ListsController do
   end
 
   describe 'PATCH update' do
+    let(:list) { Fabricate :list, board_id: board.id }
     let(:action) do
       patch :update,
-        list: Fabricate.attributes_for(:list),
+        list: { id: list.id, board_id: list.board_id, title: 'changed!' },
         format: :json
     end
 

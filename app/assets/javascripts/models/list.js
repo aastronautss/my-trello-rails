@@ -5,8 +5,8 @@ App.List = Backbone.Model.extend({
   },
 
   cards: function() {
-    return App.data.cards.filter(function(card) {
-      return card.get('list_id') === this.get('id');
+    return App.data.cards.select(function(card) {
+      return card.get('list_id') == this.get('id');
     }, this);
   }
 
