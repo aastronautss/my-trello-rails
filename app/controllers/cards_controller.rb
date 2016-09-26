@@ -18,7 +18,7 @@ class CardsController < ApplicationController
     require_logged_in_as @card.list.board.members
 
     if @card.save
-      render template: :show, status: :created, location: @card
+      render template: 'cards/show', status: :created, location: @card
     else
       render json: @card.errors.full_messages, status: :unprocessable_entity
     end
@@ -26,7 +26,7 @@ class CardsController < ApplicationController
 
   def update
     if @card.update card_params
-      render template: :show, status: :ok, location: @card
+      render template: 'cards/show', status: :ok, location: @card
     else
       render json: @card.errors.full_messages, status: :unprocessable_entity
     end
