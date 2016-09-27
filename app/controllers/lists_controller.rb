@@ -15,6 +15,7 @@ class ListsController < ApplicationController
 
   def create
     @list = List.new list_params
+    @list.position = @list.board.next_list_position
     return unless require_logged_in_as @list.board.members, remote: true
 
     if @list.save
@@ -28,6 +29,8 @@ class ListsController < ApplicationController
     return unless require_logged_in_as @list.board.members, remote: true
 
     if @list.update list_params
+      @list.board.normalize_list_positions
+      @list.reload
       render template: 'lists/show', status: :ok, location: @list
     else
       render json: @list.errors.full_messages, status: :unprocessable_entity

@@ -65,6 +65,7 @@ App.BoardView = Backbone.View.extend({
 
     $lists.html('');
 
+    lists.sort();
     lists.each(this.showList, this);
   },
 
