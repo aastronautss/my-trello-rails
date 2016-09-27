@@ -7,5 +7,6 @@ This app features a Backbone.js front end, which talks to a JSON API. It is an e
 ## Todo
 
 - Add user/membership features, like board admin and list membership.
-- Update stylesheets and templates for home, login, and board selection
-
+- AJAXify memberships.
+- Enable dragging and dropping of lists and cards.
+- Make use of `rails-api`
