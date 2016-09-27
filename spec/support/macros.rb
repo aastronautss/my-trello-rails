@@ -18,3 +18,11 @@ def current_user
     nil
   end
 end
+
+# ====-----------------------------====
+# Feature and Request Specs
+# ====-----------------------------====
+
+def login(user = Fabricate(:user))
+  post login_path, username: user.username, password: user.password
+end
