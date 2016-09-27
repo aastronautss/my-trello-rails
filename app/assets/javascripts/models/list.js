@@ -5,32 +5,12 @@ App.List = Backbone.Model.extend({
   },
 
   cards: function() {
-    return App.data.cards.select(function(card) {
+    var unordered = App.data.cards.select(function(card) {
       return card.get('list_id') == this.get('id');
     }, this);
+
+    return _(unordered).sortBy(function(card) {
+      return card.get('position');
+    });
   }
-
-  // removeFromBoard: function() {
-  //   var boardID = App.current_board;
-  //   var board = App.data.boards.get(boardID);
-  //   var boardLists = board.get('lists');
-
-  //   board.save({ lists: _(boardLists).without(this.id) });
-  // },
-
-  // clearCards: function() {
-  //   var cardIDs = this.get('cards');
-  //   _(cardIDs).each(function(id) {
-  //     var card = App.data.cards.get(id);
-  //     card.clear();
-  //     card.destroy();
-  //   });
-  // },
-
-  // getCard: function(id) {
-  //   if (_(this.get('cards')).includes(id)) {
-  //     return App.data.cards.get(id);
-  //   }
-  //   return undefined;
-  // }
 });
