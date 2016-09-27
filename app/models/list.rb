@@ -4,4 +4,6 @@ class List < ActiveRecord::Base
 
   validates_presence_of :title
   validates_presence_of :board
+
+  delegate :members, to: :board, prefix: 'board'
 end

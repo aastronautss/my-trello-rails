@@ -1,14 +1,16 @@
 require 'rails_helper'
 
-describe ListsController do
-  render_views
-
+describe CardsController do
   let!(:board) { Fabricate :board }
 
   describe 'GET index' do
-    let!(:lists) { Fabricate.times 2, :list, board: board }
+    let!(:list) { Fabricate :list, board: board }
+    let!(:cards) { Fabricate.times 2, :card, list: list }
+
     let(:other_board) { Fabricate :board }
     let!(:list_not_in_board) { Fabricate :list, board: other_board }
+    let!(:card_not_in_board) { Fabricate :card, list: list_not_in_board }
+
     let(:action) { get :index, board_id: board.id, format: :json }
 
     it_behaves_like 'a logged in remote action'
@@ -21,12 +23,12 @@ describe ListsController do
         action
       end
 
-      it 'sets @lists' do
-        expect(assigns(:lists)).to match_array(lists)
+      it 'sets @cards' do
+        expect(assigns(:cards)).to match_array(cards)
       end
 
-      it 'does not include lists not on the board' do
-        expect(assigns(:lists)).to_not include(list_not_in_board)
+      it 'does not include cards not on the board' do
+        expect(assigns(:cards)).to_not include(card_not_in_board)
       end
 
       it 'renders :index' do
@@ -37,11 +39,12 @@ describe ListsController do
 
   describe 'GET show' do
     let(:list) { Fabricate :list, board: board }
-    let(:action) { get :show, id: list.id, format: :json }
+    let(:card) { Fabricate :card, list: list }
+
+    let(:action) { get :show, id: card.id, format: :json }
 
     it_behaves_like 'a logged in remote action'
     it_behaves_like 'a member remote action'
-
 
     context 'when logged in as a member' do
       before do
@@ -50,8 +53,8 @@ describe ListsController do
         action
       end
 
-      it 'sets @list' do
-        expect(assigns(:list)).to eq(list)
+      it 'sets @card' do
+        expect(assigns(:card)).to eq(card)
       end
 
       it 'renders :show' do
@@ -61,8 +64,11 @@ describe ListsController do
   end
 
   describe 'POST create' do
-    let(:action) { post :create, # board_id: board.id,
-      list: Fabricate.attributes_for(:list), format: :json }
+    let!(:list) { Fabricate :list, board: board }
+    let(:action) do
+      post :create,
+        card: Fabricate.attributes_for(:card, list_id: list.id), format: :json
+    end
 
     it_behaves_like 'a logged in remote action'
     it_behaves_like 'a member remote action'
@@ -74,8 +80,8 @@ describe ListsController do
       end
 
       context 'with valid parameters' do
-        it 'creates a new List record' do
-          expect{ action }.to change(List, :count).by(1)
+        it 'creates a new Card record' do
+          expect{ action }.to change(Card, :count).by(1)
         end
 
         it 'renders :show' do
@@ -85,11 +91,11 @@ describe ListsController do
       end
 
       context 'with invalid parameters' do
-        let(:action) { post :create, board_id: board.id,
-          list: Fabricate.attributes_for(:list, title: ''), format: :json }
+        let(:action) { post :create,
+          card: Fabricate.attributes_for(:card, title: ''), format: :json }
 
-        it 'does not create a new list member' do
-          expect{ action }.to change(List, :count).by(0)
+        it 'does not create a new Card record' do
+          expect{ action }.to change(Card, :count).by(0)
         end
 
         it 'renders errors' do
@@ -101,11 +107,13 @@ describe ListsController do
   end
 
   describe 'PUT update' do
-    let(:list) { Fabricate :list, board_id: board.id }
+    let(:list) { Fabricate :list, board: board }
+    let(:card) { Fabricate :card, list: list }
+
     let(:action) do
       put :update,
-        id: list.id,
-        list: { board_id: list.board_id, title: 'changed!' },
+        id: card.id,
+        card: { list_id: card.list_id, title: 'changed!' },
         format: :json
     end
 
@@ -120,7 +128,7 @@ describe ListsController do
 
       context 'with valid parameters' do
         it 'modifies the existing record' do
-          expect{ action }.to change{ list.reload.title }
+          expect{ action }.to change{ card.reload.title }
         end
 
         it 'renders :show' do
@@ -132,12 +140,12 @@ describe ListsController do
       context 'with invalid parameters' do
         let(:action) do
           post :create,
-            list: { board_id: list.board_id, title: '' },
+            card: { list_id: card.list_id, title: '' },
             format: :json
         end
 
         it 'does not modify the existing record' do
-          expect { action }.to_not change{ list.reload.title }
+          expect { action }.to_not change{ card.reload.title }
         end
 
         it 'renders errors' do
@@ -150,7 +158,9 @@ describe ListsController do
 
   describe 'DELETE destroy' do
     let!(:list) { Fabricate :list, board_id: board.id }
-    let(:action) { delete :destroy, id: list.id, format: :json }
+    let!(:card) { Fabricate :card, list_id: list.id }
+
+    let(:action) { delete :destroy, id: card.id, format: :json }
 
     it_behaves_like 'a logged in remote action'
     it_behaves_like 'a member remote action'
@@ -158,7 +168,7 @@ describe ListsController do
     it 'removes the list record' do
       set_user
       board.add_member current_user
-      expect{ action }.to change(List, :count).by(-1)
+      expect{ action }.to change(Card, :count).by(-1)
     end
   end
 end

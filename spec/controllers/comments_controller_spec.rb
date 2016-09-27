@@ -1,14 +1,18 @@
 require 'rails_helper'
 
-describe ListsController do
-  render_views
-
+describe CommentsController do
   let!(:board) { Fabricate :board }
+  let!(:list) { Fabricate :list, board: board }
+  let!(:card) { Fabricate :card, list: list }
 
   describe 'GET index' do
-    let!(:lists) { Fabricate.times 2, :list, board: board }
-    let(:other_board) { Fabricate :board }
-    let!(:list_not_in_board) { Fabricate :list, board: other_board }
+    let!(:comments) { Fabricate.times 2, :comment, card: card }
+
+    let!(:other_board) { Fabricate :board }
+    let!(:other_list) { Fabricate :list, board: other_board }
+    let!(:other_card) { Fabricate :card, list: other_list }
+    let!(:comment_not_in_board) { Fabricate :comment, card: other_card }
+
     let(:action) { get :index, board_id: board.id, format: :json }
 
     it_behaves_like 'a logged in remote action'
@@ -21,12 +25,12 @@ describe ListsController do
         action
       end
 
-      it 'sets @lists' do
-        expect(assigns(:lists)).to match_array(lists)
+      it 'sets @comments' do
+        expect(assigns(:comments)).to match_array(comments)
       end
 
-      it 'does not include lists not on the board' do
-        expect(assigns(:lists)).to_not include(list_not_in_board)
+      it 'does not include comments not on the board' do
+        expect(assigns(:comments)).to_not include(comment_not_in_board)
       end
 
       it 'renders :index' do
@@ -36,12 +40,11 @@ describe ListsController do
   end
 
   describe 'GET show' do
-    let(:list) { Fabricate :list, board: board }
-    let(:action) { get :show, id: list.id, format: :json }
+    let(:comment) { Fabricate :comment, card: card }
+    let(:action) { get :show, id: comment.id, format: :json }
 
     it_behaves_like 'a logged in remote action'
     it_behaves_like 'a member remote action'
-
 
     context 'when logged in as a member' do
       before do
@@ -50,8 +53,8 @@ describe ListsController do
         action
       end
 
-      it 'sets @list' do
-        expect(assigns(:list)).to eq(list)
+      it 'sets @comment' do
+        expect(assigns(:comment)).to eq(comment)
       end
 
       it 'renders :show' do
@@ -61,8 +64,10 @@ describe ListsController do
   end
 
   describe 'POST create' do
-    let(:action) { post :create, # board_id: board.id,
-      list: Fabricate.attributes_for(:list), format: :json }
+    let(:action) do
+      post :create,
+        comment: Fabricate.attributes_for(:comment, card_id: card.id), format: :json
+    end
 
     it_behaves_like 'a logged in remote action'
     it_behaves_like 'a member remote action'
@@ -74,8 +79,8 @@ describe ListsController do
       end
 
       context 'with valid parameters' do
-        it 'creates a new List record' do
-          expect{ action }.to change(List, :count).by(1)
+        it 'creates a new Comment record' do
+          expect{ action }.to change(Comment, :count).by(1)
         end
 
         it 'renders :show' do
@@ -85,11 +90,11 @@ describe ListsController do
       end
 
       context 'with invalid parameters' do
-        let(:action) { post :create, board_id: board.id,
-          list: Fabricate.attributes_for(:list, title: ''), format: :json }
+        let(:action) { post :create,
+          comment: Fabricate.attributes_for(:comment, body: ''), format: :json }
 
-        it 'does not create a new list member' do
-          expect{ action }.to change(List, :count).by(0)
+        it 'does not create a new Comment record' do
+          expect{ action }.to change(Comment, :count).by(0)
         end
 
         it 'renders errors' do
@@ -101,11 +106,12 @@ describe ListsController do
   end
 
   describe 'PUT update' do
-    let(:list) { Fabricate :list, board_id: board.id }
+    let(:comment) { Fabricate :comment, card: card }
+
     let(:action) do
       put :update,
-        id: list.id,
-        list: { board_id: list.board_id, title: 'changed!' },
+        id: comment.id,
+        comment: { card_id: comment.card_id, body: 'changed!' },
         format: :json
     end
 
@@ -120,7 +126,7 @@ describe ListsController do
 
       context 'with valid parameters' do
         it 'modifies the existing record' do
-          expect{ action }.to change{ list.reload.title }
+          expect{ action }.to change{ comment.reload.body }
         end
 
         it 'renders :show' do
@@ -132,12 +138,12 @@ describe ListsController do
       context 'with invalid parameters' do
         let(:action) do
           post :create,
-            list: { board_id: list.board_id, title: '' },
+            comment: { card_id: comment.card_id, body: '' },
             format: :json
         end
 
         it 'does not modify the existing record' do
-          expect { action }.to_not change{ list.reload.title }
+          expect { action }.to_not change{ comment.reload.body }
         end
 
         it 'renders errors' do
@@ -145,20 +151,6 @@ describe ListsController do
           expect(response).to have_http_status(:unprocessable_entity)
         end
       end
-    end
-  end
-
-  describe 'DELETE destroy' do
-    let!(:list) { Fabricate :list, board_id: board.id }
-    let(:action) { delete :destroy, id: list.id, format: :json }
-
-    it_behaves_like 'a logged in remote action'
-    it_behaves_like 'a member remote action'
-
-    it 'removes the list record' do
-      set_user
-      board.add_member current_user
-      expect{ action }.to change(List, :count).by(-1)
     end
   end
 end

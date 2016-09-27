@@ -1,13 +1,14 @@
 class CardsController < ApplicationController
   before_action :set_card, except: [:new, :create, :index]
-  before_action :require_user
-  before_action -> { require_logged_in_as @card.list.board.members },
+  before_action -> { require_user remote: true }
+  before_action -> { require_logged_in_as @card.board_members, remote: true },
                   only: [:show, :update, :destroy]
 
   def index
     board = Board.find params[:board_id]
+    return unless require_logged_in_as board.members, remote: true
+
     @cards = Card.joins(list: :board).where(lists: { board_id: board.id })
-    require_logged_in_as board.members
   end
 
   def show
@@ -15,7 +16,7 @@ class CardsController < ApplicationController
 
   def create
     @card = Card.new card_params
-    require_logged_in_as @card.list.board.members
+    return unless require_logged_in_as @card.board_members, remote: true
 
     if @card.save
       render template: 'cards/show', status: :created, location: @card

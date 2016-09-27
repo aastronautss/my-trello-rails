@@ -43,6 +43,8 @@ shared_examples 'a logged in remote action' do
   end
 end
 
+# Prerequisites: Must have a `board` variable and an `action` variable to be
+# within the scope of this call.
 shared_examples 'a member action' do
   before do
     set_user
@@ -60,6 +62,8 @@ shared_examples 'a member action' do
   end
 end
 
+# Prerequisites: Must have a `board` variable and an `action` variable to be
+# within the scope of this call.
 shared_examples 'a member remote action' do
   before do
     set_user
