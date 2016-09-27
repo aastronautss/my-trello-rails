@@ -4,4 +4,6 @@ class Card < ActiveRecord::Base
 
   validates_presence_of :title
   validates_presence_of :list
+
+  delegate :board_members, to: :list
 end

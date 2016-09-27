@@ -7,7 +7,7 @@ App.Card = Backbone.Model.extend({
 
   comments: function() {
     return App.data.comments.filter(function(comment) {
-      return comment.get('card_id') === this.get('id');
+      return comment.get('card_id') == this.get('id');
     }, this);
   },
 

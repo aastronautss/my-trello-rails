@@ -1,24 +1,45 @@
 class CommentsController < ApplicationController
-  before_action :require_user
+  before_action :set_comment, except: [:new, :create, :index]
+  before_action -> { require_user remote: true }
+  before_action -> { require_logged_in_as @comment.board_members, remote: true },
+    except: [:new, :create, :index]
 
   def index
     board = Board.find params[:board_id]
-    require_logged_in_as board.members
+    return unless require_logged_in_as board.members, remote: true
 
     @comments = Comment.joins(card: [list: :board]).
                         where(lists: { board_id: board.id })
   end
 
+  def show
+  end
+
   def create
     @comment = Comment.new comment_params
     @comment.author = current_user
-    require_logged_in_as @comment.card.list.board.members
+    return unless require_logged_in_as @comment.board_members, remote: true
 
     if @comment.save
-      # render json: @card, status: :created, location: @card
-      render :show
+      render template: 'comments/show', status: :created, location: @comment
     else
-      render json: @card.errors.full_messages, status: :unprocessable_entity
+      render json: @comment.errors.full_messages, status: :unprocessable_entity
+    end
+  end
+
+  def update
+    if @comment.update comment_params
+      render template: 'comments/show', status: :ok, location: @comment
+    else
+      render json: @comment.errors.full_messages, status: :unprocessable_entity
+    end
+  end
+
+  def destroy
+    if @comment.destroy
+      head :no_content
+    else
+      render json: @comment.errors.full_messages, status: :unprocessable_entity
     end
   end
 
