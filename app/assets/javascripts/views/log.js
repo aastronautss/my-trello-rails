@@ -1,6 +1,6 @@
-App.CommentView = Backbone.View.extend({
+App.LogView = Backbone.View.extend({
   tagName: 'li',
-  className: 'comment',
+  className: 'log',
   template: App.templates.comment,
 
   render: function() {

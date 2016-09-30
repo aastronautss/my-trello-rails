@@ -131,6 +131,10 @@ describe CardsController do
           expect{ action }.to change{ card.reload.title }
         end
 
+        it 'adds items to the card\'s activities' do
+          expect{ action }.to change{ card.reload.activities[:items] }
+        end
+
         it 'renders :show' do
           action
           expect(response).to render_template(:show)

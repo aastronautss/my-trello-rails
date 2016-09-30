@@ -27,7 +27,7 @@ class CardsController < ApplicationController
   end
 
   def update
-    if @card.update card_params
+    if @card.update card_params, current_user
       @card.list.normalize_card_positions
       @card.reload
       render template: 'cards/show', status: :ok, location: @card

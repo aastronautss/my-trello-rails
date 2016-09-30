@@ -12,18 +12,17 @@ class Card < ActiveRecord::Base
 
   delegate :board_members, to: :list
 
-  ##
-  # This might be worth doing, but requires an additional parameter
-  # passed into the `#update` method.
-  ##
-  #
-  # def update(user, params)
-  #   params.each_key do |key|
-  #     self.add_activity "edited #{key}", user
-  #   end
+  def update(params, user)
+    if super(params)
+      previous_changes.except('updated_at').each_key do |attribute|
+        self.add_activity("edited #{attribute}", user)
+      end
 
-  #   super params
-  # end
+      self
+    else
+      false
+    end
+  end
 
   # ====------------------------------====
   # Activity Logging

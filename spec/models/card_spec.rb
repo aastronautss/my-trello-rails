@@ -86,4 +86,93 @@ describe Card do
       end
     end
   end
+
+  describe '#update' do
+    let(:card) { Fabricate :card }
+    let(:user) { Fabricate :user }
+
+    context 'when passing in one changed attribute' do
+      let(:action) { card.update({ description: 'changed' }, user) }
+
+      it 'updates the attribute' do
+        action
+        expect(card.reload.description).to eq('changed')
+      end
+
+      it 'adds an activity' do
+        card.add_activity 'initializing the object so no errors are thrown', user
+        expect{ action }.to change{ card.reload.activities[:items].size }.by(1)
+      end
+    end
+
+    context 'when passing in multiple changed attributes' do
+      let(:action) { card.update({ title: 'changed title', description: 'changed description' }, user) }
+
+      it 'updates both attributes' do
+        action
+        expect(card.reload.title).to eq('changed title')
+        expect(card.reload.description).to eq('changed description')
+      end
+
+      it 'adds two activities' do
+        card.add_activity 'initializing the object so no errors are thrown', user
+        expect{ action }.to change{ card.reload.activities[:items].size }.by(2)
+      end
+    end
+
+    context 'when passing in changed and unchanged attributes' do
+      let(:action) { card.update({ title: card.title, description: 'changed' }, user) }
+
+      it 'updates one attribute' do
+        unchanged_title = card.title
+        action
+        expect(card.reload.description).to eq('changed')
+        expect(card.reload.title).to eq(unchanged_title)
+      end
+
+      it 'adds one activity' do
+        card.add_activity 'initializing the object so no errors are thrown', user
+        expect{ action }.to change{ card.reload.activities[:items].size }.by(1)
+      end
+    end
+
+    context 'when passing in no changed attributes' do
+      let(:action) { card.update({ title: card.title }, user) }
+
+      it 'changes no attributes' do
+        unchanged_title = card.title
+        action
+        expect(card.reload.title).to eq(unchanged_title)
+      end
+
+      it 'adds no activities' do
+        card.add_activity 'initializing the object so no errors are thrown', user
+        expect{ action }.to change{ card.reload.activities[:items].size }.by(0)
+      end
+    end
+  end
+
+  # describe '#log_updates' do
+  #   let(:card) { Fabricate :card }
+  #   let(:user) { Fabricate :user }
+  #   let(:action) { card.log_updates({ description: 'changed' }, user) }
+
+  #   it 'adds an activity' do
+  #     action
+  #     activities = card.reload.activities
+  #     expect(activities[:items].size).to eq(1)
+  #   end
+
+  #   it 'makes the activity a log type' do
+  #     action
+  #     activity = card.reload.activities[:items].last
+  #     expect(activity[:type]).to eq('log')
+  #   end
+
+  #   it 'provides information in the text' do
+  #     action
+  #     activity = card.reload.activities[:items].last
+  #     expect(activity[:text]).to match(/description/i)
+  #   end
+  # end
 end

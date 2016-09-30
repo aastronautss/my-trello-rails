@@ -72,22 +72,23 @@ App.CardModalView = Backbone.View.extend({
     e.currentTarget.reset();
   },
 
-  showComments: function() {
-    var comments = this.model.comments();
+  showActivities: function() {
+    var activities = this.model.get('activities');
 
-    _(comments).each(function(comment) {
-      this.showComment(comment);
+    _(activities).each(function(activity) {
+      this.showActivity(activity);
     }, this);
   },
 
-  showComment: function(comment) {
-    var view = new App.CommentView({ model: comment });
+  showActivity: function(activity) {
+    var type = activity.type
+    var view = new App[App.capitalize(type) + 'View']({ model: activity });
     this.$el.find('.comment-list').append(view.el);
   },
 
   render: function() {
     this.$el.html(this.template(this.model.toJSON()));
-    this.showComments();
+    this.showActivities();
     this.$el.on('hidden.bs.modal', this.closeModal);
   },
 

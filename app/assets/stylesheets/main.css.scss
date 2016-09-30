@@ -435,6 +435,8 @@ a {
     }
     form {
       &.new-comment {
+        margin-bottom: 15px;
+
         textarea {
           @extend %extend_7;
         }
