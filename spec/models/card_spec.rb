@@ -29,6 +29,12 @@ describe Card do
         activities = card.reload.activities[:items]
         expect(activities.last[:text]).to eq('edited the description.')
       end
+
+      it 'defaults to "log" type' do
+        action
+        activity = card.reload.activities[:items].last
+        expect(activity[:type]).to eq('log')
+      end
     end
 
     context 'with existing activity column' do
@@ -36,6 +42,47 @@ describe Card do
 
       it 'adds the new activity to the "items" array' do
         expect{ action }.to change{ card.reload.activities[:items].size }.by(1)
+      end
+    end
+
+    context 'with invalid type' do
+      let(:action) { card.add_activity 'this won\'t work', user, type: :bork }
+
+      it 'returns false' do
+        expect(action).to be(false)
+      end
+    end
+
+    context 'with empty text' do
+      let(:action) { card.add_activity '', user }
+
+      it 'returns false' do
+        expect(action).to be(false)
+      end
+    end
+  end
+
+  describe '#add_comment' do
+    let(:card) { Fabricate :card }
+    let(:user) { Fabricate :user }
+    let(:action) { card.add_comment 'This is a comment', user }
+
+    it 'adds an activity' do
+      action
+      expect(card.activities[:items].size).to eq(1)
+    end
+
+    it 'makes the new activity a comment type' do
+      action
+      activity = card.reload.activities[:items].last
+      expect(activity[:type]).to eq('comment')
+    end
+
+    context 'with empty text' do
+      let(:action) { card.add_comment '', user }
+
+      it 'returns false' do
+        expect(action).to be(false)
       end
     end
   end
