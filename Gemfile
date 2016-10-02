@@ -23,6 +23,8 @@ gem 'autoprefixer-rails'
 gem 'jbuilder', '~> 2.0'
 gem 'bcrypt', '~> 3.1.7'
 gem 'sdoc', '~> 0.4.0', group: :doc
+gem 'json-schema'
+gem 'activerecord_json_validator'
 gem 'figaro'
 
 group :development, :test do

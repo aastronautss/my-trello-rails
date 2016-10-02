@@ -16,6 +16,9 @@ Rails.application.routes.draw do
   end
 
   resources :lists, except: [:new, :edit]
-  resources :cards
-  resources :comments, except: [:new, :edit]
+  resources :cards do
+    member do
+      post 'add_comment', to: 'comments#create'
+    end
+  end
 end

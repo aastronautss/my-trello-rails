@@ -1,6 +1,6 @@
-App.Comment = Backbone.Model.extend({
-  idAttribute: 'id',
-  defaults: {
-    body: ''
-  }
-});
+// App.Comment = Backbone.Model.extend({
+//   idAttribute: 'id',
+//   defaults: {
+//     body: ''
+//   }
+// });

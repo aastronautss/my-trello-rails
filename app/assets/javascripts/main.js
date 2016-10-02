@@ -1,6 +1,21 @@
 var App = {
   templates: HandlebarsTemplates,
 
+  // ====--------------------------------====
+  // Auxiliary Functions
+  // ====--------------------------------====
+
+  capitalize: function(str) {
+    var words = str.split(/\W+/);
+    return _(words).map(function(word) {
+      return word.charAt(0).toUpperCase() + word.slice(1);
+    }).join(' ');
+  },
+
+  // ====--------------------------------====
+  // Business Logic
+  // ====--------------------------------====
+
   fetchCollections: function(board_id) {
     for (var collection in this.data) {
       this.data[collection].fetch({ data: { board_id: board_id } });

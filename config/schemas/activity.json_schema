@@ -1,0 +1,28 @@
+{
+  "type": "object",
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "properties": {
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "text":      { "type": "string", "minLength": 1 },
+          "type":      { "type": "string", "enum": ["log", "comment"] },
+          "timestamp": { "type": "string" },
+          "user":      {
+            "type": "object",
+            "properties": {
+              "username": { "type": "string" },
+              "id":       { "type": "string" }
+            },
+            "required": ["username", "id"],
+            "additionalProperties": false
+          }
+        },
+        "required": ["text", "type", "timestamp", "user"],
+        "additionalProperties": false
+      }
+    }
+  }
+}

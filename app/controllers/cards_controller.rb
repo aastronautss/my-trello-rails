@@ -20,6 +20,7 @@ class CardsController < ApplicationController
     return unless require_logged_in_as @card.board_members, remote: true
 
     if @card.save
+      @card.add_activity 'created this card', current_user
       render template: 'cards/show', status: :created, location: @card
     else
       render json: @card.errors.full_messages, status: :unprocessable_entity
@@ -27,7 +28,7 @@ class CardsController < ApplicationController
   end
 
   def update
-    if @card.update card_params
+    if @card.update card_params, current_user
       @card.list.normalize_card_positions
       @card.reload
       render template: 'cards/show', status: :ok, location: @card
