@@ -1,7 +1,7 @@
 App.LogView = Backbone.View.extend({
   tagName: 'li',
-  className: 'log',
-  template: App.templates.comment,
+  className: 'comment log',
+  template: App.templates.log,
 
   render: function() {
     this.$el.html(this.template(this.model));

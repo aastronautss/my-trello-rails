@@ -429,8 +429,15 @@ a {
         color: $color_mountain_mist_approx;
         font-size: .9em;
       }
-      .comment + .comment {
-        padding-top: 7px;
+
+      .log {
+        padding-bottom: 7px;
+      }
+
+      .comment {
+        & + .comment {
+          padding-top: 7px;
+        }
       }
     }
     form {

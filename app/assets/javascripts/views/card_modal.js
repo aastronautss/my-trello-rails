@@ -59,21 +59,32 @@ App.CardModalView = Backbone.View.extend({
   addComment: function(e) {
     e.preventDefault();
     var body = $(e.currentTarget).find('[name=comment-body]').val();
-    var comment;
 
     if (body) {
-      comment = App.data.comments.create({
-        body: body,
-        card_id: this.model.get('id')
-      }, {
-        success: this.showComment.bind(this)
-      });
+      var csrf_token = $('meta[name="csrf-token"]').attr('content');
     }
+
+    // if (body) {
+    //   comment = App.data.comments.create({
+    //     body: body,
+    //     card_id: this.model.get('id')
+    //   }, {
+    //     success: this.showComment.bind(this)
+    //   });
+    // }
     e.currentTarget.reset();
   },
 
-  showActivities: function() {
+  sortedActivities: function() {
     var activities = this.model.get('activities');
+
+    return _(activities).sortBy(function(activity) {
+      new Date(activity.timestamp);
+    });
+  },
+
+  showActivities: function() {
+    var activities = this.sortedActivities();
 
     _(activities).each(function(activity) {
       this.showActivity(activity);
@@ -83,7 +94,7 @@ App.CardModalView = Backbone.View.extend({
   showActivity: function(activity) {
     var type = activity.type
     var view = new App[App.capitalize(type) + 'View']({ model: activity });
-    this.$el.find('.comment-list').append(view.el);
+    this.$el.find('.comment-list').prepend(view.el);
   },
 
   render: function() {
@@ -93,7 +104,7 @@ App.CardModalView = Backbone.View.extend({
   },
 
   initialize: function() {
-    this.listenTo(this.model, 'change:description', this.render);
+    this.listenTo(this.model, 'sync', this.render);
     this.listenTo(this.model, 'destroy', this.remove);
     this.render();
   }

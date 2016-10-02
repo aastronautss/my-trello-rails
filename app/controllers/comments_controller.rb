@@ -4,17 +4,6 @@ class CommentsController < ApplicationController
   # before_action -> { require_logged_in_as @comment.board_members, remote: true },
   #   except: [:new, :create, :index]
 
-  # def index
-  #   board = Board.find params[:board_id]
-  #   return unless require_logged_in_as board.members, remote: true
-
-  #   @comments = Comment.joins(card: [list: :board]).
-  #                       where(lists: { board_id: board.id })
-  # end
-
-  # def show
-  # end
-
   def create
     @card = Card.find params[:id]
     return unless require_logged_in_as @card.board_members, remote: true

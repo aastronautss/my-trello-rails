@@ -151,28 +151,4 @@ describe Card do
       end
     end
   end
-
-  # describe '#log_updates' do
-  #   let(:card) { Fabricate :card }
-  #   let(:user) { Fabricate :user }
-  #   let(:action) { card.log_updates({ description: 'changed' }, user) }
-
-  #   it 'adds an activity' do
-  #     action
-  #     activities = card.reload.activities
-  #     expect(activities[:items].size).to eq(1)
-  #   end
-
-  #   it 'makes the activity a log type' do
-  #     action
-  #     activity = card.reload.activities[:items].last
-  #     expect(activity[:type]).to eq('log')
-  #   end
-
-  #   it 'provides information in the text' do
-  #     action
-  #     activity = card.reload.activities[:items].last
-  #     expect(activity[:text]).to match(/description/i)
-  #   end
-  # end
 end
