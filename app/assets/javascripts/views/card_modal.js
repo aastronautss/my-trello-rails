@@ -59,10 +59,9 @@ App.CardModalView = Backbone.View.extend({
   addComment: function(e) {
     e.preventDefault();
     var body = $(e.currentTarget).find('[name=comment-body]').val();
+    var csrf_token = $('meta[name="csrf-token"]').attr('content');
 
     if (body) {
-      var csrf_token = $('meta[name="csrf-token"]').attr('content');
-
       $.ajax({
         context: this,
         method: 'POST',

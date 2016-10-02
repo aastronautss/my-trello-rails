@@ -20,6 +20,7 @@ class CardsController < ApplicationController
     return unless require_logged_in_as @card.board_members, remote: true
 
     if @card.save
+      @card.add_activity 'created this card', current_user
       render template: 'cards/show', status: :created, location: @card
     else
       render json: @card.errors.full_messages, status: :unprocessable_entity
