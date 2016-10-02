@@ -62,16 +62,20 @@ App.CardModalView = Backbone.View.extend({
 
     if (body) {
       var csrf_token = $('meta[name="csrf-token"]').attr('content');
+
+      $.ajax({
+        context: this,
+        method: 'POST',
+        url: '/cards/' + this.model.get('id') + '/add_comment',
+        headers: {
+          'X-CSRF-Token': csrf_token
+        },
+        data: { comment: { body: body } }
+      }).done(function(msg) {
+        this.model.fetch();
+      });
     }
 
-    // if (body) {
-    //   comment = App.data.comments.create({
-    //     body: body,
-    //     card_id: this.model.get('id')
-    //   }, {
-    //     success: this.showComment.bind(this)
-    //   });
-    // }
     e.currentTarget.reset();
   },
 
