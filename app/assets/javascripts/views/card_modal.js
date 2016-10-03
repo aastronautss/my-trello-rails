@@ -22,7 +22,8 @@ App.CardModalView = Backbone.View.extend({
     // Checklists
     'click .add-check-item a': 'showNewCheckItemForm',
     'click .cancel-new-check-item': 'hideNewCheckItemForm',
-    'submit .new-check-item-form form': 'addCheckItem'
+    'submit .new-check-item-form form': 'addCheckItem',
+    'click .toggle-check-item': 'toggleCheckItem'
   },
 
   deleteCard: function(e) {
@@ -129,6 +130,26 @@ App.CardModalView = Backbone.View.extend({
     }
 
     e.currentTarget.reset();
+  },
+
+  toggleCheckItem: function(e) {
+    e.preventDefault();
+    var $target = $(e.currentTarget);
+    var card_id = this.model.get('id');
+    var checklist_id = $target.closest('.checklist').data('id');
+    var check_item_id = $target.closest('.check-item').data('id');
+    var csrf_token = $('meta[name="csrf-token"]').attr('content');
+
+    $.ajax({
+      context: this,
+      method: 'GET',
+      url: '/cards/' + card_id + '/checklists/' + checklist_id + '/check_items/' + check_item_id + '/toggle',
+      headers: {
+        'X-CSRF-Token': csrf_token
+      }
+    }).done(function(msg) {
+      this.model.fetch();
+    });
   },
 
   sortedActivities: function() {

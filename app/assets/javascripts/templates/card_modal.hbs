@@ -47,14 +47,13 @@
 
                 <ul class="list-group check-items">
                   {{#each check_items}}
-                    <li class="list-group-item">
+                    <li class="list-group-item check-item" data-id="{{@index}}">
                       {{#if done}}
-                        <a href="#" class="checklist-box"><span class="glyphicon glyphicon-ok"></span></a>
-                        <span class="checklist-text">{{name}}</span>
+                        <a href="#" class="checklist-box toggle-check-item"><span class="glyphicon glyphicon-ok"></span></a>
                       {{else}}
-                        <a href="#" class="checklist-box"><span class="glyphicon glyphicon-unchecked"></span></a>
-                        <span class="checklist-text">{{name}}</span>
+                        <a href="#" class="checklist-box toggle-check-item"><span class="glyphicon glyphicon-unchecked"></span></a>
                       {{/if}}
+                      <span class="checklist-text">{{name}}</span>
                     </li>
                   {{/each}}
                 </ul>

@@ -18,7 +18,11 @@ Rails.application.routes.draw do
   resources :lists, except: [:new, :edit]
   resources :cards do
     resources :checklists, except: [:new, :edit] do
-      resources :check_items, except: [:new, :edit]
+      resources :check_items, except: [:new, :edit] do
+        member do
+          get 'toggle', to: 'check_items#toggle'
+        end
+      end
     end
 
     member do
