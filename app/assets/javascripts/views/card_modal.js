@@ -23,16 +23,25 @@ App.CardModalView = Backbone.View.extend({
     'click .add-check-item a': 'showNewCheckItemForm',
     'click .cancel-new-check-item': 'hideNewCheckItemForm',
     'submit .new-check-item-form form': 'addCheckItem',
-    'click .toggle-check-item': 'toggleCheckItem'
+    'click .toggle-check-item': 'toggleCheckItem',
+    'click .delete-check-item': 'deleteCheckItem'
   },
+
+  // ====------------------------------====
+  // Modal Display Actions
+  // ====------------------------------====
+
+  closeModal: function() {
+    this.remove();
+  },
+
+  // ====------------------------------====
+  // Card Actions
+  // ====------------------------------====
 
   deleteCard: function(e) {
     e.preventDefault();
     this.model.destroy();
-  },
-
-  closeModal: function() {
-    this.remove();
   },
 
   showDescriptionEdit: function(e) {
@@ -67,6 +76,10 @@ App.CardModalView = Backbone.View.extend({
     this.hideDescriptionEdit();
   },
 
+  // ====------------------------------====
+  // Comments
+  // ====------------------------------====
+
   addComment: function(e) {
     e.preventDefault();
     var body = $(e.currentTarget).find('[name=comment-body]').val();
@@ -88,6 +101,10 @@ App.CardModalView = Backbone.View.extend({
 
     e.currentTarget.reset();
   },
+
+  // ====------------------------------====
+  // Check Items
+  // ====------------------------------====
 
   showNewCheckItemForm: function(e) {
     e.preventDefault();
@@ -152,6 +169,30 @@ App.CardModalView = Backbone.View.extend({
     });
   },
 
+  deleteCheckItem: function(e) {
+    e.preventDefault();
+    var $target = $(e.currentTarget);
+    var card_id = this.model.get('id');
+    var checklist_id = $target.closest('.checklist').data('id');
+    var check_item_id = $target.closest('.check-item').data('id');
+    var csrf_token = $('meta[name="csrf-token"]').attr('content');
+
+    $.ajax({
+      context: this,
+      method: 'DELETE',
+      url: '/cards/' + card_id + '/checklists/' + checklist_id + '/check_items/' + check_item_id,
+      headers: {
+        'X-CSRF-Token': csrf_token
+      }
+    }).done(function(msg) {
+      this.model.fetch();
+    });
+  },
+
+  // ====------------------------------====
+  // Activities
+  // ====------------------------------====
+
   sortedActivities: function() {
     var activities = this.model.get('activities');
 
@@ -173,6 +214,10 @@ App.CardModalView = Backbone.View.extend({
     var view = new App[App.capitalize(type) + 'View']({ model: activity });
     this.$el.find('.comment-list').prepend(view.el);
   },
+
+  // ====------------------------------====
+  // Core Functions
+  // ====------------------------------====
 
   render: function() {
     this.$el.html(this.template(this.model.toJSON()));

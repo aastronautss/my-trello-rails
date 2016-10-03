@@ -345,15 +345,21 @@ a {
       padding-right: 5px;
       box-sizing: border-box;
 
-      ul {
+      & > ul {
         margin: 10px 0 0;
-      }
 
-      li {
-        width: 100%;
+        & > li {
+          width: 100%;
 
-        & + li {
-          margin-top: 10px;
+          & + li {
+            margin-top: 10px;
+          }
+        }
+
+        .dropdown-menu {
+          width: 250px;
+          margin: 3px 0 0 0;
+          padding: 10px;
         }
       }
     }
@@ -373,6 +379,14 @@ a {
         .checklist-text {
           display: inline-block;
           margin-left: 10px;
+        }
+      }
+
+      .delete-check-item {
+        color: #666;
+
+        &:hover {
+          color: #b00b00;
         }
       }
 

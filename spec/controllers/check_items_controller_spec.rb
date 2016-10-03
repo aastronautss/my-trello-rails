@@ -51,6 +51,31 @@ describe CheckItemsController do
     end
   end
 
+  describe 'DELETE destroy' do
+    let(:card) { Fabricate :card }
+    let(:action) do
+      delete :destroy,
+        format: :json,
+        card_id: card.id,
+        checklist_id: 0,
+        id: 0
+    end
+
+    before do
+      set_user
+      card.add_checklist 'A checklist', current_user
+      card.add_check_item 'A check_item', 0
+    end
+
+    it_behaves_like 'a logged in remote action'
+
+    it 'removes the check item' do
+      action
+      checklist = card.reload.checklists[:lists][0]
+      expect(checklist[:check_items]).to be_empty
+    end
+  end
+
   describe 'GET toggle' do
     let(:card) { Fabricate :card }
     let(:action) do
