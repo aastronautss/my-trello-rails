@@ -50,4 +50,19 @@ class Card < ActiveRecord::Base
   def add_comment(text, user)
     add_activity text, user, type: :comment
   end
+
+  # ====------------------------------====
+  # Checklists
+  # ====------------------------------====
+
+  def add_checklist(title, user)
+    checklist_obj = {
+      title: title,
+      check_items: []
+    }
+
+    self.checklists[:lists] ||= []
+    self.checklists[:lists] << checklist_obj
+    self.add_activity("added checklist '#{title}'", user)
+  end
 end

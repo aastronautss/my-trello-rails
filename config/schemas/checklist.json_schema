@@ -16,11 +16,11 @@
                 "name": { "type": "string" },
                 "done": { "type": "boolean", "default": false }
               },
-              "required": "name"
+              "required": ["name"]
             }
           }
         },
-        "required": "title",
+        "required": ["title", "check_items"],
         "additionalProperties": false
       }
     }

@@ -13,6 +13,7 @@
         <aside class="actions">
           <h3>Actions</h3>
           <ul>
+            <li><a href="#" class="add-checklist btn btn-default btn-sm btn-block">Add Checklist</a></li>
             <li><a href="#" class="delete-card btn btn-danger btn-sm btn-block">Delete</a></li>
           </ul>
         </aside>
@@ -38,6 +39,29 @@
               </fieldset>
             </form>
           </section>
+
+          {{#each checklists}}
+            <section class="checklist">
+              <h4>{{title}}</h4>
+
+              <ul class="list-group check-items">
+                {{#each check_items}}
+                  <li class="list-group-item">
+                    {{#if done}}
+                      <a href="#" class="checklist-box"><span class="glyphicon glyphicon-ok"></span></a>
+                      <span class="checklist-text">{{name}}</span>
+                    {{else}}
+                      <a href="#" class="checklist-box"><span class="glyphicon glyphicon-unchecked"></span></a>
+                      <span class="checklist-text">{{name}}</span>
+                    {{/if}}
+                  </li>
+                {{/each}}
+                  <li class="add-check-item">
+                    <a href="#">Add an item...</a>
+                  </li>
+              </ul>
+            </section>
+          {{/each}}
 
           <section class="comments">
             <h2>Activity</h2>
