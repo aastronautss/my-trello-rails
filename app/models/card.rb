@@ -65,4 +65,15 @@ class Card < ActiveRecord::Base
     self.checklists[:lists] << checklist_obj
     self.valid? ? self.add_activity("added checklist '#{title}'", user) : false
   end
+
+  def add_check_item(name, checklist_idx)
+    check_item_obj = {
+      name: name,
+      done: false
+    }
+
+    list = self.checklists[:lists][checklist_idx]
+    list[:check_items] << check_item_obj
+    self.save
+  end
 end

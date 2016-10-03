@@ -122,6 +122,44 @@ describe Card do
     end
   end
 
+  describe '#add_check_item' do
+    let(:card) { Fabricate :card }
+    let(:user) { Fabricate :user }
+    before { card.add_checklist Faker::Lorem.words(4).join(' '), user }
+
+    context 'with valid input' do
+      let(:action) { card.add_check_item 'A check item', 0 }
+
+      it 'adds a check_item to the checklist' do
+        action
+        # I know, it's ugly.
+        check_item = card.reload.checklists[:lists][0][:check_items][0]
+        expect(check_item[:name]).to eq('A check item')
+        expect(check_item[:done]).to be(false)
+      end
+
+      it 'does not add a check_item to other checklists' do
+        card.add_checklist Faker::Lorem.words(3).join(' '), user
+        action
+        expect(card.reload.checklists[:lists][1][:check_items]).to be_empty
+      end
+    end
+
+    context 'with invalid input' do
+      let(:action) { card.add_check_item '', 0 }
+
+      it 'does not add a check_item to the checklist' do
+        action
+        checklist = card.reload.checklists[:lists][0]
+        expect(checklist[:check_items]).to be_empty
+      end
+
+      it 'returns false' do
+        expect(action).to be(false)
+      end
+    end
+  end
+
   # ====------------------------------====
   # Overwritten Methods
   # ====------------------------------====
