@@ -33,12 +33,10 @@ $font_2: sans-serif;
 %extend_1 {
   background: $color_mercury_approx;
   width: 270px;
-  //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
   border-radius: 3px;
   padding: 7px;
   vertical-align: top;
   display: inline-block;
-  //Instead of the line below you could use @include box-sizing($bs)
   box-sizing: border-box;
 }
 
@@ -48,9 +46,7 @@ $font_2: sans-serif;
   background: inherit;
   width: calc(100% - 15px);
   border: none;
-  //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
   border-radius: 3px;
-  //Instead of the line below you could use @include box-sizing($bs)
   box-sizing: border-box;
   resize: none;
   font: inherit;
@@ -65,7 +61,6 @@ $font_2: sans-serif;
   overflow: hidden;
   vertical-align: middle;
   float: right;
-  //Instead of the line below you could use @include box-sizing($bs)
   box-sizing: border-box;
 }
 
@@ -76,7 +71,6 @@ $font_2: sans-serif;
   width: 100%;
   margin: 0 0 5px 0;
   padding: 5px;
-  //Instead of the line below you could use @include box-sizing($bs)
   box-sizing: border-box;
 }
 
@@ -87,9 +81,7 @@ $font_2: sans-serif;
   position: relative;
   margin: 100px auto 0 auto;
   padding: 15px;
-  //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
   border-radius: 3px;
-  //Instead of the line below you could use @include box-sizing($bs)
   box-sizing: border-box;
   z-index: 99;
 }
@@ -111,9 +103,7 @@ $font_2: sans-serif;
   width: 100%;
   padding: 5px;
   border: 1px solid $color_silver_chalice_approx;
-  //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
   border-radius: 3px;
-  //Instead of the line below you could use @include box-sizing($bs)
   box-sizing: border-box;
   font: inherit;
   color: $color_storm_dust_approx;
@@ -130,7 +120,6 @@ main {
   height: 100%;
   width: 100%;
   padding: 65px 10px 15px;
-  //Instead of the line below you could use @include box-sizing($bs)
   box-sizing: border-box;
   overflow-y: hidden;
   white-space: nowrap;
@@ -288,7 +277,6 @@ a {
     [type="text"] {
       width: 100%;
       margin-bottom: 10px;
-      //Instead of the line below you could use @include box-sizing($bs)
       box-sizing: border-box;
     }
     + .list {
@@ -321,7 +309,6 @@ a {
 }
 .card {
   background: $white;
-  //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
   border-radius: 3px;
   padding: 10px;
   cursor: pointer;
@@ -338,25 +325,9 @@ a {
 }
 .modal {
   &#card-modal {
-    // @extend %extend_5;
-    // width: 600px;
-    // color: $color_storm_dust_approx;
     text-align: left;
-    // &:after {
-    //   @extend %extend_6;
-    // }
-    // h2 {
-    //   margin: 0;
-    //   padding: 0 0 5px 0;
-    //   font-size: 1.7em;
-    //   color: $color_emperor_approx;
-    // }
     h3 {
       display: inline-block;
-      // margin: 0;
-      // font-size: 1.4em;
-      // font-weight: bold;
-      // color: $color_tapa_approx;
     }
     .edit-description-link {
       margin-left: 5px;
@@ -372,36 +343,69 @@ a {
       width: 150px;
       padding-left: 10px;
       padding-right: 5px;
-      //Instead of the line below you could use @include box-sizing($bs)
       box-sizing: border-box;
-      ul {
-        margin: 10px 0 0;
-      }
-      li {
-        width: 100%;
-        a {
-          // background: #fafafa;
-          // width: 100%;
-          // color: #777;
-          // padding: 5px;
-          //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
-          // border-radius: 3px;
-          // border: 1px solid $color_celeste_approx;
-          // border-top: none;
-          // display: block;
 
-          &:hover {
-            // text-decoration: none;
-            // background: #f1f1f1;
+      & > ul {
+        margin: 10px 0 0;
+
+        & > li {
+          width: 100%;
+
+          & + li {
+            margin-top: 10px;
           }
+        }
+
+        .dropdown-menu {
+          width: 250px;
+          margin: 3px 0 0 0;
+          padding: 10px;
         }
       }
     }
     .main-col {
       float: left;
       width: 410px;
-      //Instead of the line below you could use @include box-sizing($bs)
       box-sizing: border-box;
+    }
+    .checklist {
+      .check-items {
+        margin-bottom: 0;
+
+        .checklist-box {
+          display: inline-block;
+        }
+
+        .checklist-text {
+          display: inline-block;
+          margin-left: 10px;
+        }
+      }
+
+      .delete-check-item {
+        color: #666;
+
+        &:hover {
+          color: #b00b00;
+        }
+      }
+
+      .add-check-item {
+        padding: 10px 15px 0 45px;
+
+        a {
+          color: #666;
+        }
+      }
+
+      .new-check-item-form {
+        display: none;
+        margin-top: 10px;
+
+        .form-group {
+          margin-bottom: 5px;
+        }
+      }
     }
     .comments {
       .comment-list {
@@ -414,7 +418,6 @@ a {
         border: 1px solid #ddd;
         border-top: none;
         border-left: none;
-        //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
         border-radius: 3px;
         color: #666;
 
@@ -494,7 +497,6 @@ a {
     input[type=text] {
       width: 100%;
       padding: 5px 10px;
-      //Instead of the line below you could use @include box-sizing($bs)
       box-sizing: border-box;
       font-size: 1.1em;
     }

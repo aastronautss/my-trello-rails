@@ -8,20 +8,41 @@ App.CardModalView = Backbone.View.extend({
 
   template: App.templates.card_modal,
   events: {
+    // Updating card
     'click .edit-description-link': 'showDescriptionEdit',
     'click .cancel-edit': 'hideDescriptionEdit',
-    'click .delete-card': 'deleteCard',
     'submit .edit-description': 'updateDescription',
-    'submit .new-comment': 'addComment'
+
+    // Deleting card
+    'click .delete-card': 'deleteCard',
+
+    // Comments
+    'submit .new-comment': 'addComment',
+
+    // Checklists
+    'submit .add-checklist': 'addChecklist',
+    'click .add-check-item a': 'showNewCheckItemForm',
+    'click .cancel-new-check-item': 'hideNewCheckItemForm',
+    'submit .new-check-item-form form': 'addCheckItem',
+    'click .toggle-check-item': 'toggleCheckItem',
+    'click .delete-check-item': 'deleteCheckItem'
   },
+
+  // ====------------------------------====
+  // Modal Display Actions
+  // ====------------------------------====
+
+  closeModal: function() {
+    this.remove();
+  },
+
+  // ====------------------------------====
+  // Card Actions
+  // ====------------------------------====
 
   deleteCard: function(e) {
     e.preventDefault();
     this.model.destroy();
-  },
-
-  closeModal: function() {
-    this.remove();
   },
 
   showDescriptionEdit: function(e) {
@@ -56,6 +77,10 @@ App.CardModalView = Backbone.View.extend({
     this.hideDescriptionEdit();
   },
 
+  // ====------------------------------====
+  // Comments
+  // ====------------------------------====
+
   addComment: function(e) {
     e.preventDefault();
     var body = $(e.currentTarget).find('[name=comment-body]').val();
@@ -78,6 +103,125 @@ App.CardModalView = Backbone.View.extend({
     e.currentTarget.reset();
   },
 
+  // ====------------------------------====
+  // Checklists
+  // ====------------------------------====
+
+  addChecklist: function(e) {
+    e.preventDefault();
+    var $target = $(e.currentTarget);
+    var card_id = this.model.get('id');
+    var title = $target.find('[name="title"]').val();
+    var csrf_token = $('meta[name="csrf-token"]').attr('content');
+
+    if (title) {
+      $.ajax({
+        context: this,
+        method: 'POST',
+        url: '/cards/' + card_id + '/checklists',
+        headers: {
+          'X-CSRF-Token': csrf_token
+        },
+        data: { 'checklist': { title: title } }
+      }).done(function(msg) {
+        this.model.fetch();
+      });
+    }
+
+    e.currentTarget.reset();
+  },
+
+  // ====------------------------------====
+  // Check Items
+  // ====------------------------------====
+
+  showNewCheckItemForm: function(e) {
+    e.preventDefault();
+    var $target = $(e.target).closest('.add-check-item');
+    var $form = $target.next('.new-check-item-form');
+
+    $target.hide();
+    $form.show();
+    $form.find('[name="name"]').focus();
+  },
+
+  hideNewCheckItemForm: function(e) {
+    e.preventDefault();
+    var $form = $(e.target).closest('.new-check-item-form');
+    var $add_item_button = $form.prev('.add-check-item');
+
+    $form.hide();
+    $add_item_button.show();
+  },
+
+  addCheckItem: function(e) {
+    e.preventDefault();
+    var $target = $(e.currentTarget);
+    var name = $target.find('[name="name"]').val();
+    var csrf_token = $('meta[name="csrf-token"]').attr('content');
+    var checklist_id = $target.closest('.checklist').data('id');
+
+    if (name) {
+      $.ajax({
+        context: this,
+        method: 'POST',
+        url: '/cards/' + this.model.get('id') + '/checklists/' + checklist_id + '/check_items',
+        headers: {
+          'X-CSRF-Token': csrf_token
+        },
+        data: { 'check_item': { name: name } }
+      }).done(function(msg) {
+        this.model.fetch();
+      });
+    }
+
+    e.currentTarget.reset();
+  },
+
+  toggleCheckItem: function(e) {
+    e.preventDefault();
+    var $target = $(e.currentTarget);
+    var card_id = this.model.get('id');
+    var checklist_id = $target.closest('.checklist').data('id');
+    var check_item_id = $target.closest('.check-item').data('id');
+    var csrf_token = $('meta[name="csrf-token"]').attr('content');
+
+    $.ajax({
+      context: this,
+      method: 'GET',
+      url: '/cards/' + card_id + '/checklists/' + checklist_id + '/check_items/' + check_item_id + '/toggle',
+      headers: {
+        'X-CSRF-Token': csrf_token
+      }
+    }).done(function(msg) {
+      this.model.fetch();
+    });
+  },
+
+  deleteCheckItem: function(e) {
+    e.preventDefault();
+    var $target = $(e.currentTarget);
+    var card_id = this.model.get('id');
+    var checklist_id = $target.closest('.checklist').data('id');
+    var check_item_id = $target.closest('.check-item').data('id');
+    var csrf_token = $('meta[name="csrf-token"]').attr('content');
+
+    $.ajax({
+      context: this,
+      method: 'DELETE',
+      url: '/cards/' + card_id + '/checklists/' + checklist_id + '/check_items/' + check_item_id,
+      headers: {
+        'X-CSRF-Token': csrf_token
+      }
+    }).done(function(msg) {
+      this.model.fetch();
+    });
+  },
+
+  // ====------------------------------====
+  // Activities
+  // ====------------------------------====
+
   sortedActivities: function() {
     var activities = this.model.get('activities');
 
@@ -99,6 +243,10 @@ App.CardModalView = Backbone.View.extend({
     var view = new App[App.capitalize(type) + 'View']({ model: activity });
     this.$el.find('.comment-list').prepend(view.el);
   },
+
+  // ====------------------------------====
+  // Core Functions
+  // ====------------------------------====
 
   render: function() {
     this.$el.html(this.template(this.model.toJSON()));

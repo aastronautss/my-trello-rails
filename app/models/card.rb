@@ -1,5 +1,6 @@
 class Card < ActiveRecord::Base
   ACTIVITY_JSON_SCHEMA = Rails.root.join('config', 'schemas', 'activity.json_schema').to_s
+  CHECKLIST_JSON_SCHEMA = Rails.root.join('config', 'schemas', 'checklist.json_schema').to_s
 
   has_many :comments, dependent: :destroy
   belongs_to :list
@@ -7,8 +8,10 @@ class Card < ActiveRecord::Base
   validates_presence_of :title
   validates_presence_of :list
   validates :activities, json: { schema: ACTIVITY_JSON_SCHEMA }
+  validates :checklists, json: { schema: CHECKLIST_JSON_SCHEMA }
 
   serialize :activities, HashSerializer
+  serialize :checklists, HashSerializer
 
   delegate :board_members, to: :list
 
@@ -46,5 +49,31 @@ class Card < ActiveRecord::Base
 
   def add_comment(text, user)
     add_activity text, user, type: :comment
+  end
+
+  # ====------------------------------====
+  # Checklists
+  # ====------------------------------====
+
+  def add_checklist(title, user)
+    checklist_obj = {
+      title: title,
+      check_items: []
+    }
+
+    self.checklists[:lists] ||= []
+    self.checklists[:lists] << checklist_obj
+    self.valid? ? self.add_activity("added checklist '#{title}'", user) : false
+  end
+
+  def add_check_item(name, checklist_idx)
+    check_item_obj = {
+      name: name,
+      done: false
+    }
+
+    list = self.checklists[:lists][checklist_idx]
+    list[:check_items] << check_item_obj
+    self.save
   end
 end

@@ -45,7 +45,6 @@ App.ListView = Backbone.View.extend({
     }
 
     $title.val('');
-    // this.hideNewCardForm();
   },
 
   showNewCardForm: function(e) {

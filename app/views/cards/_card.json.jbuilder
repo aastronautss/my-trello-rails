@@ -5,4 +5,5 @@ json.title card.title
 json.description card.description
 json.position card.position
 
+json.checklists card.checklists[:lists]
 json.activities card.activities[:items]
