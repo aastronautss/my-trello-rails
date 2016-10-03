@@ -20,6 +20,7 @@ App.CardModalView = Backbone.View.extend({
     'submit .new-comment': 'addComment',
 
     // Checklists
+    'submit .add-checklist': 'addChecklist',
     'click .add-check-item a': 'showNewCheckItemForm',
     'click .cancel-new-check-item': 'hideNewCheckItemForm',
     'submit .new-check-item-form form': 'addCheckItem',
@@ -94,6 +95,34 @@ App.CardModalView = Backbone.View.extend({
           'X-CSRF-Token': csrf_token
         },
         data: { comment: { body: body } }
+      }).done(function(msg) {
+        this.model.fetch();
+      });
+    }
+
+    e.currentTarget.reset();
+  },
+
+  // ====------------------------------====
+  // Checklists
+  // ====------------------------------====
+
+  addChecklist: function(e) {
+    e.preventDefault();
+    var $target = $(e.currentTarget);
+    var card_id = this.model.get('id');
+    var title = $target.find('[name="title"]').val();
+    var csrf_token = $('meta[name="csrf-token"]').attr('content');
+
+    if (title) {
+      $.ajax({
+        context: this,
+        method: 'POST',
+        url: '/cards/' + card_id + '/checklists',
+        headers: {
+          'X-CSRF-Token': csrf_token
+        },
+        data: { 'checklist': { title: title } }
       }).done(function(msg) {
         this.model.fetch();
       });
