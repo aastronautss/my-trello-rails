@@ -374,13 +374,22 @@ a {
           display: inline-block;
           margin-left: 10px;
         }
+      }
 
-        .add-check-item {
-          padding: 10px 15px 0 45px;
+      .add-check-item {
+        padding: 10px 15px 0 45px;
 
-          a {
-            color: #666;
-          }
+        a {
+          color: #666;
+        }
+      }
+
+      .new-check-item-form {
+        display: none;
+        margin-top: 10px;
+
+        .form-group {
+          margin-bottom: 5px;
         }
       }
     }

@@ -63,6 +63,6 @@ class Card < ActiveRecord::Base
 
     self.checklists[:lists] ||= []
     self.checklists[:lists] << checklist_obj
-    self.add_activity("added checklist '#{title}'", user)
+    self.valid? ? self.add_activity("added checklist '#{title}'", user) : false
   end
 end

@@ -40,28 +40,41 @@
             </form>
           </section>
 
-          {{#each checklists}}
-            <section class="checklist">
-              <h4>{{title}}</h4>
+          <div class="checklists">
+            {{#each checklists}}
+              <section class="checklist" data-id="{{@index}}">
+                <h4>{{title}}</h4>
 
-              <ul class="list-group check-items">
-                {{#each check_items}}
-                  <li class="list-group-item">
-                    {{#if done}}
-                      <a href="#" class="checklist-box"><span class="glyphicon glyphicon-ok"></span></a>
-                      <span class="checklist-text">{{name}}</span>
-                    {{else}}
-                      <a href="#" class="checklist-box"><span class="glyphicon glyphicon-unchecked"></span></a>
-                      <span class="checklist-text">{{name}}</span>
-                    {{/if}}
-                  </li>
-                {{/each}}
-                  <li class="add-check-item">
-                    <a href="#">Add an item...</a>
-                  </li>
-              </ul>
-            </section>
-          {{/each}}
+                <ul class="list-group check-items">
+                  {{#each check_items}}
+                    <li class="list-group-item">
+                      {{#if done}}
+                        <a href="#" class="checklist-box"><span class="glyphicon glyphicon-ok"></span></a>
+                        <span class="checklist-text">{{name}}</span>
+                      {{else}}
+                        <a href="#" class="checklist-box"><span class="glyphicon glyphicon-unchecked"></span></a>
+                        <span class="checklist-text">{{name}}</span>
+                      {{/if}}
+                    </li>
+                  {{/each}}
+                </ul>
+
+                <div class="add-check-item">
+                  <a href="#">Add an item...</a>
+                </div>
+
+                <div class="new-check-item-form">
+                  <form action="" method="post">
+                    <div class="form-group">
+                      <input type="text" name="name" placeholder="New item" class="form-control">
+                    </div>
+                    <input type="submit" value="Add" class="btn btn-sm btn-primary">
+                    <a href="#" class="cancel-new-check-item">Cancel</a>
+                  </form>
+                </div>
+              </section>
+            {{/each}}
+          </div>
 
           <section class="comments">
             <h2>Activity</h2>

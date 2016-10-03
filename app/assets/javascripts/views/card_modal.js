@@ -8,11 +8,21 @@ App.CardModalView = Backbone.View.extend({
 
   template: App.templates.card_modal,
   events: {
+    // Updating card
     'click .edit-description-link': 'showDescriptionEdit',
     'click .cancel-edit': 'hideDescriptionEdit',
-    'click .delete-card': 'deleteCard',
     'submit .edit-description': 'updateDescription',
-    'submit .new-comment': 'addComment'
+
+    // Deleting card
+    'click .delete-card': 'deleteCard',
+
+    // Comments
+    'submit .new-comment': 'addComment',
+
+    // Checklists
+    'click .add-check-item a': 'showNewCheckItemForm',
+    'click .cancel-new-check-item': 'hideNewCheckItemForm',
+    'submit .new-check-item-form form': 'addCheckItem'
   },
 
   deleteCard: function(e) {
@@ -70,6 +80,49 @@ App.CardModalView = Backbone.View.extend({
           'X-CSRF-Token': csrf_token
         },
         data: { comment: { body: body } }
+      }).done(function(msg) {
+        this.model.fetch();
+      });
+    }
+
+    e.currentTarget.reset();
+  },
+
+  showNewCheckItemForm: function(e) {
+    e.preventDefault();
+    var $target = $(e.target).closest('.add-check-item');
+    var $form = $target.next('.new-check-item-form');
+
+    $target.hide();
+    $form.show();
+    $form.find('[name="name"]').focus();
+  },
+
+  hideNewCheckItemForm: function(e) {
+    e.preventDefault();
+    var $form = $(e.target).closest('.new-check-item-form');
+    var $add_item_button = $form.prev('.add-check-item');
+
+    $form.hide();
+    $add_item_button.show();
+  },
+
+  addCheckItem: function(e) {
+    e.preventDefault();
+    var $target = $(e.currentTarget);
+    var name = $target.find('[name="name"]').val();
+    var csrf_token = $('meta[name="csrf-token"]').attr('content');
+    var checklist_id = $target.closest('.checklist').data('id');
+
+    if (name) {
+      $.ajax({
+        context: this,
+        method: 'POST',
+        url: '/cards/' + this.model.get('id') + '/checklists/' + checklist_id + '/check_items',
+        headers: {
+          'X-CSRF-Token': csrf_token
+        },
+        data: { 'check_item': { name: name } }
       }).done(function(msg) {
         this.model.fetch();
       });

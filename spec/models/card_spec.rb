@@ -13,6 +13,10 @@ describe Card do
     it { should belong_to(:list) }
   end
 
+  # ====------------------------------====
+  # Activities
+  # ====------------------------------====
+
   describe '#add_activity' do
     let(:card) { Fabricate :card }
     let(:user) { Fabricate :user }
@@ -86,6 +90,41 @@ describe Card do
       end
     end
   end
+
+  # ====------------------------------====
+  # Checklists
+  # ====------------------------------====
+
+  describe '#add_checklist' do
+    let(:card) { Fabricate :card }
+    let(:user) { Fabricate :user }
+
+    context 'with valid input' do
+      let(:action) { card.add_checklist 'A Checklist', user }
+
+      it 'adds a checklist' do
+        action
+        expect(card.reload.checklists[:lists].size).to eq(1)
+      end
+
+      it 'adds an activity' do
+        action
+        expect(card.reload.activities[:items].size).to eq(1)
+      end
+    end
+
+    context 'with invalid input' do
+      let(:action) { card.add_checklist '', user }
+
+      it 'returns false' do
+        expect(action).to be(false)
+      end
+    end
+  end
+
+  # ====------------------------------====
+  # Overwritten Methods
+  # ====------------------------------====
 
   describe '#update' do
     let(:card) { Fabricate :card }

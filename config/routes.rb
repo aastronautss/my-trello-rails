@@ -17,6 +17,10 @@ Rails.application.routes.draw do
 
   resources :lists, except: [:new, :edit]
   resources :cards do
+    resources :checklists, except: [:new, :edit] do
+      resources :check_items, except: [:new, :edit]
+    end
+
     member do
       post 'add_comment', to: 'comments#create'
     end
