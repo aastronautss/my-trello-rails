@@ -16,18 +16,21 @@ var App = {
   // Business Logic
   // ====--------------------------------====
 
-  fetchCollections: function(board_id) {
+  fetchCollections: function(board_id, callback) {
     for (var collection in this.data) {
       this.data[collection].fetch({ data: { board_id: board_id } });
     }
+
+    callback();
   },
 
   getBoard: function(id) {
     this.current_board = new this.Board({ id: id });
     this.current_board.fetch({
       success: function(model) {
-        new App.BoardView({ model: model });
-        App.fetchCollections(App.board_id);
+        App.fetchCollections(App.board_id, function() {
+          new App.BoardView({ model: model });
+        });
       },
 
       error: function(model, response) {
