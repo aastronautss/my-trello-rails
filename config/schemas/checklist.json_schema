@@ -1,0 +1,28 @@
+{
+  "type": "object",
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "properties": {
+    "lists": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "title": { "type": "string" },
+          "check_items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": { "type": "string" },
+                "done": { "type": "boolean", "default": false }
+              },
+              "required": "name"
+            }
+          }
+        },
+        "required": "title",
+        "additionalProperties": false
+      }
+    }
+  }
+}

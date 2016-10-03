@@ -1,5 +1,6 @@
 class Card < ActiveRecord::Base
   ACTIVITY_JSON_SCHEMA = Rails.root.join('config', 'schemas', 'activity.json_schema').to_s
+  CHECKLIST_JSON_SCHEMA = Rails.root.join('config', 'schemas', 'checklist.json_schema').to_s
 
   has_many :comments, dependent: :destroy
   belongs_to :list
@@ -7,8 +8,10 @@ class Card < ActiveRecord::Base
   validates_presence_of :title
   validates_presence_of :list
   validates :activities, json: { schema: ACTIVITY_JSON_SCHEMA }
+  validates :checklists, json: { schema: CHECKLIST_JSON_SCHEMA }
 
   serialize :activities, HashSerializer
+  serialize :checklists, HashSerializer
 
   delegate :board_members, to: :list
 
