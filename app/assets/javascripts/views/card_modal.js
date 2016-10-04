@@ -33,7 +33,7 @@ App.CardModalView = Backbone.View.extend({
   // ====------------------------------====
 
   closeModal: function() {
-    this.remove();
+    this.$el.modal('hide');
   },
 
   // ====------------------------------====
@@ -42,7 +42,10 @@ App.CardModalView = Backbone.View.extend({
 
   deleteCard: function(e) {
     e.preventDefault();
-    this.model.destroy();
+    this.model.destroy({
+      success: function() { App.notify('Card deleted!'); },
+      error: function() { App.notify('Something went wrong.', 'danger'); }
+    });
   },
 
   showDescriptionEdit: function(e) {
@@ -97,6 +100,8 @@ App.CardModalView = Backbone.View.extend({
         data: { comment: { body: body } }
       }).done(function(msg) {
         this.model.fetch();
+      }).fail(function(msg) {
+        App.notify('Something went wrong.', 'danger');
       });
     }
 
@@ -125,6 +130,8 @@ App.CardModalView = Backbone.View.extend({
         data: { 'checklist': { title: title } }
       }).done(function(msg) {
         this.model.fetch();
+      }).fail(function(msg) {
+        App.notify('Something went wrong.', 'danger');
       });
     }
 
@@ -172,6 +179,8 @@ App.CardModalView = Backbone.View.extend({
         data: { 'check_item': { name: name } }
       }).done(function(msg) {
         this.model.fetch();
+      }).fail(function(msg) {
+        App.notify('Something went wrong.', 'danger');
       });
     }
 
@@ -195,6 +204,8 @@ App.CardModalView = Backbone.View.extend({
       }
     }).done(function(msg) {
       this.model.fetch();
+    }).fail(function(msg) {
+      App.notify('Something went wrong.', 'danger');
     });
   },
 
@@ -215,6 +226,8 @@ App.CardModalView = Backbone.View.extend({
       }
     }).done(function(msg) {
       this.model.fetch();
+    }).fail(function(msg) {
+      App.notify('Something went wrong.', 'danger');
     });
   },
 
@@ -251,12 +264,12 @@ App.CardModalView = Backbone.View.extend({
   render: function() {
     this.$el.html(this.template(this.model.toJSON()));
     this.showActivities();
-    this.$el.on('hidden.bs.modal', this.closeModal);
+    this.$el.on('hidden.bs.modal', this.remove.bind(this));
   },
 
   initialize: function() {
     this.listenTo(this.model, 'sync', this.render);
-    this.listenTo(this.model, 'destroy', this.remove);
+    this.listenTo(this.model, 'destroy', this.closeModal);
     this.render();
   }
 });

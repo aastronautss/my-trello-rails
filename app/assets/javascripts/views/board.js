@@ -52,11 +52,17 @@ App.BoardView = Backbone.View.extend({
       title: title,
       board_id: App.board_id
     }, {
-      success: this.showList
+      success: this.listCreated.bind(this),
+      error: function() { App.notify("Something went wrong.", "danger"); }
     });
 
     $title.val('');
     this.hideNewListForm();
+  },
+
+  listCreated: function(model) {
+    App.notify('List "' + model.get('title') + '" created!');
+    this.showList(model);
   },
 
   showLists: function() {
