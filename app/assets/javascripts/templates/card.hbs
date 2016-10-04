@@ -1,1 +1,14 @@
 <h3>{{title}}</h3>
+<div class="card-charms">
+  {{#if description}}
+    {{> _card_charm glyphicon="align-justify"}}
+  {{/if}}
+
+  {{#if num_comments}}
+    {{> _card_charm glyphicon="comment" numerator=num_comments}}
+  {{/if}}
+
+  {{#if todos}}
+    {{> _card_charm glyphicon="ok-circle" numerator=done_todos denominator=todos.length}}
+  {{/if}}
+</div>
