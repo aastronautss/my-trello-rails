@@ -29,12 +29,13 @@ App.CardView = Backbone.View.extend({
   },
 
   render: function() {
-    this.$el.html(this.template(this.model.toJSON()));
+    this.$el.html(this.template(this.model.viewAttrs()));
     return this;
   },
 
   initialize: function() {
     this.listenTo(this.model, 'save', this.render);
+    this.listenTo(this.model, 'sync', this.render);
     this.listenTo(this.model, 'destroy', this.remove);
     this.listenTo(this.model, 'delete', this.remove);
 

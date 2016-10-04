@@ -1,0 +1,13 @@
+<div class="card-charm">
+  <span class="glyphicon glyphicon-{{glyphicon}}"></span>
+  {{#exists numerator}}
+    <small>
+      <span class="card-charm-badge">
+        {{numerator}}
+        {{#if denominator}}
+          / {{denominator}}
+        {{/if}}
+      </span>
+    </small>
+  {{/exists}}
+</div>

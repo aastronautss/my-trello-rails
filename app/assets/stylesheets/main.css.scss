@@ -319,8 +319,22 @@ a {
     font-weight: bold;
     font-size: 0.9em;
   }
+
   + .card {
     margin-top: 5px;
+  }
+
+  .card-charms {
+    margin: 7px 0 0 0;
+    color: #666;
+
+    .card-charm {
+      display: inline-block;
+
+      & + .card-charm {
+        margin-left: 5px;
+      }
+    }
   }
 }
 .modal {
