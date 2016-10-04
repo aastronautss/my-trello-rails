@@ -2,7 +2,6 @@ class Card < ActiveRecord::Base
   ACTIVITY_JSON_SCHEMA = Rails.root.join('config', 'schemas', 'activity.json_schema').to_s
   CHECKLIST_JSON_SCHEMA = Rails.root.join('config', 'schemas', 'checklist.json_schema').to_s
 
-  has_many :comments, dependent: :destroy
   belongs_to :list
 
   validates_presence_of :title
