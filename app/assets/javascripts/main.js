@@ -1,6 +1,11 @@
 var App = {
   templates: HandlebarsTemplates,
 
+  notify: function(text, type) {
+    type = type || 'success'
+    new App.NotificationView({ model: { text: text, alert_type: type } });
+  },
+
   // ====--------------------------------====
   // Auxiliary Functions
   // ====--------------------------------====

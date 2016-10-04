@@ -40,11 +40,17 @@ App.ListView = Backbone.View.extend({
         title: title,
         list_id: this.model.get('id')
       }, {
-        success: this.showCard.bind(this)
+        success: this.cardCreated.bind(this),
+        error: function() { App.notify("Something went wrong.", "danger"); }
       });
     }
 
     $title.val('');
+  },
+
+  cardCreated: function(model) {
+    App.notify('Card "' + model.get('title') + '" created!');
+    this.showCard(model);
   },
 
   showNewCardForm: function(e) {
