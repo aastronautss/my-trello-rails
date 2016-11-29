@@ -15,9 +15,13 @@ gem 'coffee-rails', '~> 4.1.0'
 gem 'jquery-rails'
 gem 'bootstrap-sass'
 gem 'bootstrap_form', '~> 2.5'
-gem 'bower-rails'
 gem 'handlebars_assets'
 gem 'autoprefixer-rails'
+
+source 'https://rails-assets.org' do
+  gem 'rails-assets-underscore'
+  gem 'rails-assets-backbone'
+end
 
 # Back-End Libraries
 gem 'jbuilder', '~> 2.0'
