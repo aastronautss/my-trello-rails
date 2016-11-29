@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161129155417) do
+ActiveRecord::Schema.define(version: 20161129164634) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,10 +41,12 @@ ActiveRecord::Schema.define(version: 20161129155417) do
     t.integer  "position"
     t.jsonb    "activities"
     t.jsonb    "checklists"
+    t.string   "token"
   end
 
   add_index "cards", ["activities"], name: "index_cards_on_activities", using: :gin
   add_index "cards", ["checklists"], name: "index_cards_on_checklists", using: :gin
+  add_index "cards", ["token"], name: "index_cards_on_token", using: :btree
 
   create_table "comments", force: :cascade do |t|
     t.text     "body"

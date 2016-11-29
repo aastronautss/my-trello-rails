@@ -16,6 +16,7 @@ class CardsController < ApplicationController
 
   def create
     @card = Card.new card_params
+    @card.list = List.find_by token: params[:card][:list_id]
     @card.position = @card.list.next_card_position
     return unless require_logged_in_as @card.board_members, remote: true
 
@@ -48,10 +49,10 @@ class CardsController < ApplicationController
   private
 
   def card_params
-    params.require(:card).permit(:title, :description, :list_id)
+    params.require(:card).permit(:title, :description)
   end
 
   def set_card
-    @card = Card.find params[:id]
+    @card = Card.find_by token: params[:id]
   end
 end
