@@ -3,7 +3,7 @@ class ListsController < ApplicationController
   before_action :set_list, except: [:new, :create, :index]
 
   def index
-    board = Board.find params[:board_id]
+    board = Board.find_by token: params[:board_id]
     @lists = board.lists
     # TODO: Find a more elegent way to halt the action.
     return unless require_logged_in_as board.members, remote: true
@@ -15,6 +15,7 @@ class ListsController < ApplicationController
 
   def create
     @list = List.new list_params
+    @list.board = Board.find_by token: params[:list][:board_id]
     @list.position = @list.board.next_list_position
     return unless require_logged_in_as @list.board.members, remote: true
 
@@ -50,10 +51,10 @@ class ListsController < ApplicationController
   private
 
   def list_params
-    params.require(:list).permit(:title, :board_id)
+    params.require(:list).permit(:title)
   end
 
   def set_list
-    @list = List.find params[:id]
+    @list = List.find_by token: params[:id]
   end
 end

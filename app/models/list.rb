@@ -1,4 +1,6 @@
 class List < ActiveRecord::Base
+  include Tokenable
+
   has_many :cards, -> { order 'position asc' }, dependent: :destroy
   belongs_to :board
 

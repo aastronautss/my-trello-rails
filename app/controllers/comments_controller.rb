@@ -5,7 +5,7 @@ class CommentsController < ApplicationController
   #   except: [:new, :create, :index]
 
   def create
-    @card = Card.find params[:id]
+    @card = Card.find_by token: params[:id]
     return unless require_logged_in_as @card.board_members, remote: true
     params = comment_params
 

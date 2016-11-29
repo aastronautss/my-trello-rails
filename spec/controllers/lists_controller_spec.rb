@@ -9,7 +9,7 @@ describe ListsController do
     let!(:lists) { Fabricate.times 2, :list, board: board }
     let(:other_board) { Fabricate :board }
     let!(:list_not_in_board) { Fabricate :list, board: other_board }
-    let(:action) { get :index, board_id: board.id, format: :json }
+    let(:action) { get :index, board_id: board.to_param, format: :json }
 
     it_behaves_like 'a logged in remote action'
     it_behaves_like 'a member remote action'
@@ -37,7 +37,7 @@ describe ListsController do
 
   describe 'GET show' do
     let(:list) { Fabricate :list, board: board }
-    let(:action) { get :show, id: list.id, format: :json }
+    let(:action) { get :show, id: list.to_param, format: :json }
 
     it_behaves_like 'a logged in remote action'
     it_behaves_like 'a member remote action'
@@ -61,8 +61,14 @@ describe ListsController do
   end
 
   describe 'POST create' do
-    let(:action) { post :create, # board_id: board.id,
-      list: Fabricate.attributes_for(:list), format: :json }
+    let(:action) do
+      post :create,
+        list: {
+          title: 'asdf',
+          board_id: board.to_param
+        },
+        format: :json
+    end
 
     it_behaves_like 'a logged in remote action'
     it_behaves_like 'a member remote action'
@@ -85,8 +91,14 @@ describe ListsController do
       end
 
       context 'with invalid parameters' do
-        let(:action) { post :create, board_id: board.id,
-          list: Fabricate.attributes_for(:list, title: ''), format: :json }
+        let(:action) do
+          post :create,
+            list: {
+              title: '',
+              board_id: board.to_param
+            },
+            format: :json
+        end
 
         it 'does not create a new list member' do
           expect{ action }.to change(List, :count).by(0)
@@ -104,8 +116,8 @@ describe ListsController do
     let(:list) { Fabricate :list, board_id: board.id }
     let(:action) do
       put :update,
-        id: list.id,
-        list: { board_id: list.board_id, title: 'changed!' },
+        id: list.to_param,
+        list: { board_id: list.board.to_param, title: 'changed!' },
         format: :json
     end
 
@@ -131,8 +143,9 @@ describe ListsController do
 
       context 'with invalid parameters' do
         let(:action) do
-          post :create,
-            list: { board_id: list.board_id, title: '' },
+          put :update,
+            id: list.to_param,
+            list: { board_id: list.board.to_param, title: '' },
             format: :json
         end
 
@@ -150,7 +163,7 @@ describe ListsController do
 
   describe 'DELETE destroy' do
     let!(:list) { Fabricate :list, board_id: board.id }
-    let(:action) { delete :destroy, id: list.id, format: :json }
+    let(:action) { delete :destroy, id: list.to_param, format: :json }
 
     it_behaves_like 'a logged in remote action'
     it_behaves_like 'a member remote action'

@@ -8,7 +8,7 @@ describe CommentsController do
   describe 'POST create' do
     let(:action) do
       post :create,
-        id: card.id,
+        id: card.to_param,
         comment: { body: 'asdf' },
         format: :json
     end
@@ -38,7 +38,7 @@ describe CommentsController do
       context 'with invalid parameters' do
         let(:action) do
           post :create,
-            id: card.id,
+            id: card.to_param,
             comment: { body: '' },
             format: :json
         end

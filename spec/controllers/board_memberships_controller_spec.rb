@@ -4,7 +4,11 @@ describe BoardMembershipsController do
   describe 'POST create' do
     let(:board) { Fabricate(:board) }
     let(:new_member) { Fabricate(:user) }
-    let(:action) { post :create, id: board.id, username: new_member.username }
+    let(:action) do
+      post :create,
+        id: board.to_param,
+        username: new_member.username
+    end
 
     it_behaves_like 'a logged in action'
     it_behaves_like 'an admin action'
@@ -31,7 +35,12 @@ describe BoardMembershipsController do
     end
 
     context 'when new member does not exist' do
-      let(:action) { post :create, id: board.id, username: 'gandalf' }
+      let(:action) do
+        post :create,
+          id: board.to_param,
+          username: 'gandalf'
+        end
+
       before do
         set_user
         board.add_member current_user, true
@@ -78,7 +87,11 @@ describe BoardMembershipsController do
   describe 'DELETE destroy' do
     let(:board) { Fabricate :board }
     let(:to_delete) { Fabricate :user }
-    let(:action) { delete :destroy, id: board.id, username: to_delete.username }
+    let(:action) do
+      delete :destroy,
+        id: board.to_param,
+        username: to_delete.username
+    end
     before { board.add_member to_delete }
 
     it_behaves_like 'a logged in action'

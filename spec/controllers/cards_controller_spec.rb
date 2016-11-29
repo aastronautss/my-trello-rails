@@ -11,7 +11,7 @@ describe CardsController do
     let!(:list_not_in_board) { Fabricate :list, board: other_board }
     let!(:card_not_in_board) { Fabricate :card, list: list_not_in_board }
 
-    let(:action) { get :index, board_id: board.id, format: :json }
+    let(:action) { get :index, board_id: board.to_param, format: :json }
 
     it_behaves_like 'a logged in remote action'
     it_behaves_like 'a member remote action'
@@ -41,7 +41,7 @@ describe CardsController do
     let(:list) { Fabricate :list, board: board }
     let(:card) { Fabricate :card, list: list }
 
-    let(:action) { get :show, id: card.id, format: :json }
+    let(:action) { get :show, id: card.to_param, format: :json }
 
     it_behaves_like 'a logged in remote action'
     it_behaves_like 'a member remote action'
@@ -67,7 +67,11 @@ describe CardsController do
     let!(:list) { Fabricate :list, board: board }
     let(:action) do
       post :create,
-        card: Fabricate.attributes_for(:card, list_id: list.id), format: :json
+        card: {
+          title: 'asdf',
+          list_id: list.to_param
+        },
+        format: :json
     end
 
     it_behaves_like 'a logged in remote action'
@@ -91,8 +95,14 @@ describe CardsController do
       end
 
       context 'with invalid parameters' do
-        let(:action) { post :create,
-          card: Fabricate.attributes_for(:card, title: ''), format: :json }
+        let(:action) do
+          post :create,
+            card: {
+              title: '',
+              list_id: list.to_param
+            },
+            format: :json
+        end
 
         it 'does not create a new Card record' do
           expect{ action }.to change(Card, :count).by(0)
@@ -112,8 +122,11 @@ describe CardsController do
 
     let(:action) do
       put :update,
-        id: card.id,
-        card: { list_id: card.list_id, title: 'changed!' },
+        id: card.to_param,
+        card: {
+          title: 'changed!',
+          list_id: card.list.to_param
+         },
         format: :json
     end
 
@@ -144,7 +157,10 @@ describe CardsController do
       context 'with invalid parameters' do
         let(:action) do
           post :create,
-            card: { list_id: card.list_id, title: '' },
+            card: {
+              list_id: card.list.to_param,
+              title: ''
+            },
             format: :json
         end
 
@@ -164,7 +180,7 @@ describe CardsController do
     let!(:list) { Fabricate :list, board_id: board.id }
     let!(:card) { Fabricate :card, list_id: list.id }
 
-    let(:action) { delete :destroy, id: card.id, format: :json }
+    let(:action) { delete :destroy, id: card.to_param, format: :json }
 
     it_behaves_like 'a logged in remote action'
     it_behaves_like 'a member remote action'

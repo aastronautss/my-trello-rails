@@ -6,7 +6,7 @@ describe ChecklistsController do
     let(:action) do
       post :create,
         checklist: { title: 'A checklist' },
-        card_id: card.id,
+        card_id: card.to_param,
         format: :json
     end
 
@@ -30,7 +30,7 @@ describe ChecklistsController do
       let(:action) do
         post :create,
         checklist: { title: '' },
-        card_id: card.id,
+        card_id: card.to_param,
         format: :json
       end
 

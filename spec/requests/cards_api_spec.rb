@@ -24,7 +24,7 @@ describe 'Cards API' do
   end
 
   it 'creates a card' do
-    post cards_path, { card: { title: 'abcd', list_id: list.id } }, headers
+    post cards_path, { card: { title: 'abcd', list_id: list.to_param } }, headers
 
     json = JSON.parse response.body
 

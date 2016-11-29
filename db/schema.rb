@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161003124054) do
+ActiveRecord::Schema.define(version: 20161129164634) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,7 +27,10 @@ ActiveRecord::Schema.define(version: 20161003124054) do
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "token"
   end
+
+  add_index "boards", ["token"], name: "index_boards_on_token", using: :btree
 
   create_table "cards", force: :cascade do |t|
     t.string   "title"
@@ -38,10 +41,12 @@ ActiveRecord::Schema.define(version: 20161003124054) do
     t.integer  "position"
     t.jsonb    "activities"
     t.jsonb    "checklists"
+    t.string   "token"
   end
 
   add_index "cards", ["activities"], name: "index_cards_on_activities", using: :gin
   add_index "cards", ["checklists"], name: "index_cards_on_checklists", using: :gin
+  add_index "cards", ["token"], name: "index_cards_on_token", using: :btree
 
   create_table "comments", force: :cascade do |t|
     t.text     "body"
@@ -57,7 +62,10 @@ ActiveRecord::Schema.define(version: 20161003124054) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "position"
+    t.string   "token"
   end
+
+  add_index "lists", ["token"], name: "index_lists_on_token", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string "username"

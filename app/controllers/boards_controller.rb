@@ -34,6 +34,6 @@ class BoardsController < ApplicationController
   end
 
   def set_board
-    @board = Board.find params[:id]
+    @board = Board.find_by token: params[:id]
   end
 end

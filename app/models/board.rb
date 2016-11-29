@@ -1,4 +1,6 @@
 class Board < ActiveRecord::Base
+  include Tokenable
+
   has_many :lists, -> { order 'position asc' }, dependent: :destroy
   has_many :board_memberships, dependent: :destroy
   has_many :members, through: :board_memberships, source: :user
