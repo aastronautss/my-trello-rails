@@ -17,6 +17,15 @@ describe User do
     it { should have_many(:boards).through(:board_memberships) }
   end
 
+  describe '#remember' do
+    let(:user) { Fabricate :user }
+
+    it 'populates the user\'s remember_digest' do
+      user.remember
+      expect(user.remember_digest).to be_present
+    end
+  end
+
   describe '#member_of?' do
     let(:user) { Fabricate :user }
     let(:board) { Fabricate :board }
