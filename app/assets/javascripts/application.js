@@ -13,8 +13,8 @@
 //= require jquery
 //= require bootstrap-sprockets
 //= require jquery_ujs
-//= require underscore/underscore
-//= require backbone/backbone
+//= require underscore
+//= require backbone
 //= require handlebars.runtime
 //= require_tree ./templates
 //= require main
