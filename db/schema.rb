@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161003124054) do
+ActiveRecord::Schema.define(version: 20161129151352) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,7 +27,10 @@ ActiveRecord::Schema.define(version: 20161003124054) do
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "token"
   end
+
+  add_index "boards", ["token"], name: "index_boards_on_token", using: :btree
 
   create_table "cards", force: :cascade do |t|
     t.string   "title"

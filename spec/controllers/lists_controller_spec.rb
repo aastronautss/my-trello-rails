@@ -9,7 +9,7 @@ describe ListsController do
     let!(:lists) { Fabricate.times 2, :list, board: board }
     let(:other_board) { Fabricate :board }
     let!(:list_not_in_board) { Fabricate :list, board: other_board }
-    let(:action) { get :index, board_id: board.id, format: :json }
+    let(:action) { get :index, board_id: board.to_param, format: :json }
 
     it_behaves_like 'a logged in remote action'
     it_behaves_like 'a member remote action'
@@ -61,7 +61,7 @@ describe ListsController do
   end
 
   describe 'POST create' do
-    let(:action) { post :create, # board_id: board.id,
+    let(:action) { post :create, # board_id: board.to_param,
       list: Fabricate.attributes_for(:list), format: :json }
 
     it_behaves_like 'a logged in remote action'
@@ -85,7 +85,7 @@ describe ListsController do
       end
 
       context 'with invalid parameters' do
-        let(:action) { post :create, board_id: board.id,
+        let(:action) { post :create, board_id: board.to_param,
           list: Fabricate.attributes_for(:list, title: ''), format: :json }
 
         it 'does not create a new list member' do

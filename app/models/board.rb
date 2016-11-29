@@ -5,6 +5,16 @@ class Board < ActiveRecord::Base
 
   validates_presence_of :name
 
+  before_create :generate_token
+
+  def to_param
+    token
+  end
+
+  def generate_token
+    self.token = SecureRandom.urlsafe_base64
+  end
+
   def add_member(user, admin = false, owner = false)
     m = board_memberships.new user: user, admin: admin, owner: owner
     m.save

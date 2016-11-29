@@ -3,7 +3,7 @@ class ListsController < ApplicationController
   before_action :set_list, except: [:new, :create, :index]
 
   def index
-    board = Board.find params[:board_id]
+    board = Board.find_by token: params[:board_id]
     @lists = board.lists
     # TODO: Find a more elegent way to halt the action.
     return unless require_logged_in_as board.members, remote: true

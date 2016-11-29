@@ -11,7 +11,7 @@ describe CardsController do
     let!(:list_not_in_board) { Fabricate :list, board: other_board }
     let!(:card_not_in_board) { Fabricate :card, list: list_not_in_board }
 
-    let(:action) { get :index, board_id: board.id, format: :json }
+    let(:action) { get :index, board_id: board.to_param, format: :json }
 
     it_behaves_like 'a logged in remote action'
     it_behaves_like 'a member remote action'

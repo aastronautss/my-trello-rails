@@ -5,7 +5,8 @@ describe BoardsController do
     let(:board) { Fabricate :board }
     let(:member) { Fabricate :user }
     let(:non_member) { Fabricate :user }
-    let(:action) { get :show, id: board.id }
+    let(:action) { get :show, id: board.to_param }
+
     before { board.add_member member }
 
     it_behaves_like 'a logged in action'

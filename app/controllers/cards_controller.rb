@@ -5,7 +5,7 @@ class CardsController < ApplicationController
                   only: [:show, :update, :destroy]
 
   def index
-    board = Board.find params[:board_id]
+    board = Board.find_by token: params[:board_id]
     return unless require_logged_in_as board.members, remote: true
 
     @cards = Card.joins(list: :board).where(lists: { board_id: board.id })
