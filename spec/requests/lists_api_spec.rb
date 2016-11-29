@@ -23,7 +23,7 @@ describe 'Lists API' do
   end
 
   it 'creates a list' do
-    post lists_path, { list: { title: 'abcd', board_id: board.id } }, headers
+    post lists_path, { list: { title: 'abcd', board_id: board.to_param } }, headers
 
     json = JSON.parse response.body
 

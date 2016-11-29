@@ -1,19 +1,11 @@
 class Board < ActiveRecord::Base
+  include Tokenable
+
   has_many :lists, -> { order 'position asc' }, dependent: :destroy
   has_many :board_memberships, dependent: :destroy
   has_many :members, through: :board_memberships, source: :user
 
   validates_presence_of :name
-
-  before_create :generate_token
-
-  def to_param
-    token
-  end
-
-  def generate_token
-    self.token = SecureRandom.urlsafe_base64
-  end
 
   def add_member(user, admin = false, owner = false)
     m = board_memberships.new user: user, admin: admin, owner: owner
