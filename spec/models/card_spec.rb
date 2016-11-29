@@ -9,7 +9,6 @@ describe Card do
   end
 
   context 'associations' do
-    it { should have_many(:comments).dependent(:destroy) }
     it { should belong_to(:list) }
   end
 

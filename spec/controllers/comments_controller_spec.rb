@@ -9,7 +9,7 @@ describe CommentsController do
     let(:action) do
       post :create,
         id: card.id,
-        comment: Fabricate.attributes_for(:comment),
+        comment: { body: 'asdf' },
         format: :json
     end
 
@@ -43,8 +43,10 @@ describe CommentsController do
             format: :json
         end
 
-        it 'does not create a new Comment record' do
-          expect{ action }.to change(Comment, :count).by(0)
+        it 'does not add an activity to the associated card' do
+          action
+          activities = card.reload.activities[:items]
+          expect(activities).to be_nil
         end
 
         it 'renders errors' do
