@@ -1,0 +1,19 @@
+machine:
+  ruby:
+    version: 2.1.5
+deployment:
+  production:
+    branch: master
+    commands:
+      - heroku maintenance:on --app my-trello-rails
+      - heroku pg:backups capture --app my-trello-rails
+      - git push git@heroku.com:my-trello-rails.git $CIRCLE_SHA1:refs/heads/master
+      - heroku run rake db:migrate --app my-trello-rails
+      - heroku maintenance:off --app my-trello-rails
+  staging:
+    branch: staging
+    commands:
+      - heroku maintenance:on --app my-trello-rails-staging
+      - git push git@heroku.com:my-trello-rails-staging.git $CIRCLE_SHA1:refs/heads/master
+      - heroku run rake db:migrate --app my-trello-rails-staging
+      - heroku maintenance:off --app my-trello-rails-staging
