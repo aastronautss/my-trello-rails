@@ -13,7 +13,7 @@ class ChecklistsController < ApplicationController
   private
 
   def set_card
-    @card = Card.find params[:card_id]
+    @card = Card.find_by token: params[:card_id]
   end
 
   def checklist_params

@@ -6,7 +6,7 @@ describe CheckItemsController do
     let(:action) do
       post :create,
         check_item: { name: 'A check item' },
-        card_id: card.id,
+        card_id: card.to_param,
         checklist_id: 0,
         format: :json
       end
@@ -34,7 +34,7 @@ describe CheckItemsController do
       let(:action) do
         post :create,
           check_item: { name: '' },
-          card_id: card.id,
+          card_id: card.to_param,
           checklist_id: 0,
           format: :json
       end
@@ -56,7 +56,7 @@ describe CheckItemsController do
     let(:action) do
       delete :destroy,
         format: :json,
-        card_id: card.id,
+        card_id: card.to_param,
         checklist_id: 0,
         id: 0
     end
@@ -81,7 +81,7 @@ describe CheckItemsController do
     let(:action) do
       get :toggle,
         format: :json,
-        card_id: card.id,
+        card_id: card.to_param,
         checklist_id: 0,
         id: 0
     end

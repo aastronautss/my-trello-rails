@@ -31,7 +31,6 @@ var App = {
 
   getBoard: function(id) {
     this.current_board = new this.Board({ id: id });
-    console.log('hello');
     this.current_board.fetch({
       success: function(model) {
         App.fetchCollections(App.board_id, function() {
