@@ -17,6 +17,59 @@ describe User do
     it { should have_many(:boards).through(:board_memberships) }
   end
 
+  # ====---------------------------====
+  # Authentication and Passwords
+  # ====---------------------------====
+
+  describe '#remember' do
+    let(:user) { Fabricate :user }
+
+    it 'populates the user\'s remember_digest' do
+      user.remember
+      expect(user.remember_digest).to be_present
+    end
+  end
+
+  describe '#authenticated?' do
+    let(:user) { Fabricate :user }
+
+    context 'with remember_digest set' do
+      before { user.remember }
+
+      context 'with correct token' do
+        it 'returns true' do
+          remember_token = user.remember_token
+          expect(user.authenticated?(remember_token)).to be(true)
+        end
+      end
+
+      context 'with incorrect token' do
+        it 'returns false' do
+          remember_token = 'abcd'
+          expect(user.authenticated?(remember_token)).to be(false)
+        end
+      end
+    end
+
+    context 'with no remember_digest set' do
+      context 'with no token given' do
+        it 'returns false' do
+          expect(user.authenticated?(nil)).to be(false)
+        end
+      end
+
+      context 'with a token given' do
+        it 'returns false' do
+          expect(user.authenticated?('abcd')).to be(false)
+        end
+      end
+    end
+  end
+
+  # ====---------------------------====
+  # Board Membership
+  # ====---------------------------====
+
   describe '#member_of?' do
     let(:user) { Fabricate :user }
     let(:board) { Fabricate :board }

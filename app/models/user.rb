@@ -1,4 +1,6 @@
 class User < ActiveRecord::Base
+  attr_accessor :remember_token
+
   has_many :board_memberships
   has_many :boards, through: :board_memberships
 
@@ -7,7 +9,39 @@ class User < ActiveRecord::Base
   validates_uniqueness_of :username, case_sensitive: false
   validates :password, length: { minimum: 5 }
 
+  # ====---------------------------====
+  # Authentication and Passwords
+  # ====---------------------------====
+
   has_secure_password
+
+  def self.digest(string)
+    cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST :
+                                                  BCrypt::Engine.cost
+    BCrypt::Password.create(string, cost: cost)
+  end
+
+  def self.new_token
+    SecureRandom.urlsafe_base64
+  end
+
+  def remember
+    self.remember_token = User.new_token
+    update_attribute :remember_digest, User.digest(self.remember_token)
+  end
+
+  def forget
+    update_attribute(:remember_digest, nil)
+  end
+
+  def authenticated?(remember_token)
+    return false if remember_digest.nil?
+    BCrypt::Password.new(remember_digest).is_password? remember_token
+  end
+
+  # ====---------------------------====
+  # Board Membership
+  # ====---------------------------====
 
   def member_of?(board)
     board.members.include? self

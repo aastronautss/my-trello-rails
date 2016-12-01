@@ -85,5 +85,19 @@ describe SessionsController do
       action
       expect(response).to redirect_to(root_path)
     end
+
+    context 'when remember token is present' do
+      before { remember current_user }
+
+      it 'clears the user id from tokens' do
+        action
+        expect(cookies[:user_id]).to be_nil
+      end
+
+      it 'clears the remember token from users' do
+        action
+        expect(cookies[:remember_token]).to be_nil
+      end
+    end
   end
 end
