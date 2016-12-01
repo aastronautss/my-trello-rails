@@ -4,6 +4,7 @@
 
     = bootstrap_form_for @user do |f|
       = f.text_field :username
+      = f.email_field :email
       = f.password_field :password
       = f.password_field :password_confirmation, label: 'Confirm Password'
       = f.submit 'Register', class: 'btn btn-primary btn-block'
