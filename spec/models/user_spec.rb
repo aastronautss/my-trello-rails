@@ -70,6 +70,20 @@ describe User do
     end
   end
 
+  describe '#activate!' do
+    let(:user) { Fabricate :user }
+
+    it 'sets #activated to true' do
+      user.activate!
+      expect(user.activated?).to be(true)
+    end
+
+    it 'sets #activated_at' do
+      user.activate!
+      expect(user.activated_at).to be_present
+    end
+  end
+
   # ====---------------------------====
   # Board Membership
   # ====---------------------------====

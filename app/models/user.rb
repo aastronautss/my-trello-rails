@@ -50,6 +50,11 @@ class User < ActiveRecord::Base
     BCrypt::Password.new(digest).is_password? token
   end
 
+  def activate!
+    update_attribute :activated, true
+    update_attribute :activated_at, Time.zone.now
+  end
+
   # ====---------------------------====
   # Board Membership
   # ====---------------------------====
