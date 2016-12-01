@@ -10,8 +10,9 @@ describe SessionsController do
        end
     end
 
-    context 'with valid credentials' do
+    context 'with valid credentials and activated account' do
       before do
+        user.activate!
         post :create, username: user.username, password: user.password
       end
 
@@ -25,6 +26,24 @@ describe SessionsController do
 
       it 'redirects to root' do
         expect(response).to redirect_to(root_path)
+      end
+    end
+
+    context 'with valid credentials and unactivated account' do
+      before do
+        post :create, username: user.username, password: user.password
+      end
+
+      it 'does not set the session' do
+        expect(session[:user_id]).to be_nil
+      end
+
+      it 'sets the flash' do
+        expect(flash[:warning]).to be_present
+      end
+
+      it 'redirects to login' do
+        expect(response).to redirect_to(login_path)
       end
     end
 

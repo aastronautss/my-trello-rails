@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 feature 'logging in' do
-  given(:user) { Fabricate :user, password: 'asdfg' }
+  given(:user) { Fabricate :user, password: 'asdfg', activated: true }
 
   scenario 'with correct credentials' do
     visit login_path
