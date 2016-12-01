@@ -1,13 +1,22 @@
 class User < ActiveRecord::Base
   attr_accessor :remember_token
 
+  VALID_EMAIL = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
+
   has_many :board_memberships
   has_many :boards, through: :board_memberships
 
-  validates :username, presence: true,
-                       length: { minimum: 2, maximum: 25 }
-  validates_uniqueness_of :username, case_sensitive: false
-  validates :password, length: { minimum: 5 }
+  validates :email,
+    presence: true,
+    length: { maximum: 255 },
+    format: { with: VALID_EMAIL },
+    uniqueness: { case_sensitive: false }
+  validates :username,
+    presence: true,
+    length: { minimum: 2, maximum: 25 },
+    uniqueness: { case_sensitive: false }
+  validates :password,
+    length: { minimum: 5 }
 
   # ====---------------------------====
   # Authentication and Passwords
