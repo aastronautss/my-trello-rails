@@ -3,13 +3,14 @@ require 'rails_helper'
 describe BoardsController do
   describe 'GET show' do
     let(:board) { Fabricate :board }
-    let(:member) { Fabricate :user }
-    let(:non_member) { Fabricate :user }
+    let(:member) { Fabricate :user, activated: true }
+    let(:non_member) { Fabricate :user, activated: true }
     let(:action) { get :show, id: board.to_param }
 
     before { board.add_member member }
 
     it_behaves_like 'a logged in action'
+    it_behaves_like 'an activated action'
 
     context 'when viewing as a member' do
       before do
@@ -47,6 +48,7 @@ describe BoardsController do
     before { set_user }
 
     it_behaves_like 'a logged in action'
+    it_behaves_like 'an activated action'
 
     it 'sets @board' do
       action
@@ -62,6 +64,10 @@ describe BoardsController do
 
   describe 'POST create' do
     it_behaves_like 'a logged in action' do
+      let(:action) { post :create, board: Fabricate.attributes_for(:board) }
+    end
+
+    it_behaves_like 'an activated action' do
       let(:action) { post :create, board: Fabricate.attributes_for(:board) }
     end
 
