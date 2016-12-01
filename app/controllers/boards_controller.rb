@@ -1,6 +1,5 @@
-class BoardsController < ApplicationController
-  before_action :set_board, except: [:new, :create, :index]
-  before_action :require_user, only: [:new, :create]
+class BoardsController < ActivatedController
+  before_action :set_board, only: [:show]
   before_action -> { require_logged_in_as @board.members }, only: [:show]
 
   def show

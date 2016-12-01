@@ -9,8 +9,8 @@ class UsersController < ApplicationController
     @user = User.new user_params
 
     if @user.save
-      log_in @user
-      flash[:success] = 'Registration successful! You are now logged in.'
+      UserMailer.account_activation(@user).deliver_now
+      flash[:info] = 'Please check your email to activate your account.'
       redirect_to root_path
     else
       render :new
@@ -20,6 +20,6 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit :username, :password, :password_confirmation
+    params.require(:user).permit :email, :username, :password, :password_confirmation
   end
 end

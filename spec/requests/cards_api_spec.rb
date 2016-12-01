@@ -3,7 +3,7 @@ require 'rails_helper'
 describe 'Cards API' do
   let(:board) { Fabricate :board }
   let(:list) { Fabricate :list }
-  let(:user) { Fabricate :user }
+  let(:user) { Fabricate :user, activated: true }
   let(:headers) { { 'ACCEPT' => 'application/json' } }
 
   before do

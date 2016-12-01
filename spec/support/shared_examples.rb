@@ -43,6 +43,36 @@ shared_examples 'a logged in remote action' do
   end
 end
 
+shared_examples 'an activated action' do
+  before do
+    set_user activated: false
+    action
+  end
+
+  context 'when logged in as an unactivated user' do
+    it 'sets the flash' do
+      expect(flash[:danger]).to be_present
+    end
+
+    it 'redirects to root' do
+      expect(response).to redirect_to(root_path)
+    end
+  end
+end
+
+shared_examples 'an activated remote action' do
+  before do
+    set_user activated: false
+    action
+  end
+
+  context 'when not logged in' do
+    it 'returns a 403' do
+      expect(response).to have_http_status(:forbidden)
+    end
+  end
+end
+
 # Prerequisites: Must have a `board` variable and an `action` variable to be
 # within the scope of this call.
 shared_examples 'a member action' do

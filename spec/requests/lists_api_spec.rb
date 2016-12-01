@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe 'Lists API' do
   let(:board) { Fabricate :board }
-  let(:user) { Fabricate :user }
+  let(:user) { Fabricate :user, activated: true }
   let(:headers) { { 'ACCEPT' => 'application/json' } }
 
   before do

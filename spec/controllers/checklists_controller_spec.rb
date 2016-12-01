@@ -13,6 +13,7 @@ describe ChecklistsController do
     before { set_user }
 
     it_behaves_like 'a logged in remote action'
+    it_behaves_like 'an activated remote action'
 
     context 'with valid input' do
       it 'creates a new checklist' do

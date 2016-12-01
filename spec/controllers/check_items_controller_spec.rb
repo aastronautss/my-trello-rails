@@ -17,6 +17,7 @@ describe CheckItemsController do
     end
 
     it_behaves_like 'a logged in remote action'
+    it_behaves_like 'an activated remote action'
 
     context 'with valid input' do
       it 'creates a new check_item' do
@@ -68,6 +69,7 @@ describe CheckItemsController do
     end
 
     it_behaves_like 'a logged in remote action'
+    it_behaves_like 'an activated remote action'
 
     it 'removes the check item' do
       action
@@ -93,6 +95,7 @@ describe CheckItemsController do
     end
 
     it_behaves_like 'a logged in remote action'
+    it_behaves_like 'an activated remote action'
 
     it 'toggles the check item' do
       action

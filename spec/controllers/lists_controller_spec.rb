@@ -13,6 +13,7 @@ describe ListsController do
 
     it_behaves_like 'a logged in remote action'
     it_behaves_like 'a member remote action'
+    it_behaves_like 'an activated remote action'
 
     context 'when logged in as a member' do
       before do
@@ -41,7 +42,7 @@ describe ListsController do
 
     it_behaves_like 'a logged in remote action'
     it_behaves_like 'a member remote action'
-
+    it_behaves_like 'an activated remote action'
 
     context 'when logged in as a member' do
       before do
@@ -72,6 +73,7 @@ describe ListsController do
 
     it_behaves_like 'a logged in remote action'
     it_behaves_like 'a member remote action'
+    it_behaves_like 'an activated remote action'
 
     context 'when logged in as a member' do
       before do
@@ -123,6 +125,7 @@ describe ListsController do
 
     it_behaves_like 'a logged in remote action'
     it_behaves_like 'a member remote action'
+    it_behaves_like 'an activated remote action'
 
     context 'when logged in as a member' do
       before do
@@ -167,6 +170,7 @@ describe ListsController do
 
     it_behaves_like 'a logged in remote action'
     it_behaves_like 'a member remote action'
+    it_behaves_like 'an activated remote action'
 
     it 'removes the list record' do
       set_user

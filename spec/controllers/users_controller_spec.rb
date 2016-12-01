@@ -25,9 +25,20 @@ describe UsersController do
 
     context 'with valid input' do
       let(:action) { post :create, user: Fabricate.attributes_for(:user) }
+      after { ActionMailer::Base.deliveries.clear }
 
       it 'creates a User record' do
         expect{ action }.to change(User, :count).by(1)
+      end
+
+      it 'sends an activation email' do
+        action
+        expect(ActionMailer::Base.deliveries.last.to).to match_array(User.last.email)
+      end
+
+      it 'sets the flash' do
+        action
+        expect(flash[:info]).to be_present
       end
 
       it 'redirects to root' do

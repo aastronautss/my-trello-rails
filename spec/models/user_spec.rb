@@ -5,8 +5,12 @@ describe User do
     it { should have_secure_password }
 
     it { should validate_presence_of(:username) }
-    it { should validate_length_of(:username).is_at_least(2).is_at_most(25) }
     it { should validate_uniqueness_of(:username).case_insensitive }
+    it { should validate_length_of(:username).is_at_least(2).is_at_most(25) }
+
+    it { should validate_presence_of(:email) }
+    it { should validate_uniqueness_of(:email).case_insensitive }
+    it { should validate_length_of(:email).is_at_most(255) }
 
     it { should validate_presence_of(:password) }
     it { should validate_length_of(:password).is_at_least(5) }
@@ -39,14 +43,14 @@ describe User do
       context 'with correct token' do
         it 'returns true' do
           remember_token = user.remember_token
-          expect(user.authenticated?(remember_token)).to be(true)
+          expect(user.authenticated?(:remember, remember_token)).to be(true)
         end
       end
 
       context 'with incorrect token' do
         it 'returns false' do
           remember_token = 'abcd'
-          expect(user.authenticated?(remember_token)).to be(false)
+          expect(user.authenticated?(:remember, remember_token)).to be(false)
         end
       end
     end
@@ -54,15 +58,29 @@ describe User do
     context 'with no remember_digest set' do
       context 'with no token given' do
         it 'returns false' do
-          expect(user.authenticated?(nil)).to be(false)
+          expect(user.authenticated?(:remember, nil)).to be(false)
         end
       end
 
       context 'with a token given' do
         it 'returns false' do
-          expect(user.authenticated?('abcd')).to be(false)
+          expect(user.authenticated?(:remember, 'abcd')).to be(false)
         end
       end
+    end
+  end
+
+  describe '#activate!' do
+    let(:user) { Fabricate :user }
+
+    it 'sets #activated to true' do
+      user.activate!
+      expect(user.activated?).to be(true)
+    end
+
+    it 'sets #activated_at' do
+      user.activate!
+      expect(user.activated_at).to be_present
     end
   end
 

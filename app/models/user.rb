@@ -1,13 +1,23 @@
 class User < ActiveRecord::Base
-  attr_accessor :remember_token
+  attr_accessor :remember_token, :activation_token
+  before_create :create_activation_digest
+
+  VALID_EMAIL = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
 
   has_many :board_memberships
   has_many :boards, through: :board_memberships
 
-  validates :username, presence: true,
-                       length: { minimum: 2, maximum: 25 }
-  validates_uniqueness_of :username, case_sensitive: false
-  validates :password, length: { minimum: 5 }
+  validates :email,
+    presence: true,
+    length: { maximum: 255 },
+    format: { with: VALID_EMAIL },
+    uniqueness: { case_sensitive: false }
+  validates :username,
+    presence: true,
+    length: { minimum: 2, maximum: 25 },
+    uniqueness: { case_sensitive: false }
+  validates :password,
+    length: { minimum: 5 }
 
   # ====---------------------------====
   # Authentication and Passwords
@@ -34,9 +44,15 @@ class User < ActiveRecord::Base
     update_attribute(:remember_digest, nil)
   end
 
-  def authenticated?(remember_token)
-    return false if remember_digest.nil?
-    BCrypt::Password.new(remember_digest).is_password? remember_token
+  def authenticated?(attribute, token)
+    digest = send("#{attribute}_digest")
+    return false if digest.nil?
+    BCrypt::Password.new(digest).is_password? token
+  end
+
+  def activate!
+    update_attribute :activated, true
+    update_attribute :activated_at, Time.zone.now
   end
 
   # ====---------------------------====
@@ -52,5 +68,12 @@ class User < ActiveRecord::Base
   end
 
   def owner_of?(board) # TODO
+  end
+
+  private
+
+  def create_activation_digest
+    self.activation_token = User.new_token
+    self.activation_digest = User.digest(activation_token)
   end
 end
