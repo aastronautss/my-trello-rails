@@ -43,14 +43,14 @@ describe User do
       context 'with correct token' do
         it 'returns true' do
           remember_token = user.remember_token
-          expect(user.authenticated?(remember_token)).to be(true)
+          expect(user.authenticated?(:remember, remember_token)).to be(true)
         end
       end
 
       context 'with incorrect token' do
         it 'returns false' do
           remember_token = 'abcd'
-          expect(user.authenticated?(remember_token)).to be(false)
+          expect(user.authenticated?(:remember, remember_token)).to be(false)
         end
       end
     end
@@ -58,13 +58,13 @@ describe User do
     context 'with no remember_digest set' do
       context 'with no token given' do
         it 'returns false' do
-          expect(user.authenticated?(nil)).to be(false)
+          expect(user.authenticated?(:remember, nil)).to be(false)
         end
       end
 
       context 'with a token given' do
         it 'returns false' do
-          expect(user.authenticated?('abcd')).to be(false)
+          expect(user.authenticated?(:remember, 'abcd')).to be(false)
         end
       end
     end
