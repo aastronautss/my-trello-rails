@@ -30,6 +30,42 @@ describe User do
     end
   end
 
+  describe '#authenticated?' do
+    let(:user) { Fabricate :user }
+
+    context 'with remember_digest set' do
+      before { user.remember }
+
+      context 'with correct token' do
+        it 'returns true' do
+          remember_token = user.remember_token
+          expect(user.authenticated?(remember_token)).to be(true)
+        end
+      end
+
+      context 'with incorrect token' do
+        it 'returns false' do
+          remember_token = 'abcd'
+          expect(user.authenticated?(remember_token)).to be(false)
+        end
+      end
+    end
+
+    context 'with no remember_digest set' do
+      context 'with no token given' do
+        it 'returns false' do
+          expect(user.authenticated?(nil)).to be(false)
+        end
+      end
+
+      context 'with a token given' do
+        it 'returns false' do
+          expect(user.authenticated?('abcd')).to be(false)
+        end
+      end
+    end
+  end
+
   # ====---------------------------====
   # Board Membership
   # ====---------------------------====
