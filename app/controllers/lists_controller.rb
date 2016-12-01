@@ -1,5 +1,4 @@
-class ListsController < ApplicationController
-  before_action -> { require_user remote: true }
+class ListsController < ActivatedRemoteController
   before_action :set_list, except: [:new, :create, :index]
 
   def index

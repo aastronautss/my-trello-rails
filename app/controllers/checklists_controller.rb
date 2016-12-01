@@ -1,5 +1,4 @@
-class ChecklistsController < ApplicationController
-  before_action -> { require_user remote: true }
+class ChecklistsController < ActivatedRemoteController
   before_action :set_card
 
   def create

@@ -60,6 +60,19 @@ shared_examples 'an activated action' do
   end
 end
 
+shared_examples 'an activated remote action' do
+  before do
+    set_user activated: false
+    action
+  end
+
+  context 'when not logged in' do
+    it 'returns a 403' do
+      expect(response).to have_http_status(:forbidden)
+    end
+  end
+end
+
 # Prerequisites: Must have a `board` variable and an `action` variable to be
 # within the scope of this call.
 shared_examples 'a member action' do

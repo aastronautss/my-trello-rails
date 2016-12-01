@@ -1,6 +1,5 @@
-class CardsController < ApplicationController
+class CardsController < ActivatedRemoteController
   before_action :set_card, except: [:new, :create, :index]
-  before_action -> { require_user remote: true }
   before_action -> { require_logged_in_as @card.board_members, remote: true },
                   only: [:show, :update, :destroy]
 

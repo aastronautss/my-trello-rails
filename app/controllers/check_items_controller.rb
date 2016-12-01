@@ -1,5 +1,4 @@
-class CheckItemsController < ApplicationController
-  before_action -> { require_user remote: true }
+class CheckItemsController < ActivatedRemoteController
   before_action :set_card
 
   def create

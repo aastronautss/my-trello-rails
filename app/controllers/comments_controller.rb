@@ -1,9 +1,4 @@
-class CommentsController < ApplicationController
-  # before_action :set_comment, except: [:new, :create, :index]
-  before_action -> { require_user remote: true }
-  # before_action -> { require_logged_in_as @comment.board_members, remote: true },
-  #   except: [:new, :create, :index]
-
+class CommentsController < ActivatedRemoteController
   def create
     @card = Card.find_by token: params[:id]
     return unless require_logged_in_as @card.board_members, remote: true
