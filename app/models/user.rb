@@ -9,6 +9,10 @@ class User < ActiveRecord::Base
   validates_uniqueness_of :username, case_sensitive: false
   validates :password, length: { minimum: 5 }
 
+  # ====---------------------------====
+  # Authentication and Passwords
+  # ====---------------------------====
+
   has_secure_password
 
   def self.digest(string)
@@ -25,6 +29,14 @@ class User < ActiveRecord::Base
     remember_token = User.new_token
     update_attribute :remember_digest, User.digest(remember_token)
   end
+
+  def authenticated?(remember_token)
+    BCrypt::Password.new(remember_digest).is_password? remember_token
+  end
+
+  # ====---------------------------====
+  # Board Membership
+  # ====---------------------------====
 
   def member_of?(board)
     board.members.include? self

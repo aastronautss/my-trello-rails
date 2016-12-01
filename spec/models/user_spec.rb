@@ -17,6 +17,10 @@ describe User do
     it { should have_many(:boards).through(:board_memberships) }
   end
 
+  # ====---------------------------====
+  # Authentication and Passwords
+  # ====---------------------------====
+
   describe '#remember' do
     let(:user) { Fabricate :user }
 
@@ -25,6 +29,10 @@ describe User do
       expect(user.remember_digest).to be_present
     end
   end
+
+  # ====---------------------------====
+  # Board Membership
+  # ====---------------------------====
 
   describe '#member_of?' do
     let(:user) { Fabricate :user }
