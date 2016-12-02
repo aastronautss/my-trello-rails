@@ -52,6 +52,7 @@ group 'test' do
   gem 'database_cleaner', '1.4.1'
   gem 'shoulda-matchers'
   gem 'capybara'
+  gem 'capybara-email'
   gem 'show_me_the_cookies'
   gem 'vcr'
 end
