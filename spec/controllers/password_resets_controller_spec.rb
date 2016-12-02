@@ -140,16 +140,64 @@ describe PasswordResetsController do
       end
     end
 
-    # context 'with invalid email' do
-    #   let(:action) do
-    #     put :update,
-    #       id: user.reset_token,
-    #       email: 'asdf',
-    #       user: {
-    #         password: 'newpassword',
-    #         password_confirmation:
-    #       }
-    #   end
-    # end
+    context 'with invalid email' do
+      let(:action) do
+        put :update,
+          id: user.reset_token,
+          email: 'asdf',
+          user: {
+            password: 'newpassword',
+            password_confirmation: 'newpassword'
+          }
+      end
+
+      it 'does not change the user\'s password' do
+        expect{ action }.to_not change{ user.reload.password_digest }
+      end
+
+      it 'redirects to root' do
+        action
+        expect(response).to redirect_to(root_path)
+      end
+    end
+
+    context 'with expired token' do
+      before { user.update_attribute :reset_sent_at, 10.days.ago }
+
+      it 'does not change the user\'s password' do
+        expect{ action }.to_not change{ user.reload.password_digest }
+      end
+
+      it 'redirects to new password reset' do
+        action
+        expect(response).to redirect_to(new_password_reset_path)
+      end
+    end
+
+    context 'with invalid password' do
+      let(:action) do
+        put :update,
+          id: user.reset_token,
+          email: user.email,
+          user: {
+            password: '',
+            password_confirmation: ''
+          }
+      end
+
+      it 'does not change the user\'s password' do
+        expect{ action }.to_not change{ user.reload.password_digest }
+      end
+
+      it 'sets the flash' do
+        action
+        expect(flash[:danger]).to be_present
+      end
+
+      it 'renders :edit' do
+        action
+        expect(response).to render_template(:edit)
+      end
+    end
   end
 end

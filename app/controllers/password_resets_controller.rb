@@ -28,6 +28,7 @@ class PasswordResetsController < ApplicationController
       UserMailer.password_change_notification(@user).deliver_now
       redirect_to login_path
     else
+      flash[:danger] = 'Invalid password.'
       render :edit
     end
   end
