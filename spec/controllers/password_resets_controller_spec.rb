@@ -54,4 +54,52 @@ describe PasswordResetsController do
       end
     end
   end
+
+  describe 'GET edit' do
+    let(:user) { Fabricate :user, activated: true }
+    let(:action) { get :edit, id: user.reset_token, email: user.email }
+
+    before { user.create_reset_token }
+
+    it_behaves_like 'a logged out action'
+
+    context 'with valid token' do
+      it 'sets @user' do
+        action
+        expect(assigns[:user]).to eq(user)
+      end
+    end
+
+    context 'with expired token' do
+      before { user.update_attribute :reset_sent_at, 10.days.ago }
+
+      it 'sets the flash' do
+        action
+        expect(flash[:danger]).to be_present
+      end
+
+      it 'redirects to new password reset' do
+        action
+        expect(response).to redirect_to(new_password_reset_path)
+      end
+    end
+
+    context 'with invalid token' do
+      let(:action) { get :edit, id: 'abcd', email: user.email }
+
+      it 'redirects to root' do
+        action
+        expect(response).to redirect_to(root_path)
+      end
+    end
+
+    context 'with unactivated user' do
+      let(:user) { Fabricate :user }
+
+      it 'redirects to root' do
+        action
+        expect(response).to redirect_to(root_path)
+      end
+    end
+  end
 end
