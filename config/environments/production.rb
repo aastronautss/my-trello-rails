@@ -66,7 +66,7 @@ Rails.application.configure do
 
   config.action_mailer.default_url_options = {
     host: 'my-trello-rails.heroku.com',
-    protocol: 'https'
+    protocol: 'http'
   }
 
   ActionMailer::Base.smtp_settings = {

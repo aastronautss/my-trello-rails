@@ -72,15 +72,36 @@ describe User do
 
   describe '#activate!' do
     let(:user) { Fabricate :user }
+    before { user.activate! }
 
     it 'sets #activated to true' do
-      user.activate!
       expect(user.activated?).to be(true)
     end
 
     it 'sets #activated_at' do
-      user.activate!
       expect(user.activated_at).to be_present
+    end
+  end
+
+  # ====---------------------------====
+  # Password Resets
+  # ====---------------------------====
+
+  describe '#create_reset_token' do
+    let(:user) { Fabricate :user, activated: true }
+    before { user.create_reset_token }
+
+    it 'sets #reset_token' do
+      expect(user.reset_token).to be_present
+    end
+
+    it 'sets #reset_digest' do
+      expect(user.reset_digest).to be_present
+      expect(user.authenticated? :reset, user.reset_token).to be(true)
+    end
+
+    it 'sets #reset_sent_at' do
+      expect(user.reset_sent_at).to be_present
     end
   end
 
