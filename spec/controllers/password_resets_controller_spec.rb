@@ -94,12 +94,62 @@ describe PasswordResetsController do
     end
 
     context 'with unactivated user' do
-      let(:user) { Fabricate :user }
+      let(:user) { Fabricate :user, activated: false }
 
       it 'redirects to root' do
         action
         expect(response).to redirect_to(root_path)
       end
     end
+  end
+
+  describe 'PUT update' do
+    let(:user) { Fabricate :user, activated: true }
+    let(:action) do
+      put :update,
+        id: user.reset_token,
+        email: user.email,
+        user: {
+          password: 'newpassword',
+          password_confirmation: 'newpassword'
+        }
+    end
+
+    before { user.create_reset_token }
+
+    it_behaves_like 'a logged out action'
+
+    context 'with valid params' do
+      it 'changes the user\'s password' do
+        expect{ action }.to change{ user.reload.password_digest }
+      end
+
+      it 'sets the flash' do
+        action
+        expect(flash[:success]).to be_present
+      end
+
+      it 'redirects to login' do
+        action
+        expect(response).to redirect_to(login_path)
+      end
+
+      it 'sends a notification email' do
+        action
+        expect(ActionMailer::Base.deliveries.last.to).to contain_exactly(user.email)
+      end
+    end
+
+    # context 'with invalid email' do
+    #   let(:action) do
+    #     put :update,
+    #       id: user.reset_token,
+    #       email: 'asdf',
+    #       user: {
+    #         password: 'newpassword',
+    #         password_confirmation:
+    #       }
+    #   end
+    # end
   end
 end

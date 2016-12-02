@@ -15,14 +15,28 @@ class PasswordResetsController < ApplicationController
       UserMailer.password_reset(@user).deliver_now
     end
 
-    flash[:info] = 'Please check your email to reset your password.'
+    flash[:info] = 'If your email is in our system, you should be receiving information to reset your password shortly. Please check your email.'
     redirect_to root_path
   end
 
   def edit
   end
 
+  def update
+    if @user.update user_params
+      flash[:success] = 'Password successfully reset.'
+      UserMailer.password_change_notification(@user).deliver_now
+      redirect_to login_path
+    else
+      render :edit
+    end
+  end
+
   private
+
+  def user_params
+    params.require(:user).permit :password, :password_confirmation
+  end
 
   def set_user
     @user = User.find_by email: params[:email]

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 feature 'resetting password' do
-  given(:user) { Fabricate :user }
+  given(:user) { Fabricate :user, activated: true }
 
   scenario 'with valid email' do
     visit new_password_reset_path

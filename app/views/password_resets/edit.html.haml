@@ -2,8 +2,8 @@
   .col-md-4.col-md-offset-4
     %h2 Reset Password
 
-    = bootstrap_form_tag url: password_reset_path(params[:id]) do |f|
-      = f.hidden_field :email, value: @user.email
-      = f.password_field :password
-      = f.password_field :password_confirmation, label: 'Confirm Password'
-      = f.submit 'Reset', class: 'btn btn-primary'
+    = bootstrap_form_tag url: password_reset_path(params[:id]), html: { method: :put } do |f|
+      = f.hidden_field 'email', value: @user.email
+      = f.password_field 'user[password]', label: 'Password'
+      = f.password_field 'user[password_confirmation]', label: 'Confirm Password'
+      = f.submit 'Reset', class: 'btn btn-primary btn-block'

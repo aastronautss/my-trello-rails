@@ -8,4 +8,9 @@ class UserMailer < ApplicationMailer
     @user = user
     mail to: user.email, subject: 'My Tello - Reset Your Password'
   end
+
+  def password_change_notification(user)
+    @user = user
+    mail to: user.email, subject: 'My Trello - Password Changed'
+  end
 end
