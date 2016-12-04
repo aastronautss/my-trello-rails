@@ -11,6 +11,7 @@
             %ul.dropdown-menu
               - current_user.boards.each do |board|
                 %li= link_to board.name, board_path(board)
+        %li= link_to 'Admin', admin_users_path
       %ul.nav.navbar-nav.navbar-right
         %li
           = link_to 'Logout', logout_path
@@ -18,6 +19,7 @@
           .btn-nav= link_to 'New Board', new_board_path, class: 'btn btn-default navbar-btn'
     - else
       %ul.navbar.navbar-nav.navbar-right
-        %li= link_to 'Login', login_path
+        %li
+          = link_to 'Login', login_path
         %li
           .btn-nav= link_to 'Register', register_path, class: 'btn btn-primary navbar-btn'

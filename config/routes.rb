@@ -43,6 +43,6 @@ Rails.application.routes.draw do
   # Admin
 
   namespace :admin do
-    resources :users, only: [:index]
+    resources :users, only: [:index, :new, :create]
   end
 end
