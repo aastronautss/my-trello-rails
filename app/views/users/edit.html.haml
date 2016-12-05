@@ -1,0 +1,11 @@
+.container
+  .col-md-8.col-md-offset-2
+    .col-md-12
+      %h2 Account
+      = bootstrap_form_for @user, url: my_account_path, html: { class: 'col-md-8' } do |f|
+        = f.email_field :email
+        = f.password_field :password, label: 'New password'
+        = f.password_field :password_confirmation, label: 'Confirm password'
+        = f.submit 'Update account', class: 'btn btn-primary'
+    .col-md-12
+      %h2 Subscription

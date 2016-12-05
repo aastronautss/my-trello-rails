@@ -13,6 +13,8 @@ Rails.application.routes.draw do
   resources :users, only: [:create, :show]
   resources :account_activations, only: [:edit]
   resources :password_resets, only: [:new, :create, :edit, :update]
+  get 'my_account', to: 'users#edit'
+  patch 'my_account', to: 'users#update'
 
   # Boards
 

@@ -60,4 +60,73 @@ describe UsersController do
       end
     end
   end
+
+  describe 'GET edit' do
+    let(:user) { Fabricate :user, activated: true }
+    let(:action) { get :edit, id: user.username }
+    before { set_user user }
+
+    it_behaves_like 'a logged in action'
+    it_behaves_like 'an activated action'
+
+    it 'sets @user' do
+      action
+      expect(assigns[:user]).to be_present
+    end
+  end
+
+  describe 'PATCH update' do
+    let!(:user) { Fabricate :user, activated: true }
+    let(:action) do
+      patch :update,
+        user: {
+          password: 'asdfdsa',
+          password_confirmation: 'asdfdsa'
+        }
+    end
+    before { set_user user }
+
+    it_behaves_like 'a logged in action'
+    it_behaves_like 'an activated action'
+
+    it 'sets @user' do
+      action
+      expect(assigns[:user]).to be_present
+    end
+
+    context 'with valid input' do
+      it 'updates the current user\'s record' do
+        expect{ action }.to change{ user.reload.password_digest }
+      end
+
+      it 'redirects to my_account' do
+        action
+        expect(response).to redirect_to(my_account_path)
+      end
+
+      it 'sets the flash' do
+        action
+        expect(flash[:success]).to be_present
+      end
+    end
+
+    context 'with invalid input' do
+      let(:action) do
+        patch :update,
+          user: {
+            password: 'asdfdsa',
+            password_confirmation: ''
+          }
+      end
+
+      it 'does not update the current user\'s record' do
+        expect{ action }.to_not change{ user.reload.password_digest }
+      end
+
+      it 'renders :edit' do
+        action
+        expect(response).to render_template(:edit)
+      end
+    end
+  end
 end

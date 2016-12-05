@@ -12,11 +12,16 @@
               - current_user.boards.each do |board|
                 %li= link_to board.name, board_path(board)
         %li= link_to 'Admin', admin_users_path
-      %ul.nav.navbar-nav.navbar-right
-        %li
-          = link_to 'Logout', logout_path
-        %li
-          .btn-nav= link_to 'New Board', new_board_path, class: 'btn btn-default navbar-btn'
+      .nav.navbar-nav.navbar-right
+        %span.dropdown
+          %button.dropdown-toggle.btn.btn-default.navbar-btn{ 'data-toggle' => 'dropdown', 'role' => 'button' }
+            = current_user.username
+            %span.caret
+          %ul.dropdown-menu
+            %li= link_to 'Account', my_account_path
+            %li.divider{ 'role' => 'separator' }
+            %li= link_to 'Logout', logout_path
+        = link_to 'New Board', new_board_path, class: 'btn btn-default navbar-btn btn-nav'
     - else
       %ul.navbar.navbar-nav.navbar-right
         %li

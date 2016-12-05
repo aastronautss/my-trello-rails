@@ -17,7 +17,16 @@ class User < ActiveRecord::Base
     length: { minimum: 2, maximum: 25 },
     uniqueness: { case_sensitive: false }
   validates :password,
-    length: { minimum: 5 }
+    presence: true,
+    confirmation: true,
+    length: { minimum: 5 },
+    on: :create
+  validates :password,
+    presence: true,
+    confirmation: true,
+    length: { minimum: 5 },
+    allow_blank: true,
+    on: :update
 
   def to_param
     username
@@ -27,7 +36,7 @@ class User < ActiveRecord::Base
   # Authentication and Passwords
   # ====---------------------------====
 
-  has_secure_password
+  has_secure_password validations: false
 
   def self.digest(string)
     cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST :
