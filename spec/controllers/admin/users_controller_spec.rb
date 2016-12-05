@@ -97,4 +97,33 @@ describe Admin::UsersController do
       end
     end
   end
+
+  describe 'DELETE destroy' do
+    let(:user) { Fabricate :user, activated: true, system_admin: true }
+    let!(:user_to_delete) { Fabricate :user, activated: true }
+
+    let(:action) do
+      delete :destroy, id: user_to_delete.to_param
+    end
+
+    before { set_user user }
+
+    it_behaves_like 'a logged in action'
+    it_behaves_like 'an activated action'
+    it_behaves_like 'a system admin action'
+
+    it 'removes the User record' do
+      expect{ action }.to change(User, :count).by(-1)
+    end
+
+    it 'sets the flash' do
+      action
+      expect(flash[:info]).to be_present
+    end
+
+    it 'redirects to :index' do
+      action
+      expect(response).to redirect_to(admin_users_path)
+    end
+  end
 end

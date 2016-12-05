@@ -19,6 +19,10 @@ class User < ActiveRecord::Base
   validates :password,
     length: { minimum: 5 }
 
+  def to_param
+    username
+  end
+
   # ====---------------------------====
   # Authentication and Passwords
   # ====---------------------------====

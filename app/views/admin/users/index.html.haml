@@ -9,6 +9,7 @@
           %th Username
           %th Email
           %th Plan
+          %th Actions
       %tbody
         - @users.each do |user|
           %tr
@@ -16,3 +17,4 @@
             %td= user.username
             %td= user.email
             %td Basic
+            %td= link_to 'Delete', admin_user_path(user), method: :delete, class: 'btn btn-xs btn-danger'

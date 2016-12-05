@@ -1,4 +1,6 @@
 class Admin::UsersController < SystemAdminController
+  before_action :set_user, only: [:destroy]
+
   def index
     @users = User.all
   end
@@ -19,7 +21,17 @@ class Admin::UsersController < SystemAdminController
     end
   end
 
+  def destroy
+    @user.destroy
+    flash[:info] = 'User successfully deleted.'
+    redirect_to admin_users_path
+  end
+
   private
+
+  def set_user
+    @user = User.find_by username: params[:id]
+  end
 
   def user_params
     params.require(:user).permit :username, :email
