@@ -69,6 +69,12 @@ class User < ActiveRecord::Base
     reset_sent_at < 2.hours.ago
   end
 
+  def generate_temporary_password
+    pw = User.new_token
+    self.password = pw
+    self.password_digest = pw
+  end
+
   # ====---------------------------====
   # Board Membership
   # ====---------------------------====

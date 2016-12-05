@@ -42,6 +42,7 @@ describe Admin::UsersController do
     end
 
     before { set_user user }
+    after { ActionMailer::Base.deliveries.clear }
 
     it_behaves_like 'a logged in action'
     it_behaves_like 'an activated action'
@@ -55,7 +56,7 @@ describe Admin::UsersController do
     context 'with valid input' do
       it 'sets the user\'s password' do
         action
-        expect(User.last.password).to be_present
+        expect(User.last.password_digest).to be_present
       end
 
       it 'creates a User record' do
@@ -64,7 +65,7 @@ describe Admin::UsersController do
 
       it 'emails the new user' do
         action
-        expect(ActionMailer::Base.deliveries.last.to).to eq(User.last.email)
+        expect(ActionMailer::Base.deliveries.last.to).to contain_exactly(User.last.email)
       end
 
       it 'redirects to :users' do
