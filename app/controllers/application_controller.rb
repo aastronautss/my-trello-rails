@@ -64,6 +64,13 @@ class ApplicationController < ActionController::Base
     return true
   end
 
+  def require_activated_user(remote: false)
+    unless current_user.activated?
+      message = 'Your account must be activated to do that.'
+      access_denied message, remote: remote
+    end
+  end
+
   def access_denied(msg = "You aren't allowed to do that.", remote: false)
     if remote
       render json: { error: msg }, status: :forbidden

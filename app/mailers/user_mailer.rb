@@ -4,6 +4,12 @@ class UserMailer < ApplicationMailer
     mail to: user.email, subject: 'My Trello - Account Activation'
   end
 
+  def account_creation_notification(user, creator)
+    @user = user
+    @creator = creator
+    mail to: user.email, subject: 'My Trello - Account Created'
+  end
+
   def password_reset(user)
     @user = user
     mail to: user.email, subject: 'My Tello - Reset Your Password'

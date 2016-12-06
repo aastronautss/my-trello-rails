@@ -1,14 +1,23 @@
 Rails.application.routes.draw do
   root to: 'static_pages#home'
 
+  # Registration and Login
+
   get 'register', to: 'users#new'
   get 'login', to: 'sessions#new'
   post 'login', to: 'sessions#create'
   get 'logout', to: 'sessions#destroy'
 
+  # Users & Accounts
+
   resources :users, only: [:create, :show]
   resources :account_activations, only: [:edit]
   resources :password_resets, only: [:new, :create, :edit, :update]
+  resources :admin_invitations, only: [:edit, :update]
+  get 'my_account', to: 'users#edit'
+  patch 'my_account', to: 'users#update'
+
+  # Boards
 
   resources :boards do
     member do
@@ -16,6 +25,8 @@ Rails.application.routes.draw do
       delete 'remove_member', to: 'board_memberships#destroy'
     end
   end
+
+  # API Stuff
 
   resources :lists, except: [:new, :edit]
   resources :cards do
@@ -30,5 +41,11 @@ Rails.application.routes.draw do
     member do
       post 'add_comment', to: 'comments#create'
     end
+  end
+
+  # Admin
+
+  namespace :admin do
+    resources :users, only: [:index, :new, :create, :destroy]
   end
 end

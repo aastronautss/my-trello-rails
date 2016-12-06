@@ -43,6 +43,24 @@ shared_examples 'a logged in remote action' do
   end
 end
 
+shared_examples 'a private action' do
+  let(:unauthorized_user) { Fabricate :user, activated: true }
+  before { set_user unauthorized_user }
+
+  context 'when logged in as an unauthorized user' do
+    it 'redirects to root' do
+      action
+      expect(response).to redirect_to(root_path)
+    end
+
+    it 'sets the flash' do
+      action
+      expect(flash[:danger]).to be_present
+    end
+  end
+
+end
+
 shared_examples 'an activated action' do
   before do
     set_user activated: false
@@ -69,6 +87,23 @@ shared_examples 'an activated remote action' do
   context 'when not logged in' do
     it 'returns a 403' do
       expect(response).to have_http_status(:forbidden)
+    end
+  end
+end
+
+shared_examples 'a system admin action' do
+  before do
+    set_user
+    action
+  end
+
+  context 'when logged in as a non-system-admin' do
+    it 'sets the flash' do
+      expect(flash[:danger]).to be_present
+    end
+
+    it 'redirects to root' do
+      expect(response).to redirect_to(root_path)
     end
   end
 end

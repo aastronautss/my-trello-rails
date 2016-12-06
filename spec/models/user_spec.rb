@@ -105,6 +105,15 @@ describe User do
     end
   end
 
+  describe '#generate_temporary_password' do
+    let(:user) { Fabricate :user }
+    let(:action) { user.generate_temporary_password }
+
+    it 'changes the user\'s password' do
+      expect{ action }.to change{ user.reload.password }
+    end
+  end
+
   # ====---------------------------====
   # Board Membership
   # ====---------------------------====
