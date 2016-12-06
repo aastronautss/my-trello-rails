@@ -4,4 +4,4 @@
 
 %p System admin #{@creator.username} has created a My Trello account for you. To access it, please click on the link below to set your password.
 
-%p= link_to 'Access account', '#'
+%p= link_to 'Access account', edit_admin_invitation_url(@user.reset_token, email: @user.email)

@@ -36,7 +36,9 @@ class PasswordResetsController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit :password, :password_confirmation
+    user = params.require(:user).permit :password, :password_confirmation
+    user.each { |k, v| user[k] = 'a' if v.blank? }
+    user
   end
 
   def set_user
@@ -52,7 +54,7 @@ class PasswordResetsController < ApplicationController
   def check_expiration
     if @user.reset_expired?
       flash[:danger] = 'Password reset expired.'
-      redirect_to(new_password_reset_path)
+      redirect_to new_password_reset_path
     end
   end
 end

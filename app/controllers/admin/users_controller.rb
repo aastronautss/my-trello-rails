@@ -14,6 +14,7 @@ class Admin::UsersController < SystemAdminController
     @user.generate_temporary_password
 
     if @user.save
+      @user.create_reset_token
       UserMailer.account_creation_notification(@user, current_user).deliver_now
       redirect_to admin_users_path
     else
