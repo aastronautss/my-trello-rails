@@ -3,6 +3,11 @@ class ApplicationController < ActionController::Base
 
   helper_method :current_user, :logged_in?
 
+  def find_user(data)
+    column = data.match(User::VALID_EMAIL) ? :email : :username
+    User.find_by column => data
+  end
+
   def current_user
     if (user_id = session[:user_id])
       @current_user ||= User.find(user_id)
