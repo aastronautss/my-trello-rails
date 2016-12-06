@@ -29,6 +29,17 @@ describe SessionsController do
       end
     end
 
+    context 'with email address as input' do
+      before do
+        user.activate!
+        post :create, username: user.email, password: user.password
+      end
+
+      it 'sets the session' do
+        expect(session[:user_id]).to eq(user.id)
+      end
+    end
+
     context 'with valid credentials and unactivated account' do
       before do
         post :create, username: user.username, password: user.password

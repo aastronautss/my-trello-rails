@@ -3,7 +3,7 @@
     %h2 Login
 
     = bootstrap_form_tag url: login_path do |f|
-      = f.text_field :username
+      = f.text_field :username, label: 'Username or Email'
       = f.password_field :password
       = f.check_box :remember
       = f.submit 'Login', class: 'btn btn-primary btn-block'

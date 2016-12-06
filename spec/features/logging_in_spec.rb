@@ -5,7 +5,7 @@ feature 'logging in' do
 
   scenario 'with correct credentials' do
     visit login_path
-    fill_in 'Username', with: user.username
+    fill_in 'Username or Email', with: user.username
     fill_in 'Password', with: 'asdfg'
     click_button 'Login'
 
@@ -14,7 +14,7 @@ feature 'logging in' do
 
   scenario 'with correct credentials and remember box checked' do
     visit login_path
-    fill_in 'Username', with: user.username
+    fill_in 'Username or Email', with: user.username
     fill_in 'Password', with: 'asdfg'
     check 'Remember'
     click_button 'Login'
