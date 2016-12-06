@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161202190947) do
+ActiveRecord::Schema.define(version: 20161206185652) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -67,6 +67,16 @@ ActiveRecord::Schema.define(version: 20161202190947) do
 
   add_index "lists", ["token"], name: "index_lists_on_token", using: :btree
 
+  create_table "plans", force: :cascade do |t|
+    t.string   "name"
+    t.string   "token"
+    t.integer  "price_per_month"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "plans", ["token"], name: "index_plans_on_token", using: :btree
+
   create_table "users", force: :cascade do |t|
     t.string   "username"
     t.string   "password_digest"
@@ -80,6 +90,7 @@ ActiveRecord::Schema.define(version: 20161202190947) do
     t.string   "reset_digest"
     t.datetime "reset_sent_at"
     t.boolean  "system_admin",      default: false
+    t.integer  "plan_id"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", using: :btree

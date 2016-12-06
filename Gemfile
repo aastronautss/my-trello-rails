@@ -31,6 +31,9 @@ gem 'json-schema'
 gem 'activerecord_json_validator'
 gem 'figaro'
 
+# Services
+gem 'stripe'
+
 group :development, :test do
   gem 'pry'
   gem 'pry-nav'

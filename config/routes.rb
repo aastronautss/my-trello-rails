@@ -17,6 +17,10 @@ Rails.application.routes.draw do
   get 'my_account', to: 'users#edit'
   patch 'my_account', to: 'users#update'
 
+  # Subscriptions and Charges
+
+  post 'subscribe', to: 'subscriptions#create'
+
   # Boards
 
   resources :boards do
