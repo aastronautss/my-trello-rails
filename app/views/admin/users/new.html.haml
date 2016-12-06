@@ -2,7 +2,7 @@
   .col-md-8.col-md-offset-2
     %h2 Add a user
 
-    = bootstrap_form_for @user do |f|
+    = bootstrap_form_for @user, url: admin_users_path do |f|
       = f.text_field :username
       = f.text_field :email
       = f.submit 'Register', class: 'btn btn-primary btn-block'
