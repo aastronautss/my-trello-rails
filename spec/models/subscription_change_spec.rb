@@ -11,8 +11,11 @@ describe SubscriptionChange do
       context 'with valid card' do
         let(:action) { subscription_change.change plus_plan.to_param, 'abcd' }
         before do
-          response = double :customer, successful?: true, id: '123'
-          expect(StripeWrapper::Customer).to receive(:create).and_return(response)
+          customer_response = double :customer, successful?: true, id: '123'
+          expect(StripeWrapper::Customer).to receive(:create).and_return(customer_response)
+
+          subscription_response = double :subscription, successful?: true, id: '321'
+          expect(StripeWrapper::Subscription).to receive(:create).and_return(subscription_response)
         end
 
         it 'updates the user\'s plan' do
@@ -32,8 +35,11 @@ describe SubscriptionChange do
       context 'with declinded card' do
         let(:action) { subscription_change.change plus_plan.to_param, 'abcd' }
         before do
-          response = double :customer, successful?: false, id: '123', message: 'Card declined'
-          expect(StripeWrapper::Customer).to receive(:create).and_return(response)
+          customer_response = double :customer, successful?: false, message: 'Card declined'
+          expect(StripeWrapper::Customer).to receive(:create).and_return(customer_response)
+
+          subscription_response = double :subscription, successful?: false, message: 'Card declined'
+          expect(StripeWrapper::Subscription).to receive(:create).and_return(subscription_response)
         end
 
         it 'does not update the user\'s plan' do

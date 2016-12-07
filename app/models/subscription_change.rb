@@ -10,9 +10,11 @@ class SubscriptionChange
 
     if !plan.basic?
       customer = StripeWrapper::Customer.create card: stripe_token,
-        user: @user, plan: plan
+        user: @user
+      subscription = StripeWrapper::Subscription.create plan: plan,
+        user: @user
 
-      if customer.successful?
+      if customer.successful? && subscription.successful?
         @user.update stripe_customer_id: customer.id, plan: plan
 
         # UserMailer.send_subscription_email(@user)

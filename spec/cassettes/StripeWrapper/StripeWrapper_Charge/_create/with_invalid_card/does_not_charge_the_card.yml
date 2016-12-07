@@ -18,9 +18,9 @@ http_interactions:
       Content-Type:
       - application/x-www-form-urlencoded
       X-Stripe-Client-User-Agent:
-      - '{"bindings_version":"1.57.1","lang":"ruby","lang_version":"2.3.1 p112 (2016-04-26)","platform":"x86_64-darwin15","engine":"ruby","publisher":"stripe","uname":"Darwin
-        maggios-MacBook-Pro-806.local 16.1.0 Darwin Kernel Version 16.1.0: Thu Oct
-        13 21:26:57 PDT 2016; root:xnu-3789.21.3~60/RELEASE_X86_64 x86_64","hostname":"maggios-MacBook-Pro-806.local"}'
+      - '{"bindings_version":"1.57.1","lang":"ruby","lang_version":"2.3.1 p112 (2016-04-26)","platform":"x86_64-darwin16","engine":"ruby","publisher":"stripe","uname":"Darwin
+        Nietzsche.local 16.1.0 Darwin Kernel Version 16.1.0: Wed Oct 19 20:31:56 PDT
+        2016; root:xnu-3789.21.4~4/RELEASE_X86_64 x86_64","hostname":"Nietzsche.local"}'
       Content-Length:
       - '81'
       Host:
@@ -33,11 +33,11 @@ http_interactions:
       Server:
       - nginx
       Date:
-      - Wed, 07 Dec 2016 20:15:26 GMT
+      - Wed, 07 Dec 2016 23:02:51 GMT
       Content-Type:
       - application/json
       Content-Length:
-      - '781'
+      - '780'
       Connection:
       - keep-alive
       Access-Control-Allow-Credentials:
@@ -51,7 +51,7 @@ http_interactions:
       Cache-Control:
       - no-cache, no-store
       Request-Id:
-      - req_9hb1QmtXAFtJip
+      - req_9hdiDqfD88QEPi
       Stripe-Version:
       - '2016-07-06'
       Strict-Transport-Security:
@@ -60,10 +60,10 @@ http_interactions:
       encoding: UTF-8
       string: |
         {
-          "id": "tok_19OBp4FgeUvs3GmugXG3fGkm",
+          "id": "tok_19OER5FgeUvs3Gmunzv1dk5v",
           "object": "token",
           "card": {
-            "id": "card_19OBp4FgeUvs3GmuhpmCd1HP",
+            "id": "card_19OER5FgeUvs3GmuBhxcx4Lz",
             "object": "card",
             "address_city": null,
             "address_country": null,
@@ -86,20 +86,20 @@ http_interactions:
             "name": null,
             "tokenization_method": null
           },
-          "client_ip": "173.10.171.149",
-          "created": 1481141726,
+          "client_ip": "216.164.48.96",
+          "created": 1481151771,
           "livemode": false,
           "type": "card",
           "used": false
         }
     http_version: 
-  recorded_at: Wed, 07 Dec 2016 20:15:29 GMT
+  recorded_at: Wed, 07 Dec 2016 23:02:51 GMT
 - request:
     method: post
     uri: https://api.stripe.com/v1/charges
     body:
       encoding: UTF-8
-      string: amount=999&currency=usd&card=tok_19OBp4FgeUvs3GmugXG3fGkm&description=an+invalid+charge
+      string: amount=999&currency=usd&card=tok_19OER5FgeUvs3Gmunzv1dk5v&description=an+invalid+charge
     headers:
       Accept:
       - "*/*"
@@ -112,9 +112,9 @@ http_interactions:
       Content-Type:
       - application/x-www-form-urlencoded
       X-Stripe-Client-User-Agent:
-      - '{"bindings_version":"1.57.1","lang":"ruby","lang_version":"2.3.1 p112 (2016-04-26)","platform":"x86_64-darwin15","engine":"ruby","publisher":"stripe","uname":"Darwin
-        maggios-MacBook-Pro-806.local 16.1.0 Darwin Kernel Version 16.1.0: Thu Oct
-        13 21:26:57 PDT 2016; root:xnu-3789.21.3~60/RELEASE_X86_64 x86_64","hostname":"maggios-MacBook-Pro-806.local"}'
+      - '{"bindings_version":"1.57.1","lang":"ruby","lang_version":"2.3.1 p112 (2016-04-26)","platform":"x86_64-darwin16","engine":"ruby","publisher":"stripe","uname":"Darwin
+        Nietzsche.local 16.1.0 Darwin Kernel Version 16.1.0: Wed Oct 19 20:31:56 PDT
+        2016; root:xnu-3789.21.4~4/RELEASE_X86_64 x86_64","hostname":"Nietzsche.local"}'
       Content-Length:
       - '87'
       Host:
@@ -127,7 +127,7 @@ http_interactions:
       Server:
       - nginx
       Date:
-      - Wed, 07 Dec 2016 20:15:26 GMT
+      - Wed, 07 Dec 2016 23:02:52 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -145,7 +145,7 @@ http_interactions:
       Cache-Control:
       - no-cache, no-store
       Request-Id:
-      - req_9hb1xGwG2uDwiD
+      - req_9hdi3jpdUhKom4
       Stripe-Version:
       - '2016-07-06'
     body:
@@ -157,9 +157,9 @@ http_interactions:
             "type": "card_error",
             "code": "card_declined",
             "decline_code": "generic_decline",
-            "charge": "ch_19OBp4FgeUvs3GmuuyP0PqI4"
+            "charge": "ch_19OER6FgeUvs3GmuL4e5KHWL"
           }
         }
     http_version: 
-  recorded_at: Wed, 07 Dec 2016 20:15:30 GMT
+  recorded_at: Wed, 07 Dec 2016 23:02:52 GMT
 recorded_with: VCR 3.0.3

@@ -18,9 +18,9 @@ http_interactions:
       Content-Type:
       - application/x-www-form-urlencoded
       X-Stripe-Client-User-Agent:
-      - '{"bindings_version":"1.57.1","lang":"ruby","lang_version":"2.3.1 p112 (2016-04-26)","platform":"x86_64-darwin15","engine":"ruby","publisher":"stripe","uname":"Darwin
-        maggios-MacBook-Pro-806.local 16.1.0 Darwin Kernel Version 16.1.0: Thu Oct
-        13 21:26:57 PDT 2016; root:xnu-3789.21.3~60/RELEASE_X86_64 x86_64","hostname":"maggios-MacBook-Pro-806.local"}'
+      - '{"bindings_version":"1.57.1","lang":"ruby","lang_version":"2.3.1 p112 (2016-04-26)","platform":"x86_64-darwin16","engine":"ruby","publisher":"stripe","uname":"Darwin
+        Nietzsche.local 16.1.0 Darwin Kernel Version 16.1.0: Wed Oct 19 20:31:56 PDT
+        2016; root:xnu-3789.21.4~4/RELEASE_X86_64 x86_64","hostname":"Nietzsche.local"}'
       Content-Length:
       - '81'
       Host:
@@ -33,11 +33,11 @@ http_interactions:
       Server:
       - nginx
       Date:
-      - Wed, 07 Dec 2016 21:08:05 GMT
+      - Wed, 07 Dec 2016 23:02:48 GMT
       Content-Type:
       - application/json
       Content-Length:
-      - '781'
+      - '780'
       Connection:
       - keep-alive
       Access-Control-Allow-Credentials:
@@ -51,7 +51,7 @@ http_interactions:
       Cache-Control:
       - no-cache, no-store
       Request-Id:
-      - req_9hbraBhiJG72PS
+      - req_9hdi4KH5DWa0W9
       Stripe-Version:
       - '2016-07-06'
       Strict-Transport-Security:
@@ -60,10 +60,10 @@ http_interactions:
       encoding: UTF-8
       string: |
         {
-          "id": "tok_19OCe1FgeUvs3GmulDr9879h",
+          "id": "tok_19OER2FgeUvs3Gmuekbq2C2D",
           "object": "token",
           "card": {
-            "id": "card_19OCe1FgeUvs3GmuLt7fWKG3",
+            "id": "card_19OER2FgeUvs3GmufueIoiiF",
             "object": "card",
             "address_city": null,
             "address_country": null,
@@ -86,20 +86,20 @@ http_interactions:
             "name": null,
             "tokenization_method": null
           },
-          "client_ip": "173.10.171.149",
-          "created": 1481144885,
+          "client_ip": "216.164.48.96",
+          "created": 1481151768,
           "livemode": false,
           "type": "card",
           "used": false
         }
     http_version: 
-  recorded_at: Wed, 07 Dec 2016 21:08:09 GMT
+  recorded_at: Wed, 07 Dec 2016 23:02:48 GMT
 - request:
     method: post
     uri: https://api.stripe.com/v1/customers
     body:
       encoding: UTF-8
-      string: source=tok_19OCe1FgeUvs3GmulDr9879h&email=micaela%40shanahan.io
+      string: source=tok_19OER2FgeUvs3Gmuekbq2C2D&email=hiram%40nienow.biz
     headers:
       Accept:
       - "*/*"
@@ -112,11 +112,11 @@ http_interactions:
       Content-Type:
       - application/x-www-form-urlencoded
       X-Stripe-Client-User-Agent:
-      - '{"bindings_version":"1.57.1","lang":"ruby","lang_version":"2.3.1 p112 (2016-04-26)","platform":"x86_64-darwin15","engine":"ruby","publisher":"stripe","uname":"Darwin
-        maggios-MacBook-Pro-806.local 16.1.0 Darwin Kernel Version 16.1.0: Thu Oct
-        13 21:26:57 PDT 2016; root:xnu-3789.21.3~60/RELEASE_X86_64 x86_64","hostname":"maggios-MacBook-Pro-806.local"}'
+      - '{"bindings_version":"1.57.1","lang":"ruby","lang_version":"2.3.1 p112 (2016-04-26)","platform":"x86_64-darwin16","engine":"ruby","publisher":"stripe","uname":"Darwin
+        Nietzsche.local 16.1.0 Darwin Kernel Version 16.1.0: Wed Oct 19 20:31:56 PDT
+        2016; root:xnu-3789.21.4~4/RELEASE_X86_64 x86_64","hostname":"Nietzsche.local"}'
       Content-Length:
-      - '63'
+      - '60'
       Host:
       - api.stripe.com
   response:
@@ -127,11 +127,11 @@ http_interactions:
       Server:
       - nginx
       Date:
-      - Wed, 07 Dec 2016 21:08:06 GMT
+      - Wed, 07 Dec 2016 23:02:49 GMT
       Content-Type:
       - application/json
       Content-Length:
-      - '1396'
+      - '1393'
       Connection:
       - keep-alive
       Access-Control-Allow-Credentials:
@@ -145,7 +145,7 @@ http_interactions:
       Cache-Control:
       - no-cache, no-store
       Request-Id:
-      - req_9hbrBWBicUJmQK
+      - req_9hdiUaMJ47Ud1K
       Stripe-Version:
       - '2016-07-06'
       Strict-Transport-Security:
@@ -154,16 +154,16 @@ http_interactions:
       encoding: UTF-8
       string: |
         {
-          "id": "cus_9hbrQIk2UfDVzb",
+          "id": "cus_9hdiK1A1rLq0Le",
           "object": "customer",
           "account_balance": 0,
-          "created": 1481144886,
+          "created": 1481151769,
           "currency": null,
-          "default_source": "card_19OCe1FgeUvs3GmuLt7fWKG3",
+          "default_source": "card_19OER2FgeUvs3GmufueIoiiF",
           "delinquent": false,
           "description": null,
           "discount": null,
-          "email": "micaela@shanahan.io",
+          "email": "hiram@nienow.biz",
           "livemode": false,
           "metadata": {},
           "shipping": null,
@@ -171,7 +171,7 @@ http_interactions:
             "object": "list",
             "data": [
               {
-                "id": "card_19OCe1FgeUvs3GmuLt7fWKG3",
+                "id": "card_19OER2FgeUvs3GmufueIoiiF",
                 "object": "card",
                 "address_city": null,
                 "address_country": null,
@@ -183,7 +183,7 @@ http_interactions:
                 "address_zip_check": null,
                 "brand": "Visa",
                 "country": "US",
-                "customer": "cus_9hbrQIk2UfDVzb",
+                "customer": "cus_9hdiK1A1rLq0Le",
                 "cvc_check": "pass",
                 "dynamic_last4": null,
                 "exp_month": 6,
@@ -198,24 +198,24 @@ http_interactions:
             ],
             "has_more": false,
             "total_count": 1,
-            "url": "/v1/customers/cus_9hbrQIk2UfDVzb/sources"
+            "url": "/v1/customers/cus_9hdiK1A1rLq0Le/sources"
           },
           "subscriptions": {
             "object": "list",
             "data": [],
             "has_more": false,
             "total_count": 0,
-            "url": "/v1/customers/cus_9hbrQIk2UfDVzb/subscriptions"
+            "url": "/v1/customers/cus_9hdiK1A1rLq0Le/subscriptions"
           }
         }
     http_version: 
-  recorded_at: Wed, 07 Dec 2016 21:08:09 GMT
+  recorded_at: Wed, 07 Dec 2016 23:02:49 GMT
 - request:
     method: post
     uri: https://api.stripe.com/v1/subscriptions
     body:
       encoding: UTF-8
-      string: customer=cus_9hbrQIk2UfDVzb&plan=my_trello_plus_monthly
+      string: customer=cus_9hdiK1A1rLq0Le&plan=my_trello_plus_monthly
     headers:
       Accept:
       - "*/*"
@@ -228,9 +228,9 @@ http_interactions:
       Content-Type:
       - application/x-www-form-urlencoded
       X-Stripe-Client-User-Agent:
-      - '{"bindings_version":"1.57.1","lang":"ruby","lang_version":"2.3.1 p112 (2016-04-26)","platform":"x86_64-darwin15","engine":"ruby","publisher":"stripe","uname":"Darwin
-        maggios-MacBook-Pro-806.local 16.1.0 Darwin Kernel Version 16.1.0: Thu Oct
-        13 21:26:57 PDT 2016; root:xnu-3789.21.3~60/RELEASE_X86_64 x86_64","hostname":"maggios-MacBook-Pro-806.local"}'
+      - '{"bindings_version":"1.57.1","lang":"ruby","lang_version":"2.3.1 p112 (2016-04-26)","platform":"x86_64-darwin16","engine":"ruby","publisher":"stripe","uname":"Darwin
+        Nietzsche.local 16.1.0 Darwin Kernel Version 16.1.0: Wed Oct 19 20:31:56 PDT
+        2016; root:xnu-3789.21.4~4/RELEASE_X86_64 x86_64","hostname":"Nietzsche.local"}'
       Content-Length:
       - '55'
       Host:
@@ -243,7 +243,7 @@ http_interactions:
       Server:
       - nginx
       Date:
-      - Wed, 07 Dec 2016 21:08:07 GMT
+      - Wed, 07 Dec 2016 23:02:50 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -261,7 +261,7 @@ http_interactions:
       Cache-Control:
       - no-cache, no-store
       Request-Id:
-      - req_9hbrnqUxIMFoaZ
+      - req_9hdiqy3TeFccqe
       Stripe-Version:
       - '2016-07-06'
       Strict-Transport-Security:
@@ -270,15 +270,15 @@ http_interactions:
       encoding: UTF-8
       string: |
         {
-          "id": "sub_9hbr2wH5mjMPbn",
+          "id": "sub_9hdi2o7lMVsHB7",
           "object": "subscription",
           "application_fee_percent": null,
           "cancel_at_period_end": false,
           "canceled_at": null,
-          "created": 1481144886,
-          "current_period_end": 1483823286,
-          "current_period_start": 1481144886,
-          "customer": "cus_9hbrQIk2UfDVzb",
+          "created": 1481151769,
+          "current_period_end": 1483830169,
+          "current_period_start": 1481151769,
+          "customer": "cus_9hdiK1A1rLq0Le",
           "discount": null,
           "ended_at": null,
           "livemode": false,
@@ -298,12 +298,12 @@ http_interactions:
             "trial_period_days": null
           },
           "quantity": 1,
-          "start": 1481144886,
+          "start": 1481151769,
           "status": "active",
           "tax_percent": null,
           "trial_end": null,
           "trial_start": null
         }
     http_version: 
-  recorded_at: Wed, 07 Dec 2016 21:08:10 GMT
+  recorded_at: Wed, 07 Dec 2016 23:02:50 GMT
 recorded_with: VCR 3.0.3
