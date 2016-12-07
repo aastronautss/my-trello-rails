@@ -58,6 +58,7 @@ group 'test' do
   gem 'capybara-email'
   gem 'show_me_the_cookies'
   gem 'vcr'
+  gem 'webmock'
 end
 
 group :production do
