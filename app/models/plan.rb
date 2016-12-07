@@ -7,4 +7,8 @@ class Plan < ActiveRecord::Base
     presence: true
   validates :price_per_month,
     presence: true
+
+  def basic?
+    price_per_month == 0
+  end
 end
