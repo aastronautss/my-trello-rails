@@ -8,7 +8,7 @@ describe SubscriptionChange do
     let(:plus_plan) { Fabricate :plus_plan }
 
     context 'from basic to plus' do
-      context 'with valid card info' do
+      context 'with valid card' do
         let(:action) { subscription_change.change plus_plan.to_param, 'abcd' }
         before do
           response = double :customer, successful?: true, id: '123'
@@ -26,6 +26,32 @@ describe SubscriptionChange do
         it 'returns successful instance' do
           action
           expect(subscription_change).to be_successful
+        end
+      end
+
+      context 'with declinded card' do
+        let(:action) { subscription_change.change plus_plan.to_param, 'abcd' }
+        before do
+          response = double :customer, successful?: false, id: '123', message: 'Card declined'
+          expect(StripeWrapper::Customer).to receive(:create).and_return(response)
+        end
+
+        it 'does not update the user\'s plan' do
+          expect{ action }.to_not change{ user.reload.plan_id }
+        end
+
+        it 'does not update the user\'s stripe_customer_id' do
+          expect{ action }.to_not change{ user.reload.stripe_customer_id }
+        end
+
+        it 'returns an unsuccessful instance' do
+          action
+          expect(subscription_change).to_not be_successful
+        end
+
+        it 'sets the message on the object' do
+          action
+          expect(subscription_change.message).to be_present
         end
       end
     end
