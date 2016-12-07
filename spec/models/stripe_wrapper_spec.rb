@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe StripeWrapper do
+describe StripeWrapper, :vcr do
   let(:valid_token) do
     Stripe::Token.create(
       card: {
@@ -34,11 +34,11 @@ describe StripeWrapper do
           )
         end
 
-        it 'charges the card successfully' do
+        it 'returns successful' do
           expect(response).to be_successful
         end
 
-        it 'sets an id' do
+        it 'sets a customer id' do
           expect(response.id).to be_present
         end
       end
@@ -53,7 +53,7 @@ describe StripeWrapper do
           )
         end
 
-        it 'does not charge the card' do
+        it 'does not create the customer' do
           expect(response).to_not be_successful
         end
 
@@ -62,7 +62,59 @@ describe StripeWrapper do
         end
       end
     end
+  end
 
+  describe StripeWrapper::Subscription do
+    describe '.create' do
+      let(:user) { Fabricate :user }
+
+      context 'with valid card' do
+
+        let(:customer) do
+          StripeWrapper::Customer.create(
+            card: valid_token,
+            user: user
+          )
+        end
+
+        let(:response) do
+          user.stripe_customer_id = customer.id
+          StripeWrapper::Subscription.create(
+            user: user,
+            plan: Fabricate(:plus_plan)
+          )
+        end
+
+        it 'successfully creates a new subscription' do
+          expect(response).to be_successful
+        end
+
+        it 'sets an id' do
+          expect(response.id).to be_present
+        end
+      end
+
+      # context 'with declined card' do
+      #   let(:customer) do
+      #     StripeWrapper::Customer.create(
+      #       card: invalid_token,
+      #       user: user
+      #     )
+      #   end
+
+      #   let(:response) do
+      #     user.stripe_customer_id = customer.id
+      #     StripeWrapper::Subscription.create(
+      #       user: user,
+      #       plan: Fabricate(:plus_plan)
+      #     )
+      #   end
+
+      #   it 'does not create a new subscription' do
+      #     expect(response).to_not be_successful
+      #   end
+      # end
+    end
   end
 
   describe StripeWrapper::Charge do

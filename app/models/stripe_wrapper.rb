@@ -72,7 +72,7 @@ module StripeWrapper
 
     def initialize(options = {})
       @response = options[:response]
-      @response = options[:message]
+      @message = options[:message]
     end
 
     def self.create(options = {})
@@ -90,6 +90,10 @@ module StripeWrapper
 
     def successful?
       @response.present?
+    end
+
+    def id
+      @response.id
     end
   end
 end
