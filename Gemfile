@@ -31,6 +31,9 @@ gem 'json-schema'
 gem 'activerecord_json_validator'
 gem 'figaro'
 
+# Services
+gem 'stripe'
+
 group :development, :test do
   gem 'pry'
   gem 'pry-nav'
@@ -55,6 +58,7 @@ group 'test' do
   gem 'capybara-email'
   gem 'show_me_the_cookies'
   gem 'vcr'
+  gem 'webmock'
 end
 
 group :production do

@@ -121,8 +121,18 @@ main {
   width: 100%;
   padding: 65px 10px 15px;
   box-sizing: border-box;
-  overflow-y: hidden;
+  // overflow-y: hidden;
   white-space: nowrap;
+
+  #board {
+    overflow-y: hidden;
+    height: 100%;
+    width: 100%;
+  }
+
+  .scroll-vertical {
+    overflow-y: visible;
+  }
 
   #menu {
     background: #f8f8f8;
