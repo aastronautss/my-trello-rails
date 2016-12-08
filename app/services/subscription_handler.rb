@@ -25,6 +25,7 @@ class SubscriptionHandler
 
     plan = Plan.new(plan_name)
     subscription = StripeWrapper::Subscription.create user: @user, plan: plan
+
     return { status: :failure, message: subscription.message } unless subscription.successful?
     @user.stripe_subscription_id = subscription.id
     @user.plan = plan.name

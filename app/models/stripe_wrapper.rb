@@ -57,14 +57,14 @@ module StripeWrapper
 
     def self.create_customer(options = {})
       Stripe::Customer.create(
-        source: options[:card],
+        source: options[:stripe_token],
         email: options[:user].email
       )
     end
 
     def self.update_customer(options = {})
       cust = Stripe::Customer.retrieve(options[:user].stripe_customer_id)
-      cust.source = options[:card]
+      cust.source = options[:stripe_token]
       cust.save
     end
   end

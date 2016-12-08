@@ -3,7 +3,7 @@
   :javascript
     Stripe.setPublishableKey('#{ENV['stripe_publishable_key']}');
 
-.container
+.container.scroll-vertical
   .col-md-8.col-md-offset-2
     .col-md-12
       %h2 Account
@@ -13,22 +13,23 @@
           = f.password_field :password, label: 'New password'
           = f.password_field :password_confirmation, label: 'Confirm password'
           = f.submit 'Update account', class: 'btn btn-primary'
-    .col-md-12
-      %h2 Subscription
-      %p Upgrade to a plus plan!
-      = form_tag({ controller: 'subscriptions', action: 'create' }, id: 'subscribe-form') do
-        = hidden_field_tag :plan_id, '6WF1CRLOkv6FmvgMmq18mw'
-        .col-md-8
-          .payment-errors
-          .form-group
-            = label_tag nil, 'Card Number', class: 'control-label'
-            = text_field_tag nil, nil, class: 'form-control card-number'
-          .form-group
-            = label_tag nil, 'CVC', class: 'control-label'
-            = text_field_tag nil, nil, class: 'form-control card-cvc'
-          .form-group
-            = label_tag 'card-expiry', 'Expiration', class: 'control-label'
-            = select_month(Date.today, {add_month_numbers: true}, class: 'form-control card-expiry-month', name: nil)
-            = select_year(Date.today.year, { start_year: Date.today.year, end_year: Date.today.year + 15}, class: 'form-control card-expiry-year', name: nil)
-          .form-group
-            = submit_tag 'Subscribe', class: 'payment-submit btn btn-primary'
+    - if @user.plan == 'basic'
+      .col-md-12
+        %h2 Subscription
+        %p Upgrade to a plus plan!
+        = form_tag({ controller: 'subscriptions', action: 'create' }, id: 'subscribe-form') do
+          = hidden_field_tag :plan_id, 'plus_monthly'
+          .col-md-8
+            .payment-errors
+            .form-group
+              = label_tag nil, 'Card Number', class: 'control-label'
+              = text_field_tag nil, nil, class: 'form-control card-number'
+            .form-group
+              = label_tag nil, 'CVC', class: 'control-label'
+              = text_field_tag nil, nil, class: 'form-control card-cvc'
+            .form-group
+              = label_tag 'card-expiry', 'Expiration', class: 'control-label'
+              = select_month(Date.today, {add_month_numbers: true}, class: 'form-control card-expiry-month', name: nil)
+              = select_year(Date.today.year, { start_year: Date.today.year, end_year: Date.today.year + 15}, class: 'form-control card-expiry-year', name: nil)
+            .form-group
+              = submit_tag 'Subscribe', class: 'payment-submit btn btn-primary'

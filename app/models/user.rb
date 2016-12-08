@@ -54,7 +54,7 @@ class User < ActiveRecord::Base
   end
 
   def forget
-    update_attribute(:remember_digest, nil)
+    update_attribute :remember_digest, nil
   end
 
   def authenticated?(attribute, token)
