@@ -17,9 +17,9 @@ describe SubscriptionsController do
     context 'from basic to plus plan' do
       context 'with valid card' do
         it 'redirects to my_account' do
-          change_result = double(:subscription_result, successful?: true)
-          expect_any_instance_of(SubscriptionChange).to receive(:change).and_return(change_result)
-          expect_any_instance_of(User).to receive(:plan).and_return(plan)
+          result = double(:subscription_result, successful?: true)
+          expect_any_instance_of(SubscriptionHandler).to receive(:subscribe).and_return(result)
+          expect_any_instance_of(User).to receive(:plan).and_return('plus')
 
           action
           expect(response).to redirect_to(my_account_path)
@@ -28,16 +28,16 @@ describe SubscriptionsController do
 
       context 'with declined card' do
         it 'redirects to my_account' do
-          change_result = double(:subscription_result, successful?: false, message: 'Card declined.')
-          expect_any_instance_of(SubscriptionChange).to receive(:change).and_return(change_result)
+          result = double(:subscription_result, successful?: false, message: 'Card declined.')
+          expect_any_instance_of(SubscriptionHandler).to receive(:subscribe).and_return(result)
 
           action
           expect(response).to redirect_to my_account_path
         end
 
         it 'sets the flash' do
-          change_result = double(:subscription_result, successful?: false, message: 'Card declined.')
-          expect_any_instance_of(SubscriptionChange).to receive(:change).and_return(change_result)
+          result = double(:subscription_result, successful?: false, message: 'Card declined.')
+          expect_any_instance_of(SubscriptionHandler).to receive(:subscribe).and_return(result)
 
           action
           expect(flash[:danger]).to be_present
