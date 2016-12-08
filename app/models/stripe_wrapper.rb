@@ -37,7 +37,7 @@ module StripeWrapper
 
     def self.create(options = {})
       begin
-        response = options[:user].stripe_customer_id.present? ? retrieve_customer(options) : create_customer(options)
+        response = options[:user].stripe_customer_id.present? ? update_customer(options) : create_customer(options)
 
         new(response: response)
       rescue Stripe::CardError => e
@@ -62,8 +62,10 @@ module StripeWrapper
       )
     end
 
-    def self.retrieve_customer(options = {})
-      Stripe::Customer.retrieve(options[:user].stripe_customer_id)
+    def self.update_customer(options = {})
+      cust = Stripe::Customer.retrieve(options[:user].stripe_customer_id)
+      cust.source = options[:card]
+      cust.save
     end
   end
 

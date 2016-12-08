@@ -78,6 +78,45 @@ describe StripeWrapper, :vcr do
           expect(response.message).to be_present
         end
       end
+
+      context 'when stripe_customer_id exists on user' do
+        let(:user) { Fabricate :user }
+
+        before do
+          existing_cust = StripeWrapper::Customer.create(
+            card: nil,
+            user: user
+          )
+
+          user.update stripe_customer_id: existing_cust.id
+        end
+
+        context 'with valid card' do
+          let(:response) do
+            StripeWrapper::Customer.create(
+              card: valid_token,
+              user: user
+            )
+          end
+
+          it 'is successful' do
+            expect(response).to be_successful
+          end
+        end
+
+        context 'with declined card' do
+          let(:response) do
+            StripeWrapper::Customer.create(
+              card: invalid_token,
+              user: user
+            )
+          end
+
+          it 'is not successful' do
+            expect(response).to_not be_successful
+          end
+        end
+      end
     end
   end
 
