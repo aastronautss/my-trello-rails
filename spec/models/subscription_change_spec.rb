@@ -38,8 +38,8 @@ describe SubscriptionChange do
           customer_response = double :customer, successful?: false, message: 'Card declined'
           expect(StripeWrapper::Customer).to receive(:create).and_return(customer_response)
 
-          subscription_response = double :subscription, successful?: false, message: 'Card declined'
-          expect(StripeWrapper::Subscription).to receive(:create).and_return(subscription_response)
+          # subscription_response = double :subscription, successful?: false, message: 'Card declined'
+          # expect(StripeWrapper::Subscription).to receive(:create).and_return(subscription_response)
         end
 
         it 'does not update the user\'s plan' do

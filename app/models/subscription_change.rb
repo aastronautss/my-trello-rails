@@ -5,20 +5,29 @@ class SubscriptionChange
     @user = user
   end
 
+  # BEGGING TO BE REFACTORED
   def change(plan_token, stripe_token)
     plan = Plan.find_by token: plan_token
 
     if !plan.basic?
       customer = StripeWrapper::Customer.create card: stripe_token,
         user: @user
-      subscription = StripeWrapper::Subscription.create plan: plan,
-        user: @user
 
-      if customer.successful? && subscription.successful?
-        @user.update stripe_customer_id: customer.id, plan: plan
+      if customer.successful?
+        @user.stripe_customer_id = customer.id
+        subscription = StripeWrapper::Subscription.create plan: plan,
+          user: @user
 
-        # UserMailer.send_subscription_email(@user)
-        @status = :success
+        if subscription.successful?
+          @user.plan = plan
+          @user.save
+
+          # UserMailer.send_subscription_email(@user)
+          @status = :success
+        else
+          @status = :failure
+          @message = subscription.message
+        end
       else
         @status = :failure
         @message = customer.message
