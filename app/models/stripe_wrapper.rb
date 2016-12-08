@@ -83,7 +83,7 @@ module StripeWrapper
         )
 
         new response: response
-      rescue Stripe::CardError => e
+      rescue Stripe::CardError, Stripe::InvalidRequestError => e
         new message: e.message
       end
     end

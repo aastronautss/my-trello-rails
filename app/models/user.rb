@@ -6,7 +6,6 @@ class User < ActiveRecord::Base
 
   has_many :board_memberships
   has_many :boards, through: :board_memberships
-  belongs_to :plan
 
   validates :email,
     presence: true,

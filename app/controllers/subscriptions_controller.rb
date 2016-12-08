@@ -1,8 +1,8 @@
 class SubscriptionsController < ActivatedController
   def create
     user = current_user
-    change = SubscriptionChange.new(user).
-      change(params[:plan_id], params[:stripeToken])
+    change = SubscriptionHandler.new(user).
+      subscribe(params[:plan_id], params[:stripeToken])
 
     if change.successful?
       flash[:success] = "Thank you for subscribing to the #{user.plan.name} plan!"

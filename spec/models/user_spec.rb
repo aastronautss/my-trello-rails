@@ -19,7 +19,6 @@ describe User do
   context 'associations' do
     it { should have_many(:board_memberships) }
     it { should have_many(:boards).through(:board_memberships) }
-    it { should belong_to(:plan) }
   end
 
   # ====---------------------------====

@@ -18,18 +18,15 @@ describe UsersController do
     end
   end
 
-  describe 'POST create' do
+  describe 'POST create', :vcr do
     it_behaves_like 'a logged out action' do
       let(:action) { post :create, user: Fabricate.attributes_for(:user) }
     end
 
     context 'with valid input' do
       let(:action) { post :create, user: Fabricate.attributes_for(:user) }
-      after { ActionMailer::Base.deliveries.clear }
 
-      it 'creates a User record' do
-        expect{ action }.to change(User, :count).by(1)
-      end
+      after { ActionMailer::Base.deliveries.clear }
 
       it 'sends an activation email' do
         action

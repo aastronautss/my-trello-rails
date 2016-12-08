@@ -25,6 +25,23 @@ describe StripeWrapper, :vcr do
 
   describe StripeWrapper::Customer do
     describe '.create' do
+      context 'with no card' do
+        let(:response) do
+          StripeWrapper::Customer.create(
+            card: nil,
+            user: Fabricate(:user)
+          )
+        end
+
+        it 'returns successful' do
+          expect(response).to be_successful
+        end
+
+        it 'sets a customer id' do
+          expect(response.id).to be_present
+        end
+      end
+
       context 'with valid card' do
         before { Stripe.api_key = ENV['stripe_api_key'] }
         let(:response) do
@@ -68,8 +85,32 @@ describe StripeWrapper, :vcr do
     describe '.create' do
       let(:user) { Fabricate :user }
 
-      context 'with valid card' do
+      context 'with customer with no card and plus subscription' do
+        let(:customer) do
+          StripeWrapper::Customer.create(
+            card: nil,
+            user: user
+          )
+        end
 
+        let(:response) do
+          user.stripe_customer_id = customer.id
+          StripeWrapper::Subscription.create(
+            user: user,
+            plan: Plan.new(:plus_monthly)
+          )
+        end
+
+        it 'is not successful' do
+          expect(response).to_not be_successful
+        end
+
+        it 'sets a message' do
+          expect(response.message).to be_present
+        end
+      end
+
+      context 'with valid card' do
         let(:customer) do
           StripeWrapper::Customer.create(
             card: valid_token,
@@ -81,7 +122,7 @@ describe StripeWrapper, :vcr do
           user.stripe_customer_id = customer.id
           StripeWrapper::Subscription.create(
             user: user,
-            plan: Fabricate(:plus_plan)
+            plan: Plan.new(:plus_monthly)
           )
         end
 

@@ -3,11 +3,10 @@ require 'rails_helper'
 describe SubscriptionsController do
   describe 'POST create' do
     let(:user) { Fabricate :user, activated: true }
-    let(:plan) { Fabricate :plus_plan }
     let(:stripe_token) { 'abc' }
 
     let(:action) do
-      post :create, plan_id: plan.to_param, stripeToken: stripe_token
+      post :create, plan_id: 'plus', stripeToken: stripe_token
     end
 
     before { set_user user }
