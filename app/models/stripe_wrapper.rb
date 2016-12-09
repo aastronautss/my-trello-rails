@@ -63,8 +63,8 @@ module StripeWrapper
     end
 
     def self.update_customer(options = {})
-      cust = Stripe::Customer.retrieve(options[:user].stripe_customer_id)
-      cust.source = options[:stripe_token]
+      cust = Stripe::Customer.retrieve options[:user].stripe_customer_id
+      cust.source = options[:stripe_token] if options[:stripe_token]
       cust.save
     end
   end
@@ -79,13 +79,20 @@ module StripeWrapper
 
     def self.create(options = {})
       begin
-        response = Stripe::Subscription.create(
-          customer: options[:user].stripe_customer_id,
-          plan: options[:plan].stripe_plan_id
-        )
+        response = options[:user].stripe_subscription_id.present? ? update_subscription(options) : create_subscription(options)
 
         new response: response
       rescue Stripe::CardError, Stripe::InvalidRequestError => e
+        new message: e.message
+      end
+    end
+
+    def self.retrieve(options = {})
+      begin
+        response = Stripe::Subscription.retrieve(options[:user].stripe_customer_id)
+
+        new response: response
+      rescue Stripe::InvalidRequestError => e
         new message: e.message
       end
     end
@@ -96,6 +103,21 @@ module StripeWrapper
 
     def id
       @response.id
+    end
+
+    private
+
+    def self.create_subscription(options = {})
+      Stripe::Subscription.create(
+        customer: options[:user].stripe_customer_id,
+        plan: options[:plan].stripe_plan_id
+      )
+    end
+
+    def self.update_subscription(options = {})
+      subs = Stripe::Subscription.retrieve options[:user].stripe_subscription_id
+      subs.plan = options[:plan].stripe_plan_id
+      subs.save
     end
   end
 end

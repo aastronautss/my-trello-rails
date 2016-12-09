@@ -5,7 +5,7 @@ class SubscriptionHandler
     @user = user
   end
 
-  def subscribe(plan_name, stripe_token)
+  def subscribe(plan_name, stripe_token = nil)
     result = process_stripe_info plan_name, stripe_token
 
     @status = result[:status]
@@ -17,6 +17,8 @@ class SubscriptionHandler
   def successful?
     @status == :success
   end
+
+  private
 
   def process_stripe_info(plan_name, stripe_token)
     customer = StripeWrapper::Customer.create user: @user, stripe_token: stripe_token

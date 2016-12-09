@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  mount StripeEvent::Engine, at: '/stripe_events'
+
   root to: 'static_pages#home'
 
   # Registration and Login
