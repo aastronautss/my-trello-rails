@@ -16,5 +16,5 @@
             %td= user.id
             %td= user.username
             %td= user.email
-            %td Basic
+            %td= user.plan_object.friendly_name
             %td= link_to 'Delete', admin_user_path(user), method: :delete, class: 'btn btn-xs btn-danger'

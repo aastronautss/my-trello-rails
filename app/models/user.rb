@@ -108,6 +108,10 @@ class User < ActiveRecord::Base
   # Subscriptions and Plans
   # ====---------------------------====
 
+  def plan_object
+    Plan.new plan
+  end
+
   def subscribe_to(plan_name, stripe_token = nil)
     handler = SubscriptionHandler.new(self).subscribe(plan_name, stripe_token)
 
