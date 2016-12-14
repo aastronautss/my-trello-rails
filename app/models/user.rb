@@ -6,6 +6,7 @@ class User < ActiveRecord::Base
 
   has_many :board_memberships
   has_many :boards, through: :board_memberships
+  has_many :payments
 
   validates :email,
     presence: true,
@@ -101,6 +102,24 @@ class User < ActiveRecord::Base
   end
 
   def owner_of?(board) # TODO
+  end
+
+  # ====---------------------------====
+  # Subscriptions and Plans
+  # ====---------------------------====
+
+  def plan_object
+    Plan.new plan
+  end
+
+  def subscribe_to(plan_name, stripe_token = nil)
+    handler = SubscriptionHandler.new(self).subscribe(plan_name, stripe_token)
+
+    if handler.successful?
+      self.save
+    else
+      false
+    end
   end
 
   private

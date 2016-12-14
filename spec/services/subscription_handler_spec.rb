@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe SubscriptionHandler do
-  let(:user) { Fabricate :user, activated: true }
+  let(:user) { Fabricate :user, activated: true, plan: nil }
   let(:subscription_handler) { SubscriptionHandler.new user }
 
   describe '#subscribe' do

@@ -1,6 +1,10 @@
 %nav.navbar.navbar-default.navbar-fixed-top
   .container
-    .navbar-header= link_to 'My Trello', root_path, class: 'navbar-brand'
+    .navbar-header
+      - if logged_in?
+        = link_to "My Trello #{current_user.plan_object.friendly_name}", root_path, class: 'navbar-brand'
+      - else
+        = link_to 'My Trello', root_path, class: 'navbar-brand'
     - if logged_in?
       %ul.nav.navbar-nav
         %li
@@ -11,7 +15,8 @@
             %ul.dropdown-menu
               - current_user.boards.each do |board|
                 %li= link_to board.name, board_path(board)
-        %li= link_to 'Admin', admin_users_path
+        - if current_user.system_admin?
+          %li= link_to 'Admin', admin_users_path
       .nav.navbar-nav.navbar-right
         %span.dropdown
           %button.dropdown-toggle.btn.btn-default.navbar-btn{ 'data-toggle' => 'dropdown', 'role' => 'button' }

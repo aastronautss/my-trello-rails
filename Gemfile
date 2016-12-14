@@ -33,6 +33,7 @@ gem 'figaro'
 
 # Services
 gem 'stripe'
+gem 'stripe_event'
 
 group :development, :test do
   gem 'pry'
