@@ -76,6 +76,14 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def require_plan_level(level, remote: false)
+    sub_policy = UserSubscriptionPolicy.new(current_user)
+    unless sub_policy.send("#{level}?")
+      message = 'You cannot do that at your plan level.'
+      access_denied message, remote: remote
+    end
+  end
+
   def access_denied(msg = "You aren't allowed to do that.", remote: false)
     if remote
       render json: { error: msg }, status: :forbidden

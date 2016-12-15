@@ -2,6 +2,7 @@ class BoardMembershipsController < ApplicationController
   before_action :set_board
   before_action :require_user
   before_action -> { require_logged_in_as @board.admins }
+  before_action -> { require_plan_level 'plus' }
 
   def create
     user = find_user(params[:username])
