@@ -91,9 +91,24 @@ shared_examples 'an activated remote action' do
   end
 end
 
+shared_examples 'a plus plan action' do
+  before do
+    set_user(Fabricate :user, activated: true) unless current_user
+    action
+  end
+
+  it 'sets the flash' do
+    expect(flash[:danger]).to be_present
+  end
+
+  it 'redirects to root' do
+    expect(response).to redirect_to(root_path)
+  end
+end
+
 shared_examples 'a system admin action' do
   before do
-    set_user
+    set_user(Fabricate :user, activated: true)
     action
   end
 

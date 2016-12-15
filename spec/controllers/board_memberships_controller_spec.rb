@@ -1,9 +1,9 @@
 require 'rails_helper'
 
-describe BoardMembershipsController do
+describe BoardMembershipsController, :vcr do
   describe 'POST create' do
     let(:board) { Fabricate(:board) }
-    let(:new_member) { Fabricate(:user) }
+    let(:new_member) { Fabricate :user, activated: true }
     let(:action) do
       post :create,
         id: board.to_param,
@@ -12,10 +12,20 @@ describe BoardMembershipsController do
 
     it_behaves_like 'a logged in action'
     it_behaves_like 'an admin action'
+    it_behaves_like 'an activated action'
+    it_behaves_like 'a plus plan action' do
+      let(:action) do
+        set_user(Fabricate :user, activated: true, plan: 'basic')
+        board.add_member current_user, true
+        post :create,
+          id: board.to_param,
+          username: new_member.username
+      end
+    end
 
     context 'when new member exists' do
       before do
-        set_user
+        set_user(Fabricate :user, activated: true, plan: 'plus_monthly')
         board.add_member current_user, true
       end
 
@@ -42,7 +52,7 @@ describe BoardMembershipsController do
         end
 
       before do
-        set_user
+        set_user(Fabricate :user, activated: true, plan: 'plus_monthly')
         board.add_member current_user, true
       end
 
@@ -63,7 +73,7 @@ describe BoardMembershipsController do
 
     context 'when the new member is already a member' do
       before do
-        set_user
+        set_user(Fabricate :user, activated: true, plan: 'plus_monthly')
         board.add_member current_user, true
         board.add_member new_member
       end
@@ -96,10 +106,19 @@ describe BoardMembershipsController do
 
     it_behaves_like 'a logged in action'
     it_behaves_like 'an admin action'
+    it_behaves_like 'a plus plan action' do
+      let(:action) do
+        set_user(Fabricate :user, activated: true, plan: 'basic')
+        board.add_member current_user, true
+        delete :destroy,
+          id: board.to_param,
+          username: to_delete.username
+      end
+    end
 
     context 'when the membership exists' do
       before do
-        set_user
+        set_user(Fabricate :user, activated: true, plan: 'plus_monthly')
         board.add_member current_user, true
       end
 

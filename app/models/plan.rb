@@ -1,9 +1,10 @@
 class Plan
-  attr_reader :name, :price_per_month, :stripe_plan_id, :friendly_name
+  attr_reader :name, :price_per_month, :stripe_plan_id, :friendly_name, :level
 
   PLANS = {
     basic: {
       name: 'basic',
+      level: 'basic',
       price_per_month: 0,
       stripe_plan_id: 'my_trello_basic',
       friendly_name: 'Basic'
@@ -11,6 +12,7 @@ class Plan
 
     plus_monthly: {
       name: 'plus_monthly',
+      level: 'plus',
       price_per_month: 299,
       stripe_plan_id: 'my_trello_plus_monthly',
       friendly_name: 'Plus'
@@ -23,6 +25,7 @@ class Plan
     raise ArgumentError, 'Invalid plan name.' unless plan_info
 
     @name = plan_info[:name]
+    @level = plan_info[:level]
     @price_per_month = plan_info[:price_per_month]
     @stripe_plan_id = plan_info[:stripe_plan_id]
     @friendly_name = plan_info[:friendly_name]
