@@ -3,7 +3,17 @@ class UserSubscriptionPolicy
     @user = user
   end
 
+  def basic?
+    check_level ['basic', 'plus']
+  end
+
   def plus?
-    @user.plan_object.level == 'plus'
+    check_level ['plus']
+  end
+
+  private
+
+  def check_level(valid_levels)
+    valid_levels.include? @user.plan_object.level
   end
 end
