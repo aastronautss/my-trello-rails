@@ -134,6 +134,12 @@ class User < ActiveRecord::Base
     self.send("watched_#{type}") << object
   end
 
+  def unwatch(object)
+    return false unless watching?(object)
+    type = object.class.to_s.tableize
+    self.send("watched_#{type}").delete object
+  end
+
   def watching?(object)
     type = object.class.to_s.tableize
     self.send("watched_#{type}").include?(object)
