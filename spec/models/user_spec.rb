@@ -178,4 +178,27 @@ describe User do
       end
     end
   end
+
+  # ====---------------------------====
+  # Card Watching
+  # ====---------------------------====
+
+  describe '#watch_card' do
+    let(:user) { Fabricate :user, activated: true }
+    let(:card) { Fabricate :card }
+
+    context 'when user is not already watching the card' do
+      it 'watches the card' do
+        user.watch card
+        expect(user.reload).to be_watching(card)
+      end
+    end
+
+    context 'when user is already watching the card' do
+      it 'returns false' do
+        user.watch card
+        expect(user.watch card).to be(false)
+      end
+    end
+  end
 end

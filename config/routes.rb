@@ -46,6 +46,8 @@ Rails.application.routes.draw do
 
     member do
       post 'add_comment', to: 'comments#create'
+      post 'watch', to: 'card_watchings#create'
+      delete 'watch', to: 'card_watchings#destroy'
     end
   end
 

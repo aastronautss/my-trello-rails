@@ -124,6 +124,21 @@ class User < ActiveRecord::Base
     end
   end
 
+  # ====---------------------------====
+  # Watchings
+  # ====---------------------------====
+
+  def watch(object)
+    return false if watching?(object)
+    type = object.class.to_s.tableize
+    self.send("watched_#{type}") << object
+  end
+
+  def watching?(object)
+    type = object.class.to_s.tableize
+    self.send("watched_#{type}").include?(object)
+  end
+
   private
 
   def create_activation_digest
