@@ -28,6 +28,16 @@
               </ul>
             </li>
 
+            {{#if watching}}
+              <li>
+                <a href="#" class="unwatch-card btn btn-default btn-sm btn-block">Unwatch</a>
+              </li>
+            {{else}}
+              <li>
+                <a href="#" class="watch-card btn btn-default btn-sm btn-block">Watch</a>
+              </li>
+            {{/if}}
+
             <li><a href="#" class="delete-card btn btn-danger btn-sm btn-block">Delete</a></li>
           </ul>
         </aside>

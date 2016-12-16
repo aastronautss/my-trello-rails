@@ -25,7 +25,11 @@ App.CardModalView = Backbone.View.extend({
     'click .cancel-new-check-item': 'hideNewCheckItemForm',
     'submit .new-check-item-form form': 'addCheckItem',
     'click .toggle-check-item': 'toggleCheckItem',
-    'click .delete-check-item': 'deleteCheckItem'
+    'click .delete-check-item': 'deleteCheckItem',
+
+    // Watching
+    'click .watch-card': 'watch',
+    'click .unwatch-card': 'unwatch'
   },
 
   // ====------------------------------====
@@ -255,6 +259,50 @@ App.CardModalView = Backbone.View.extend({
     var type = activity.type
     var view = new App[App.capitalize(type) + 'View']({ model: activity });
     this.$el.find('.comment-list').prepend(view.el);
+  },
+
+  // ====------------------------------====
+  // Watching
+  // ====------------------------------====
+
+  watch: function(e) {
+    e.preventDefault();
+
+    var card_id = this.model.get('id');
+    var csrf_token = $('meta[name="csrf-token"]').attr('content');
+
+    $.ajax({
+      context: this,
+      method: 'POST',
+      url: '/cards/' + card_id + '/watch',
+      headers: {
+        'X-CSRF-Token': csrf_token
+      }
+    }).done(function(msg) {
+      this.model.fetch();
+    }).fail(function(msg) {
+      App.notify('Something went wrong.', 'danger');
+    });
+  },
+
+  unwatch: function(e) {
+    e.preventDefault();
+
+    var card_id = this.model.get('id');
+    var csrf_token = $('meta[name="csrf-token"]').attr('content');
+
+    $.ajax({
+      context: this,
+      method: 'DELETE',
+      url: '/cards/' + card_id + '/unwatch',
+      headers: {
+        'X-CSRF-Token': csrf_token
+      }
+    }).done(function(msg) {
+      this.model.fetch();
+    }).fail(function(msg) {
+      App.notify('Something went wrong.', 'danger');
+    });
   },
 
   // ====------------------------------====
