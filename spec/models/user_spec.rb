@@ -20,6 +20,12 @@ describe User do
     it { should have_many(:board_memberships) }
     it { should have_many(:boards).through(:board_memberships) }
     it { should have_many(:payments) }
+    it { should have_many(:card_watchings) }
+    it do
+      should have_many(:watched_cards).
+        through(:card_watchings).
+        source(:card)
+    end
   end
 
   # ====---------------------------====

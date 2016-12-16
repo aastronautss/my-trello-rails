@@ -10,6 +10,12 @@ describe Card do
 
   context 'associations' do
     it { should belong_to(:list) }
+    it { should have_many(:card_watchings) }
+    it do
+      should have_many(:watchers).
+        through(:card_watchings).
+        source(:user)
+    end
   end
 
   # ====------------------------------====

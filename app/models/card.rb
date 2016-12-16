@@ -5,6 +5,8 @@ class Card < ActiveRecord::Base
   CHECKLIST_JSON_SCHEMA = Rails.root.join('config', 'schemas', 'checklist.json_schema').to_s
 
   belongs_to :list
+  has_many :card_watchings
+  has_many :watchers, through: :card_watchings, source: :user
 
   validates_presence_of :title
   validates_presence_of :list

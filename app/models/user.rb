@@ -7,6 +7,8 @@ class User < ActiveRecord::Base
   has_many :board_memberships
   has_many :boards, through: :board_memberships
   has_many :payments
+  has_many :card_watchings
+  has_many :watched_cards, through: :card_watchings, source: :card
 
   validates :email,
     presence: true,
