@@ -20,6 +20,12 @@ describe User do
     it { should have_many(:board_memberships) }
     it { should have_many(:boards).through(:board_memberships) }
     it { should have_many(:payments) }
+    it { should have_many(:card_watchings) }
+    it do
+      should have_many(:watched_cards).
+        through(:card_watchings).
+        source(:card)
+    end
   end
 
   # ====---------------------------====
@@ -169,6 +175,49 @@ describe User do
     context 'when user is not a member' do
       it 'returns false' do
         expect(user.admin_of? board).to be(false)
+      end
+    end
+  end
+
+  # ====---------------------------====
+  # Card Watching
+  # ====---------------------------====
+
+  describe '#watch' do
+    let(:user) { Fabricate :user, activated: true }
+    let(:card) { Fabricate :card }
+
+    context 'when user is not already watching the card' do
+      it 'watches the card' do
+        user.watch card
+        expect(user.reload).to be_watching(card)
+      end
+    end
+
+    context 'when user is already watching the card' do
+      it 'returns false' do
+        user.watch card
+        expect(user.watch card).to be(false)
+      end
+    end
+  end
+
+  describe '#unwatch' do
+    let(:user) { Fabricate :user, activated: true }
+    let(:card) { Fabricate :card }
+
+    context 'when user is watching the card' do
+      before { user.watch card }
+
+      it 'unwatches the card' do
+        user.unwatch card
+        expect(user.reload).to_not be_watching(card)
+      end
+    end
+
+    context 'when user is not watching the card' do
+      it 'returns false' do
+        expect(user.unwatch card).to be(false)
       end
     end
   end

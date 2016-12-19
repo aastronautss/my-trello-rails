@@ -7,3 +7,5 @@ json.position card.position
 
 json.checklists card.checklists[:lists]
 json.activities card.activities[:items]
+
+json.watching current_user.watching?(card)

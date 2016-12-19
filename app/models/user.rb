@@ -7,6 +7,8 @@ class User < ActiveRecord::Base
   has_many :board_memberships
   has_many :boards, through: :board_memberships
   has_many :payments
+  has_many :card_watchings
+  has_many :watched_cards, through: :card_watchings, source: :card
 
   validates :email,
     presence: true,
@@ -120,6 +122,27 @@ class User < ActiveRecord::Base
     else
       false
     end
+  end
+
+  # ====---------------------------====
+  # Watchings
+  # ====---------------------------====
+
+  def watch(object)
+    return false if watching?(object)
+    type = object.class.to_s.tableize
+    self.send("watched_#{type}") << object
+  end
+
+  def unwatch(object)
+    return false unless watching?(object)
+    type = object.class.to_s.tableize
+    self.send("watched_#{type}").delete object
+  end
+
+  def watching?(object)
+    type = object.class.to_s.tableize
+    self.send("watched_#{type}").include?(object)
   end
 
   private
