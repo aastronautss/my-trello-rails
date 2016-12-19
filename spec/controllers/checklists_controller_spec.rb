@@ -25,6 +25,11 @@ describe ChecklistsController do
         action
         expect(response).to have_http_status(:ok)
       end
+
+      it 'notifies the card\'s watchers' do
+        expect_any_instance_of(WatcherNotification).to receive('notify').and_return(nil)
+        action
+      end
     end
 
     context 'with invalid input' do
