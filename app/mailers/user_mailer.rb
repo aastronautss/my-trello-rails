@@ -19,4 +19,11 @@ class UserMailer < ApplicationMailer
     @user = user
     mail to: user.email, subject: 'My Trello - Password Changed'
   end
+
+  def notify(user, subject, message)
+    @user = user
+    @message = message
+
+    mail to: user.email, subject: subject
+  end
 end
