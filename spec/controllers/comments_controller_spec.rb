@@ -34,6 +34,11 @@ describe CommentsController do
           action
           expect(response).to render_template('cards/show')
         end
+
+        it 'notifies the card\'s watchers' do
+          expect_any_instance_of(WatcherNotification).to receive('notify').and_return(nil)
+          action
+        end
       end
 
       context 'with invalid parameters' do

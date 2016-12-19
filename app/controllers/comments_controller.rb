@@ -5,6 +5,7 @@ class CommentsController < ActivatedRemoteController
     params = comment_params
 
     if @card.add_comment params[:body], current_user
+      notify_watchers
       render template: 'cards/show', status: :ok, location: @card
     else
       render json: @card.errors.full_messages, status: :unprocessable_entity
@@ -31,6 +32,14 @@ class CommentsController < ActivatedRemoteController
 
   def comment_params
     params.require(:comment).permit :body
+  end
+
+  def notify_watchers
+    subject = "New card comment"
+    message = "#{current_user.username} has commented on card \"#{@card.title}\"."
+
+    WatcherNotification.new(@card, current_user: current_user).
+      notify(subject, message)
   end
 
   # def set_comment

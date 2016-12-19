@@ -24,6 +24,6 @@ class UserMailer < ApplicationMailer
     @user = user
     @message = message
 
-    mail to: user.email, subject: subject
+    mail to: user.email, subject: "My Trello: #{subject}"
   end
 end
