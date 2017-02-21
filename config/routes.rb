@@ -19,6 +19,11 @@ Rails.application.routes.draw do
   get 'my_account', to: 'users#edit'
   patch 'my_account', to: 'users#update'
 
+  # OAuth
+
+  get '/auth/:provider/callback', to: 'services#create'
+  get '/auth/failure', to: 'services#failure'
+
   # Subscriptions and Charges
 
   post 'subscribe', to: 'subscriptions#create'

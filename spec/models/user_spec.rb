@@ -123,6 +123,27 @@ describe User do
   end
 
   # ====---------------------------====
+  # Services
+  # ====---------------------------====
+
+  describe '#linked_to?' do
+    let(:user) { Fabricate :user, activated: true }
+
+    context 'when user is linked to a service' do
+      it 'returns true' do
+        Service.create user: user, provider: 'twitter', remote_id: '123', token: 'abc'
+        expect(user.linked_to? 'twitter').to eq(true)
+      end
+    end
+
+    context 'when user is not linked to a service' do
+      it 'returns false' do
+        expect(user.linked_to? 'twitter').to eq(false)
+      end
+    end
+  end
+
+  # ====---------------------------====
   # Board Membership
   # ====---------------------------====
 

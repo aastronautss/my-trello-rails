@@ -7,7 +7,8 @@
   .col-md-8.col-md-offset-2
     .col-md-12
       %h2 Account
-      = bootstrap_form_for @user, url: my_account_path, html: { class: 'col-md-8' } do |f|
+    .col-md-8
+      = bootstrap_form_for @user, url: my_account_path, html: { class: 'col-md-12' } do |f|
         %fieldset
           = f.email_field :email
           = f.password_field :password, label: 'New password'
@@ -33,3 +34,9 @@
               = select_year(Date.today.year, { start_year: Date.today.year, end_year: Date.today.year + 15}, class: 'form-control card-expiry-year', name: nil)
             .form-group
               = submit_tag 'Subscribe', class: 'payment-submit btn btn-primary'
+    .col-md-4
+      %h3.link-accounts Link Accounts
+      - if @user.linked_to? 'twitter'
+        = link_to 'Linked to Twitter', '#', class: 'btn btn-default btn-block', disabled: 'disabled'
+      - else
+        = link_to 'Link to Twitter', '/auth/twitter', class: 'btn btn-success btn-block'

@@ -93,6 +93,14 @@ class User < ActiveRecord::Base
   end
 
   # ====---------------------------====
+  # Services
+  # ====---------------------------====
+
+  def linked_to?(provider)
+    !services.where(provider: provider).empty?
+  end
+
+  # ====---------------------------====
   # Board Membership
   # ====---------------------------====
 
