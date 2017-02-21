@@ -19,6 +19,7 @@ describe User do
   context 'associations' do
     it { should have_many(:board_memberships) }
     it { should have_many(:boards).through(:board_memberships) }
+    it { should have_many(:services) }
     it { should have_many(:payments) }
     it { should have_many(:card_watchings) }
     it do
