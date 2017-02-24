@@ -19,6 +19,7 @@ describe User do
   context 'associations' do
     it { should have_many(:board_memberships) }
     it { should have_many(:boards).through(:board_memberships) }
+    it { should have_many(:services) }
     it { should have_many(:payments) }
     it { should have_many(:card_watchings) }
     it do
@@ -118,6 +119,27 @@ describe User do
 
     it 'changes the user\'s password' do
       expect{ action }.to change{ user.reload.password }
+    end
+  end
+
+  # ====---------------------------====
+  # Services
+  # ====---------------------------====
+
+  describe '#linked_to?' do
+    let(:user) { Fabricate :user, activated: true }
+
+    context 'when user is linked to a service' do
+      it 'returns true' do
+        Service.create user: user, provider: 'twitter', remote_id: '123', token: 'abc', secret: 'abc123'
+        expect(user.reload.linked_to? 'twitter').to eq(true)
+      end
+    end
+
+    context 'when user is not linked to a service' do
+      it 'returns false' do
+        expect(user.reload.linked_to? 'twitter').to eq(false)
+      end
     end
   end
 

@@ -2,10 +2,11 @@ class User < ActiveRecord::Base
   attr_accessor :remember_token, :activation_token, :reset_token
   before_create :create_activation_digest
 
-  VALID_EMAIL = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
+  VALID_EMAIL = /\A.+@.+\z/i
 
   has_many :board_memberships
   has_many :boards, through: :board_memberships
+  has_many :services
   has_many :payments
   has_many :card_watchings
   has_many :watched_cards, through: :card_watchings, source: :card
@@ -89,6 +90,14 @@ class User < ActiveRecord::Base
     pw = User.new_token
     self.password = pw
     self.password_digest = pw
+  end
+
+  # ====---------------------------====
+  # Services
+  # ====---------------------------====
+
+  def linked_to?(provider)
+    !services.where(provider: provider).empty?
   end
 
   # ====---------------------------====

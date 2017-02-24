@@ -9,3 +9,7 @@ json.checklists card.checklists[:lists]
 json.activities card.activities[:items]
 
 json.watching current_user.watching?(card)
+
+json.services do
+  json.twitter current_user.linked_to?('twitter')
+end

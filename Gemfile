@@ -30,6 +30,11 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'json-schema'
 gem 'activerecord_json_validator'
 gem 'figaro'
+gem 'omniauth-twitter'
+gem 'faraday'
+gem 'faraday_middleware'
+gem 'simple_oauth'
+gem 'redis'
 
 # Services
 gem 'stripe'
