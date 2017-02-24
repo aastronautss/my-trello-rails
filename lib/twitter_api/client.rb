@@ -45,8 +45,6 @@ module TwitterAPI
 
       response = connection.post url, payload
 
-      require 'pry'; binding.pry
-
       if response.status == 200
         body = response.body
         Tweet.new body['text'], body['user']['screen_name']
@@ -67,7 +65,3 @@ module TwitterAPI
     end
   end
 end
-
-# s = Service.first
-# c = TwitterAPI::Client.new s.token, s.secret
-# c.create_tweet status: 'testing from my app!'
