@@ -39,15 +39,15 @@ module TwitterAPI
 
     def create_tweet(params)
       url = "https://api.twitter.com/1.1/statuses/update.json"
-      payload = JSON.dump({
+      payload = {
         status: params[:status]
-      })
+      }.to_query
 
       response = connection.post url, payload
 
       require 'pry'; binding.pry
 
-      if response.status == 201
+      if response.status == 200
         body = response.body
         Tweet.new body['text'], body['user']['screen_name']
       else
