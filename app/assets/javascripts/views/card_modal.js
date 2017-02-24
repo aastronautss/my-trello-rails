@@ -316,7 +316,9 @@ App.CardModalView = Backbone.View.extend({
     e.preventDefault();
 
     var payload = {
-      status: this.formatTweet()
+      tweet: {
+        status: this.formatTweet()
+      }
     };
 
     var csrf_token = $('meta[name="csrf-token"]').attr('content');
