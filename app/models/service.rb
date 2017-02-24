@@ -4,5 +4,6 @@ class Service < ActiveRecord::Base
   validates_presence_of :provider
   validates_presence_of :remote_id
   validates_presence_of :token
+  validates_presence_of :secret
   validates_presence_of :user
 end
