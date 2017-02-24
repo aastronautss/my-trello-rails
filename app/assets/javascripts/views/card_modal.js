@@ -29,7 +29,10 @@ App.CardModalView = Backbone.View.extend({
 
     // Watching
     'click .watch-card': 'watch',
-    'click .unwatch-card': 'unwatch'
+    'click .unwatch-card': 'unwatch',
+
+    // Services
+    'click .tweet-card': 'tweet'
   },
 
   // ====------------------------------====
@@ -303,6 +306,48 @@ App.CardModalView = Backbone.View.extend({
     }).fail(function(msg) {
       App.notify('Something went wrong.', 'danger');
     });
+  },
+
+  // ====------------------------------====
+  // Services
+  // ====------------------------------====
+
+  tweet: function(e) {
+    e.preventDefault();
+
+    var payload = {
+      status: this.formatTweet()
+    };
+
+    var csrf_token = $('meta[name="csrf-token"]').attr('content');
+
+    $.ajax({
+      context: this,
+      method: 'POST',
+      url: '/tweets',
+      headers: {
+        'X-CSRF-Token': csrf_token
+      },
+      data: payload
+    }).done(function(msg) {
+      App.notify('Tweet sent!', 'success');
+    }).fail(function(msg) {
+      App.notify('Something went wrong.', 'danger');
+    });
+  },
+
+  formatTweet: function() {
+    var card = this.model;
+    var text;
+
+    if (card.get('description')) {
+      text = card.get('title') + ': ' + card.get('description');
+    }
+    else {
+      text = card.get('title');
+    }
+
+    return text.substring(0, 140);
   },
 
   // ====------------------------------====

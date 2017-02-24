@@ -37,7 +37,7 @@ module TwitterAPI
       end
     end
 
-    def create_tweet(params)
+    def create_tweet(params = {})
       url = "https://api.twitter.com/1.1/statuses/update.json"
       payload = {
         status: params[:status]

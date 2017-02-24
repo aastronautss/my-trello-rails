@@ -24,6 +24,10 @@ Rails.application.routes.draw do
   get '/auth/:provider/callback', to: 'services#create'
   get '/auth/failure', to: 'services#failure'
 
+  # Services
+
+  resources :tweets, only: [:create]
+
   # Subscriptions and Charges
 
   post 'subscribe', to: 'subscriptions#create'
