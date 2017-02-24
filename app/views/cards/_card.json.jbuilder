@@ -11,5 +11,5 @@ json.activities card.activities[:items]
 json.watching current_user.watching?(card)
 
 json.services do
-  json.twitter current_user.services.where(provider: 'twitter').present?
+  json.twitter current_user.linked_to?('twitter')
 end

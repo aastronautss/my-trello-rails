@@ -49,7 +49,7 @@ module TwitterAPI
         body = response.body
         Tweet.new body['text'], body['user']['screen_name']
       else
-        raise TweetCreationFailure, response.body['message']
+        raise TweetCreationFailure, response.body['errors'][0]['message']
       end
     end
 

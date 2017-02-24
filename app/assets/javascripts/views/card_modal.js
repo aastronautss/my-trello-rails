@@ -334,7 +334,8 @@ App.CardModalView = Backbone.View.extend({
     }).done(function(msg) {
       App.notify('Tweet sent!', 'success');
     }).fail(function(msg) {
-      App.notify('Something went wrong.', 'danger');
+      var error_message = 'Something went wrong: ' + msg.responseJSON.message
+      App.notify(error_message, 'danger');
     });
   },
 
