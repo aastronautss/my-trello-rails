@@ -8,5 +8,5 @@ This app features a Backbone.js front end, which talks to a JSON API. It is an e
 
 - Add user/membership features, like board admin and list membership.
 - AJAXify memberships.
-- Enable dragging and dropping of lists and cards.
-- Make use of `rails-api`
+- Enable dragging and dropping of lists and cards (in other words, make it actually like Trello).
+- Integrate Todoist!
